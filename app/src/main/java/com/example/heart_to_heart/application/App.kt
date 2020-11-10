@@ -1,0 +1,38 @@
+package com.example.heart_to_heart.application
+
+import android.app.Application
+import android.content.res.Configuration
+import com.example.heart_to_heart.di.appModule
+import com.example.heart_to_heart.di.repositoryModule
+import com.example.heart_to_heart.di.useCaseModule
+import com.example.heart_to_heart.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+
+class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        this.initKoin()
+    }
+
+    private fun initKoin() {
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(
+                listOf(
+                    appModule,
+                    viewModelModule,
+                    useCaseModule,
+                    repositoryModule
+                )
+            )
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+    }
+}
