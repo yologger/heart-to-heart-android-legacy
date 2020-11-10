@@ -36,7 +36,10 @@ class SignUpFragment : BaseFragment() {
     }
 
     private fun initUI() {
-        fragment_sign_up_btn_signsup.setOnClickListener { router.closeSignUp() }
+        fragment_sign_up_btn_signsup.setOnClickListener {
+            this.viewModel.test()
+            // router.closeSignUp()
+        }
         fragment_sign_up_btn_login.setOnClickListener { router.closeSignUp() }
     }
 }

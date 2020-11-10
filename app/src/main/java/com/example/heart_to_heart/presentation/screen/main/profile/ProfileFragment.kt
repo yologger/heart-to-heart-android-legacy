@@ -8,9 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
+import com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : BaseFragment() {
+
+    private val viewModel: ProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +35,7 @@ class ProfileFragment : BaseFragment() {
 
     private fun initUI() {
         fragment_profile_btn_logout.setOnClickListener {
+            this.viewModel.test()
             router.closeMain()
         }
     }

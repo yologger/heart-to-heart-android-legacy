@@ -1,24 +1,19 @@
 package com.example.heart_to_heart.presentation.screen.main
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.heart_to_heart.R
-import com.example.heart_to_heart.presentation.screen.main.follow.FollowFragment
-import com.example.heart_to_heart.presentation.screen.main.home.HomeFragment
-import com.example.heart_to_heart.presentation.screen.main.profile.ProfileFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.heart_to_heart.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
+
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

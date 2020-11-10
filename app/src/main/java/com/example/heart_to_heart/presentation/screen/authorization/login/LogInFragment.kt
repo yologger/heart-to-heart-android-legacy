@@ -1,13 +1,9 @@
 package com.example.heart_to_heart.presentation.screen.authorization.login
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -32,11 +28,15 @@ class LogInFragment : BaseFragment() {
     }
 
     private fun initBinding() {
-        this.viewModel.test()
+        // this.viewModel.test()
     }
 
     private fun initUI() {
-        fragment_log_in_btn_login.setOnClickListener { router.showMain() }
+        fragment_log_in_btn_login.setOnClickListener {
+            // this.viewModel.test()
+            router.showMain()
+        }
+
         fragment_log_in_btn_signup.setOnClickListener { router.showSignUp() }
     }
 }

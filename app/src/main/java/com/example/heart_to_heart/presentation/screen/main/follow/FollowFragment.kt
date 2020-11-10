@@ -1,14 +1,16 @@
 package com.example.heart_to_heart.presentation.screen.main.follow
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.heart_to_heart.R
+import com.example.heart_to_heart.presentation.base.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FollowFragment : Fragment() {
+class FollowFragment : BaseFragment() {
+
+    private val viewModel: FollowViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
