@@ -6,35 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".presentation.screen.authorization.signup.SignUpFragment">
 
-    <TextView
-        android:id="@+id/fragment_sign_up_tv_title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_sign_up_cl_title_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SignUpFragment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/activity_sign_up_ll_tfs_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_sign_up_btn_signsup"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/fragment_sign_up_btn_signsup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SIGN UP"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_sign_up_tv_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_sign_up_btn_login" />
+        <TextView
+            android:id="@+id/fragment_sign_up_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN UP"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/fragment_sign_up_btn_login"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/activity_sign_up_ll_tfs_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="log in"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_sign_up_btn_signsup"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_sign_up_cl_title_container">
+
+        <EditText
+            android:id="@+id/fragment_sign_up_tf_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/fragment_sign_up_tf_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="First Name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/fragment_sign_up_tf_last_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Last Name"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/fragment_sign_up_tf_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            tools:layout_editor_absoluteX="144dp"
+            tools:layout_editor_absoluteY="223dp" />
+
+        <Button
+            android:id="@+id/fragment_sign_up_btn_signsup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIGN UP" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/fragment_sign_up_tv_login_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have any account?" />
+
+
+        <Button
+            android:id="@+id/fragment_sign_up_btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="log in" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,34 +6,90 @@
     android:layout_height="match_parent"
     tools:context=".presentation.screen.authorization.login.LogInFragment">
 
-    <TextView
-        android:id="@+id/fragment_log_in_tv_title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_log_in_cl_title_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOGIN FRAGMENT"
-        app:layout_constraintBottom_toTopOf="@id/fragment_log_in_btn_login"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <Button
-        android:id="@+id/fragment_log_in_btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LOG IN"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_log_in_btn_signup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_log_in_tv_title" />
+        <TextView
+            android:id="@+id/fragment_log_in_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN FRAGMENT"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <Button
-        android:id="@+id/fragment_log_in_btn_signup"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_log_in_ll_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_log_in_cl_title_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/fragment_log_in_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="Email"/>
+
+        <EditText
+            android:id="@+id/fragment_log_in_et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Password"/>
+
+        <Button
+            android:id="@+id/fragment_log_in_btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOG IN" />
+
+        <Button
+            android:id="@+id/fragment_log_in_btn_find_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Find Password"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GO TO SIGN UP"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_log_in_btn_login" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't you have any account?"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="622dp" />
+
+        <Button
+            android:id="@+id/fragment_log_in_btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GO TO SIGN UP"
+            tools:layout_editor_absoluteX="240dp"
+            tools:layout_editor_absoluteY="622dp" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
