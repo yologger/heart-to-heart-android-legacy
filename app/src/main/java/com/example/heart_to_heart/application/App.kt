@@ -2,10 +2,7 @@ package com.example.heart_to_heart.application
 
 import android.app.Application
 import android.content.res.Configuration
-import com.example.heart_to_heart.di.appModule
-import com.example.heart_to_heart.di.repositoryModule
-import com.example.heart_to_heart.di.useCaseModule
-import com.example.heart_to_heart.di.viewModelModule
+import com.example.heart_to_heart.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -26,7 +23,8 @@ class App : Application() {
                     appModule,
                     viewModelModule,
                     useCaseModule,
-                    repositoryModule
+                    repositoryModule,
+                    networkModule
                 )
             )
         }

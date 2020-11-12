@@ -1,7 +1,7 @@
 package com.example.heart_to_heart.domain.usecase
 
 import android.util.Log
-import com.example.heart_to_heart.domain.`interface`.AuthorizationRepository
+import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 
 class LogOutUseCase
 constructor(
@@ -9,6 +9,6 @@ constructor(
 ) {
     fun execute() {
         Log.d("YOLO", "test() from LogOutUseCase")
-        authorizationRepository.test()
+
     }
 }

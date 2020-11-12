@@ -1,14 +1,17 @@
 package com.example.heart_to_heart.domain.usecase
 
-import android.util.Log
-import com.example.heart_to_heart.domain.`interface`.AuthorizationRepository
+import com.example.heart_to_heart.domain.repository.AuthorizationRepository
+import com.example.heart_to_heart.domain.base.BaseUseCase
+import io.reactivex.Observable
 
 class LogInUseCase
 constructor(
     private val authorizationRepository: AuthorizationRepository
-) {
-    fun execute() {
-        Log.d("YOLO", "test() from LogInUseCase")
-        authorizationRepository.test()
+) : BaseUseCase<Boolean>() {
+
+
+    override fun call(): Observable<Boolean> {
+        TODO("Not yet implemented")
     }
 }
+
