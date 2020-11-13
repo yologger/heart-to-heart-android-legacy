@@ -13,7 +13,6 @@ val AUTHORIZATION_BASE_URL = "http://127.0.0.1:8000"
 
 var networkModule = module {
     single {
-        // var okHttpClient = OkHttpClient()
         var okHttpClient = OkHttpClient.Builder()
             // .addNetworkInterceptor(NetworkIntercepter())
             // .addInterceptor(AppIntercepter())
@@ -26,6 +25,11 @@ var networkModule = module {
 //            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
+        retrofit
+    }
+
+    single {
+        var retrofit: Retrofit = get()
         var apiService = retrofit.create(DefaultAuthorizationApi::class.java)
         apiService
     }

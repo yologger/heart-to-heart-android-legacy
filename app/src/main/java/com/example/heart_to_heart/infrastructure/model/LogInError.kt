@@ -1,6 +1,7 @@
 package com.example.heart_to_heart.infrastructure.model
 
-enum class SignUpError {
-    ALREADY_EXISTED_EMAIL,
+enum class LogInError {
+    INVALID_EMAIL,
+    INVALID_PASSWORD,
     NETWORK_CONNECTION_ERROR
 }

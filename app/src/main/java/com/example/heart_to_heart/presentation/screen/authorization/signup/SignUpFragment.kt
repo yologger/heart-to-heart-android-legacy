@@ -17,18 +17,10 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-enum class SignUpFragmentRoutingOptions {
-    CLOSE,
-    SHOW_NETWORK_ERROR,
-    SHOW_ALREADY_SIGNED_UP
-}
-
 class SignUpFragment : BaseFragment() {
 
     private val viewModel: SignUpViewModel by viewModel()
-    private val disposables by lazy {
-        CompositeDisposable()
-    }
+    private val disposables by lazy { CompositeDisposable() }
 
     private lateinit var textInputEmail: TextInputLayout
     private lateinit var textInputFirstName: TextInputLayout
@@ -49,11 +41,11 @@ class SignUpFragment : BaseFragment() {
         this.initBinding()
         this.initUI()
 
-        fragment_sign_up_til_email.editText?.setText("Ronaldo@gmail.com")
-        fragment_sign_up_til_fisrtname.editText?.setText("Cristiano")
-        fragment_sign_up_til_lastname.editText?.setText("Ronaldo")
-        fragment_sign_up_til_nickname.editText?.setText("CR7")
-        fragment_sign_up_til_password.editText?.setText("12345678")
+        fragment_sign_up_til_email.editText?.setText("benzema@gmail.com")
+        fragment_sign_up_til_fisrtname.editText?.setText("Karim")
+        fragment_sign_up_til_lastname.editText?.setText("Benzema")
+        fragment_sign_up_til_nickname.editText?.setText("MADRID_9")
+        fragment_sign_up_til_password.editText?.setText("12345")
     }
 
     private fun initBinding() {

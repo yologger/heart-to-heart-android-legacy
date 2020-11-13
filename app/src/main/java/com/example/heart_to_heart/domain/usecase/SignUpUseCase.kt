@@ -2,14 +2,13 @@ package com.example.heart_to_heart.domain.usecase
 
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.domain.base.BaseUseCase
-import com.example.heart_to_heart.infrastructure.model.SignUpResponse
+import com.example.heart_to_heart.infrastructure.model.SignUpResult
 import io.reactivex.Observable
-import okhttp3.ResponseBody
 
 class SignUpUseCase
 constructor(
     private val authorizationRepository: AuthorizationRepository
-) : BaseUseCase<SignUpResponse>() {
+) : BaseUseCase<SignUpResult>() {
 
     lateinit var email: String
     lateinit var firstName: String
@@ -17,13 +16,7 @@ constructor(
     lateinit var nickname: String
     lateinit var password: String
 
-    override fun call(): Observable<SignUpResponse> {
-        return authorizationRepository.signUp(
-            this.email,
-            this.firstName,
-            this.lastName,
-            this.nickname,
-            this.password
-        )
+    override fun call(): Observable<SignUpResult> {
+        return authorizationRepository.signUp(this.email, this.firstName, this.lastName, this.nickname, this.password)
     }
 }
