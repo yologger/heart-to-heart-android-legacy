@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class LogInResponseData
 constructor(
-    @SerializedName("client_id")
-    val clientID: String?,
+    @SerializedName("user_id")
+    val userId: String?,
     @SerializedName("email")
     val email: String?,
     @SerializedName("nickname")

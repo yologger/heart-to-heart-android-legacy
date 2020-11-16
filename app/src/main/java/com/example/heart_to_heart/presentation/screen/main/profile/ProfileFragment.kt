@@ -35,8 +35,8 @@ class ProfileFragment : BaseFragment() {
 
     private fun initUI() {
         fragment_profile_btn_logout.setOnClickListener {
-            this.viewModel.test()
-            router.closeMain()
+            this.viewModel.logOut()
+            // router.closeMain()
         }
     }
 }

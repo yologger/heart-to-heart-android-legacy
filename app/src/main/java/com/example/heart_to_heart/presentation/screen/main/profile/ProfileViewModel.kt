@@ -8,6 +8,11 @@ class ProfileViewModel
 constructor(
     private val logOutUseCase: LogOutUseCase
 ) : ViewModel() {
+
+    fun logOut() {
+        logOutUseCase.execute()
+    }
+
     fun test() {
         Log.d("YOLO", "test() from ProfileViewModel")
         logOutUseCase.execute()

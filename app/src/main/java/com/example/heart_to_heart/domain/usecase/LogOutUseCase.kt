@@ -9,6 +9,8 @@ constructor(
 ) {
     fun execute() {
         Log.d("YOLO", "test() from LogOutUseCase")
-
+        authorizationRepository.logOut().subscribe({
+            Log.d("YOLO", "result: ${it} from LogOutUseCase")
+        })
     }
 }
