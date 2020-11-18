@@ -2,8 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-kapt'
 
 android {
+
+    dataBinding { enabled = true }
 
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -88,4 +91,6 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    kapt 'com.android.databinding:compiler:3.1.4'
 }

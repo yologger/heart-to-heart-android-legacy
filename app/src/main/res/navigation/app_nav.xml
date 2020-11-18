@@ -5,15 +5,6 @@
     android:id="@+id/app_nav"
     app:startDestination="@id/logInFragment">
     <fragment
-        android:id="@+id/logInFragment"
-        android:name="com.example.heart_to_heart.presentation.screen.authorization.login.LogInFragment"
-        android:label="fragment_log_in"
-        tools:layout="@layout/fragment_log_in" >
-        <action
-            android:id="@+id/action_logInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.heart_to_heart.presentation.screen.main.MainFragment"
         android:label="fragment_main"
@@ -23,4 +14,12 @@
         android:name="com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.example.heart_to_heart.presentation.screen.authorization.login.LogInFragment"
+        android:label="LogInFragment" >
+        <action
+            android:id="@+id/action_logInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
 </navigation>

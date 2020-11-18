@@ -8,20 +8,6 @@ import com.example.heart_to_heart.R
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.presentation.base.Router
 
-//class AppRouter: Router {
-//
-//    private val appActivity: AppActivity
-//    private val authorizationRepository: AuthorizationRepository
-//
-//    constructor(
-//        appActivity: AppActivity,
-//        authorizationRepository: AuthorizationRepository
-//    ) {
-//        this.appActivity = appActivity
-//        this.authorizationRepository = authorizationRepository
-//    }
-
-
 class AppRouter
 constructor(
     private val appActivity: AppActivity,
@@ -54,15 +40,16 @@ constructor(
     }
 
     override fun showSignUp() {
+        Log.d("YOLO", "showSignUp()")
         navController.navigate(R.id.action_logInFragment_to_signUpFragment)
     }
 
     override fun closeSignUp() {
+        Log.d("YOLO", "closeSignUp()")
         navController.popBackStack()
     }
 
     override fun showMain() {
-        Log.d("YOLO", "showMain() from AppRouter")
         navController.navigate(R.id.mainFragment)
     }
 

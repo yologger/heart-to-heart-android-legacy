@@ -7,7 +7,14 @@ class MainViewModel
 constructor(
 
 ) : ViewModel() {
+
     fun test() {
         Log.d("YOLO", "test() from MainViewModel")
     }
+
+    override fun onCleared() {
+        super.onCleared()
+    }
+
+
 }
