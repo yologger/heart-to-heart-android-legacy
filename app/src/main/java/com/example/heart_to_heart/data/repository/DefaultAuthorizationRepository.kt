@@ -5,47 +5,47 @@ import com.example.heart_to_heart.data.model.Profile
 import com.example.heart_to_heart.data.model.Session
 import com.example.heart_to_heart.data.model.Tokens
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
+import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.infrastructure.model.*
-import com.example.heart_to_heart.infrastructure.network.DefaultAuthorizationApi
-import com.example.heart_to_heart.infrastructure.network.LogOutFailureResponse
-import com.example.heart_to_heart.infrastructure.network.LogOutResponse
+import com.example.heart_to_heart.infrastructure.network.*
 
 import io.reactivex.Observable
-import io.reactivex.subjects.AsyncSubject
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import retrofit2.*
 
 class DefaultAuthorizationRepository
 constructor(
-    private val defaultAuthorizationApi: DefaultAuthorizationApi,
+    private var authorizationAPI: AuthorizationAPI,
     private val retrofit: Retrofit,
     private val sessionStorage: SessionStorage
 ) : AuthorizationRepository {
 
-    var tokens: Tokens? = null
-    var sessionState: Session? = null
+    private var name = "String"
+    private var _session: Session? = null
+    private var sessionState: BehaviorSubject<Boolean>
 
     var didLogIn = PublishSubject.create<Unit>()
     var didLogOut = PublishSubject.create<Unit>()
 
-    override fun getSession(): Session? = this.sessionState
+    init {
+        this.loadSession()
+        if (_session == null) {
+            sessionState = BehaviorSubject.createDefault<Boolean>(false)
+        } else {
+            sessionState = BehaviorSubject.createDefault<Boolean>(true)
+        }
+    }
 
-    override fun getLogInEvent(): Observable<Unit> = didLogIn.hide()!!
-    override fun getLogOutEvent(): Observable<Unit> = didLogOut.hide()!!
+    override fun getSession(): Observable<Boolean> = sessionState.hide()
 
-    init { this.loadSession() }
-
-    override fun signUp(
-        email: String,
-        firstName: String,
-        lastName: String,
-        nickname: String,
-        password: String
-    ): Observable<SignUpResult> {
+    override fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult> {
+        var signUpService = authorizationAPI.getSignUpService()
         val signUpRequest = SignUpRequest(email, firstName, lastName, nickname, password)
         return Observable.create<SignUpResult> { emitter ->
-            defaultAuthorizationApi.signUp(signUpRequest)
+            signUpService
+                .signUp(signUpRequest)
                 .enqueue(object : Callback<SignUpResponse> {
                     override fun onResponse(
                         call: Call<SignUpResponse>,
@@ -72,22 +72,20 @@ constructor(
     }
 
     override fun logIn(email: String, password: String): Observable<LogInResult> {
-        val logInRequest = LogInRequest(email, password)
-        return Observable.create<LogInResult> { emitter ->
-            defaultAuthorizationApi.logIn(logInRequest).enqueue(object : Callback<LogInResponse> {
 
+        var logInService = authorizationAPI.getLogInService()
+        val logInRequest = LogInRequest(email, password)
+
+        return Observable.create<LogInResult> { emitter ->
+            logInService.logIn(logInRequest).enqueue(object : Callback<LogInResponse> {
                 override fun onResponse(
                     call: Call<LogInResponse>,
                     response: Response<LogInResponse>
                 ) {
-                    Log.d("YOLO", "code: ${response.code()}")
                     if (response.isSuccessful) {
-                        Log.d("YOLO", "${response.body()?.message}")
-
                         val accessToken = response.body()?.data?.accessToken!!
                         val refreshToken = response.body()?.data?.refreshToken!!
                         val tokens = Tokens(accessToken, refreshToken)
-                        setToken(tokens)
 
                         var email = response.body()?.data?.email!!
                         var userId = response.body()?.data?.userId!!
@@ -120,24 +118,23 @@ constructor(
     }
 
     override fun logOut(): Observable<Boolean> {
-        Log.d("YOLO", "logOut() from DefaultAuthorizationRepository")
+        val logOutService = authorizationAPI.getLogOutService()
         return Observable.create<Boolean> { emitter ->
             if (sessionState == null) {
                 emitter.onNext(false)
             } else {
-                val accessToken = tokens?.accessToken!!
-                defaultAuthorizationApi.logOut("Bearer $accessToken")
+                val accessToken = _session?.tokens?.accessToken
+                logOutService.logOut("Bearer $accessToken")
                     .enqueue(object : Callback<LogOutResponse> {
                         override fun onResponse(
                             call: Call<LogOutResponse>,
                             response: Response<LogOutResponse>
                         ) {
                             if (response.isSuccessful) {
-                                removeTokens()
                                 removeSession()
-                                didLogOut.onNext(Unit)
+                                emitter.onNext(true)
+                                Log.d("YOLO", "MESSAGE: HERE")
                             } else {
-                                removeTokens()
                                 removeSession()
                                 val errorBody = response.errorBody()!!
                                 val converter =
@@ -149,13 +146,41 @@ constructor(
                                 Log.d("YOLO", "FAILURE")
                                 Log.d("YOLO", "MESSAGE: ${logOutFailureResponse?.message}")
                                 Log.d("YOLO", "CODE: ${logOutFailureResponse?.code}")
+                                when (logOutFailureResponse?.code) {
+                                    -1 -> {
+                                        Log.d("YOLO", "No Authorization Header")
+                                    }
+                                    -2 -> {
+                                        Log.d(
+                                            "YOLO",
+                                            "Authorization Header must starts with Bearer."
+                                        )
+                                    }
+                                    -3 -> {
+                                        Log.d("YOLO", "Invalid Access Token")
+                                    }
+                                    -4 -> {
+                                        Log.d("YOLO", "Expired Access Token")
+                                        // Reissue AccessToken
+                                    }
+                                    -5 -> {
+                                        Log.d("YOLO", "Invalid Access Token. User doesn't exist.")
+                                    }
+                                    -6 -> {
+                                        Log.d("YOLO", "Access token has already been logged out.")
+                                    }
+                                    -7 -> {
+                                        Log.d("YOLO", "Old Access Token")
+                                    }
+                                    else -> {
+                                        Log.d("YOLO", "Unknown Error")
+                                    }
+                                }
                             }
-                            emitter.onNext(true)
+                            emitter.onNext(false)
                         }
 
                         override fun onFailure(call: Call<LogOutResponse>, t: Throwable) {
-
-                            Log.d("YOLO", "ERROR")
                             emitter.onNext(false)
                         }
                     })
@@ -164,27 +189,16 @@ constructor(
     }
 
     private fun loadSession() {
-        this.sessionState = this.sessionStorage.getSession()
-        this.tokens = this.sessionState?.tokens
-    }
-
-    fun setToken(tokens: Tokens) {
-        this.tokens = tokens
+        _session = sessionStorage.getSession()
     }
 
     fun setSession(session: Session) {
-        this.sessionState = session
-        this.sessionStorage.setSession(session)
-    }
-
-    fun removeTokens() {
-        Log.d("YOLO", "removeTokens()")
-        tokens = null
+        _session = session
+        sessionStorage.setSession(session)
     }
 
     fun removeSession() {
-        Log.d("YOLO", "removeSession()")
         sessionStorage.removeSession()
-        sessionState = null
+        _session = null
     }
 }

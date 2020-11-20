@@ -5,23 +5,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.example.heart_to_heart.R
-import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.presentation.base.Router
 
 class AppRouter
 constructor(
-    private val appActivity: AppActivity,
-    private val authorizationRepository: AuthorizationRepository
+    private val appActivity: AppActivity
 ) : Router {
-
-    override fun start() {
-        var session = authorizationRepository.getSession()
-        if (session == null) {
-            showLogIn()
-        } else {
-            showMain()
-        }
-    }
 
     private val navController: NavController by lazy {
         Navigation.findNavController(appActivity, R.id.activity_app_nhf)

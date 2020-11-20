@@ -7,9 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 interface AuthorizationRepository {
-    fun getSession(): Session?
-    fun getLogInEvent(): Observable<Unit>
-    fun getLogOutEvent(): Observable<Unit>
+    fun getSession(): Observable<Boolean>
     fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult>
     fun logIn(email: String, password: String): Observable<LogInResult>
     fun logOut(): Observable<Boolean>

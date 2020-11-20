@@ -5,8 +5,7 @@ import org.koin.dsl.module
 
 var useCaseModule = module {
     factory { SignUpUseCase(get()) }
+    factory { GetSessionUseCase(get()) }
     factory { LogInUseCase(get()) }
     factory { LogOutUseCase(get()) }
-    factory { GetLogInEventUseCase(get()) }
-    factory { GetLogOutEventUseCase(get()) }
 }

@@ -17,6 +17,6 @@ constructor(
     lateinit var password: String
 
     override fun call(): Observable<SignUpResult> {
-        return authorizationRepository.signUp(this.email, this.firstName, this.lastName, this.nickname, this.password)
+        return authorizationRepository.signUp(email, firstName, lastName, nickname, password)
     }
 }

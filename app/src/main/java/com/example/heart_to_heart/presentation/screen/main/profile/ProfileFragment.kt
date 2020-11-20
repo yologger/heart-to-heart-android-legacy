@@ -2,10 +2,13 @@ package com.example.heart_to_heart.presentation.screen.main.profile
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpViewModel
@@ -26,17 +29,29 @@ class ProfileFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.initBinding()
         this.initUI()
     }
 
     private fun initBinding() {
-
-    }
-
-    private fun initUI() {
         fragment_profile_btn_logout.setOnClickListener {
             this.viewModel.logOut()
             // router.closeMain()
         }
+    }
+
+
+    private fun initUI() {
+        viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer { event ->
+            when(event) {
+                null -> {}
+                ProfileVMRoutingEvent.SHOW_LOGIN -> {
+                    var toast = Toast.makeText(activity, "SUCCESSFULLY LOG OUT", Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
+                    router.showLogIn()
+                }
+            }
+        })
     }
 }

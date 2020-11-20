@@ -17,13 +17,20 @@ constructor(
     private val signUpUseCase: SignUpUseCase
 ) : BaseViewModel() {
 
-    var routingEvent: MutableLiveData<SignUpVMRoutingEvent?> = MutableLiveData<SignUpVMRoutingEvent?>(null)
+    var routingEvent: MutableLiveData<SignUpVMRoutingEvent?> =
+        MutableLiveData<SignUpVMRoutingEvent?>(null)
 
-    val email: MutableLiveData<String> = MutableLiveData("")
-    var firstName: MutableLiveData<String> = MutableLiveData("")
-    var lastName: MutableLiveData<String> = MutableLiveData("")
-    var nickname: MutableLiveData<String> = MutableLiveData("")
-    val password: MutableLiveData<String> = MutableLiveData("")
+    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
+    var firstName: MutableLiveData<String> = MutableLiveData("Cristiano")
+    var lastName: MutableLiveData<String> = MutableLiveData("Ronaldo")
+    var nickname: MutableLiveData<String> = MutableLiveData("CR7")
+    val password: MutableLiveData<String> = MutableLiveData("12345")
+
+//    val email: MutableLiveData<String> = MutableLiveData("")
+//    var firstName: MutableLiveData<String> = MutableLiveData("")
+//    var lastName: MutableLiveData<String> = MutableLiveData("")
+//    var nickname: MutableLiveData<String> = MutableLiveData("")
+//    val password: MutableLiveData<String> = MutableLiveData("")
 
     val emailErrorText: MutableLiveData<String?> = MutableLiveData("")
     var firstNameErrorText: MutableLiveData<String?> = MutableLiveData("")
@@ -32,26 +39,48 @@ constructor(
     var passwordErrorText: MutableLiveData<String?> = MutableLiveData("")
 
     fun logIn() {
-        routingEvent.value = SignUpVMRoutingEvent.CLOSE_SIGN_UP
+        routingEvent.value = SignUpVMRoutingEvent.CLOSE
     }
 
     fun signUp() {
-        if(!validateInputs()) {
-            Log.d("YOLO", "INVALID INPUTS")
+        if (!validateInputs()) {
             return
         }
-        Log.d("YOLO", "VALID INPUTS")
+        signUpUseCase.email = email.value ?: ""
+        signUpUseCase.firstName = firstName.value ?: ""
+        signUpUseCase.lastName = lastName.value ?: ""
+        signUpUseCase.nickname = nickname.value ?: ""
+        signUpUseCase.password = password.value ?: ""
+        signUpUseCase.execute().subscribe({ signUpResult ->
+            when (signUpResult) {
+                is SignUpResult.SUCCESS -> {
+                    routingEvent.value = SignUpVMRoutingEvent.CLOSE
+                }
+                is SignUpResult.FAILURE -> {
+                    when (signUpResult.error) {
+                        SignUpError.ALREADY_EXISTED_EMAIL -> {
+                            routingEvent.value = SignUpVMRoutingEvent.SHOW_ALREADY_SIGNED_UP_ERROR
+                        }
+                        SignUpError.NETWORK_CONNECTION_ERROR -> {
+                            routingEvent.value = SignUpVMRoutingEvent.SHOW_NETWORK_ERROR
+                        }
+                    }
+                }
+            }
+        }, {
+            routingEvent.value = SignUpVMRoutingEvent.SHOW_UNKNOWN_ERROR
+        }, {
+
+        }).apply { disposables.add(this) }
     }
 
     private fun validateInputs(): Boolean {
-        if (!validateEmail() or !validateFirstName() or !validateLastName() or !validateNickname() or !validatePassword()) {
-            return false
-        }
+        if (!validateEmail() or !validateFirstName() or !validateLastName() or !validateNickname() or !validatePassword()) { return false }
         return true
     }
 
     private fun validateEmail(): Boolean {
-        if(email.value?.trim().isNullOrEmpty()) {
+        if (email.value?.trim().isNullOrEmpty()) {
             emailErrorText.value = "Email Field Can't be empty."
             return false
         } else {
@@ -61,7 +90,7 @@ constructor(
     }
 
     private fun validateFirstName(): Boolean {
-        if(firstName.value?.trim().isNullOrEmpty()) {
+        if (firstName.value?.trim().isNullOrEmpty()) {
             firstNameErrorText.value = "Password Field Can't be empty."
             return false
         } else {
@@ -71,7 +100,7 @@ constructor(
     }
 
     private fun validateLastName(): Boolean {
-        if(lastName.value?.trim().isNullOrEmpty()) {
+        if (lastName.value?.trim().isNullOrEmpty()) {
             lastNameErrorText.value = "Password Field Can't be empty."
             return false
         } else {
@@ -81,7 +110,7 @@ constructor(
     }
 
     private fun validateNickname(): Boolean {
-        if(nickname.value?.trim().isNullOrEmpty()) {
+        if (nickname.value?.trim().isNullOrEmpty()) {
             nicknameErrorText.value = "Password Field Can't be empty."
             return false
         } else {
@@ -91,7 +120,7 @@ constructor(
     }
 
     private fun validatePassword(): Boolean {
-        if(password.value?.trim().isNullOrEmpty()) {
+        if (password.value?.trim().isNullOrEmpty()) {
             passwordErrorText.value = "Password Field Can't be empty."
             return false
         } else {
@@ -99,44 +128,5 @@ constructor(
             return true
         }
     }
-
-//    fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String) {
-//        signUpUseCase.email = email
-//        signUpUseCase.firstName = firstName
-//        signUpUseCase.lastName = lastName
-//        signUpUseCase.nickname = nickname
-//        signUpUseCase.password = password
-//
-//        signUpUseCase.execute().subscribe({ signUpResult ->
-//            when (signUpResult) {
-//                is SignUpResult.SUCCESS -> {
-//                    Log.d("YOLO", "SUCCESSFULLY SIGNED UP.")
-//                    didRouterChange.onNext(SignUpFragmentRoutingOptions.CLOSE)
-//                }
-//                is SignUpResult.FAILURE -> {
-//                    when (signUpResult.error) {
-//                        SignUpError.ALREADY_EXISTED_EMAIL -> {
-//                            Log.d("YOLO", "ALREADY SIGNED UP..")
-//                            didRouterChange.onNext(SignUpFragmentRoutingOptions.SHOW_ALREADY_SIGNED_UP)
-//                        }
-//                        SignUpError.NETWORK_CONNECTION_ERROR -> {
-//                            Log.d("YOLO", "NETWORK ERROR.")
-//                            didRouterChange.onNext(SignUpFragmentRoutingOptions.SHOW_NETWORK_ERROR)
-//                        }
-//                    }
-//                }
-//            }
-//        }, {
-//            Log.d("YOLO", "Network Error")
-//            Log.d("YOLO", it.toString())
-//        }, {
-//            Log.d("YOLO", "onComplete")
-//        }).apply { disposables.add(this) }
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        disposables.clear()
-//    }
 }
 
