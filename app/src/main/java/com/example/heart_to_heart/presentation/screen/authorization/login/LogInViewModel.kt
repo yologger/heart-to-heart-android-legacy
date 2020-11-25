@@ -12,12 +12,11 @@ constructor(
 ) : BaseViewModel() {
 
     val routingEvent: MutableLiveData<LogInVMRoutingEvent?> = MutableLiveData(null)
-    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
-    val password: MutableLiveData<String> = MutableLiveData("12345")
 
-    //    val email: MutableLiveData<String> = MutableLiveData("")
-    //    val password: MutableLiveData<String> = MutableLiveData("")
+    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
     val emailErrorText: MutableLiveData<String?> = MutableLiveData("")
+
+    val password: MutableLiveData<String> = MutableLiveData("12345")
     val passwordErrorText: MutableLiveData<String?> = MutableLiveData("")
 
     fun logIn() {
@@ -26,7 +25,7 @@ constructor(
         }
         logInUseCase.email = email.value ?: ""
         logInUseCase.password = password.value ?: ""
-        logInUseCase.execute().subscribe({ logInResult ->
+        logInUseCase.execute().subscribe { logInResult ->
             when (logInResult) {
                 is LogInResult.SUCCESS -> {
                     routingEvent.setValue(LogInVMRoutingEvent.SHOW_MAIN)
@@ -42,16 +41,13 @@ constructor(
                         LogInError.INVALID_PASSWORD -> {
                             routingEvent.setValue(LogInVMRoutingEvent.INVALID_PASSWORD_ERROR)
                         }
+                        LogInError.UNKNOWN_ERROR -> {
+                            routingEvent.setValue(LogInVMRoutingEvent.UNKNOWN_ERROR)
+                        }
                     }
                 }
             }
-        }, {
-            routingEvent.setValue(LogInVMRoutingEvent.UNKNOWN_ERROR)
-        }, {
-
-        }, {
-
-        }).apply { disposables.add(this) }
+        }.apply { disposables.add(this) }
     }
 
 

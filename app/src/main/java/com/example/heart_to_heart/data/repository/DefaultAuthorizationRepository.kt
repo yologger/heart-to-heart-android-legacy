@@ -8,37 +8,38 @@ import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorag
 import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.infrastructure.model.*
-import com.example.heart_to_heart.infrastructure.network.*
+import com.google.gson.Gson
 
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.cast
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import retrofit2.*
+
+
 
 class DefaultAuthorizationRepository
 constructor(
-    private var authorizationAPI: AuthorizationAPI,
-    private val retrofit: Retrofit,
+    private val authorizationAPI: AuthorizationAPI,
     private val sessionStorage: SessionStorage
 ) : AuthorizationRepository {
 
-    private var name = "String"
     private var _session: Session? = null
     private var sessionState: BehaviorSubject<Boolean>
 
-    var didLogIn = PublishSubject.create<Unit>()
-    var didLogOut = PublishSubject.create<Unit>()
-
     init {
         this.loadSession()
-        if (_session == null) {
-            sessionState = BehaviorSubject.createDefault<Boolean>(false)
+        sessionState = if (_session == null) {
+            BehaviorSubject.createDefault<Boolean>(false)
         } else {
-            sessionState = BehaviorSubject.createDefault<Boolean>(true)
+            BehaviorSubject.createDefault<Boolean>(true)
         }
     }
 
-    override fun getSession(): Observable<Boolean> = sessionState.hide()
+    private fun loadSession() {
+        _session = sessionStorage.getSession()
+    }
+
+    override fun getSessionState(): Observable<Boolean> = sessionState.cast()
 
     override fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult> {
         var signUpService = authorizationAPI.getSignUpService()
@@ -54,13 +55,13 @@ constructor(
                         if (response.isSuccessful) {
                             emitter.onNext(SignUpResult.SUCCESS)
                         } else {
-                            val errorBody = response.errorBody()!!
-                            val converter = retrofit.responseBodyConverter<SignUpFailureResponse>(
-                                SignUpFailureResponse::class.java,
-                                SignUpFailureResponse::class.java.annotations
-                            )
-                            val signUpFailureResponse = converter.convert(errorBody)
-                            emitter.onNext(SignUpResult.FAILURE(SignUpError.ALREADY_EXISTED_EMAIL))
+                            val errorResponseBody = response?.errorBody()
+                            val gson = Gson()
+                            var signUpFailureResponse = gson.fromJson(errorResponseBody?.string()!!, SignUpFailureResponse::class.java)
+                            when (signUpFailureResponse.code) {
+                                -1 -> { emitter.onNext(SignUpResult.FAILURE(SignUpError.ALREADY_EXISTED_EMAIL)) }
+                                else -> { emitter.onNext(SignUpResult.FAILURE(SignUpError.UNKNOWN_ERROR)) }
+                            }
                         }
                     }
 
@@ -97,15 +98,17 @@ constructor(
 
                         emitter.onNext(LogInResult.SUCCESS)
                     } else {
-                        val errorBody = response.errorBody()!!
-                        val converter = retrofit.responseBodyConverter<LogInFailureResponse>(
-                            LogInFailureResponse::class.java,
-                            LogInFailureResponse::class.java.annotations
-                        )
-                        val logInFailureResponse = converter.convert(errorBody)
-                        Log.d("YOLO", "${logInFailureResponse?.code}")
-                        Log.d("YOLO", "${logInFailureResponse?.errorMessage}")
-                        emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_EMAIL))
+                        val errorResponseBody = response?.errorBody()
+                        var gson = Gson()
+                        var logInFailureResponse = gson.fromJson<LogInFailureResponse>(errorResponseBody?.string()!!, LogInFailureResponse::class.java)
+                        Log.d("YOLO", "CODE: ${logInFailureResponse.code}")
+                        Log.d("YOLO", "MESSAGE: ${logInFailureResponse.errorMessage}")
+
+                        when (logInFailureResponse.code) {
+                            -1 -> { emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_EMAIL)) }
+                            -2 -> { emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_PASSWORD)) }
+                            else -> { emitter.onNext(LogInResult.FAILURE(LogInError.UNKNOWN_ERROR)) }
+                        }
                     }
                 }
 
@@ -136,13 +139,10 @@ constructor(
                                 Log.d("YOLO", "MESSAGE: HERE")
                             } else {
                                 removeSession()
-                                val errorBody = response.errorBody()!!
-                                val converter =
-                                    retrofit.responseBodyConverter<LogOutFailureResponse>(
-                                        LogOutFailureResponse::class.java,
-                                        LogOutFailureResponse::class.java.annotations
-                                    )
-                                val logOutFailureResponse = converter.convert(errorBody)
+                                var errorResponseBody = response?.errorBody()
+                                val gson = Gson()
+                                var logOutFailureResponse = gson.fromJson<LogOutFailureResponse>(errorResponseBody?.string()!!, LogOutFailureResponse::class.java)
+
                                 Log.d("YOLO", "FAILURE")
                                 Log.d("YOLO", "MESSAGE: ${logOutFailureResponse?.message}")
                                 Log.d("YOLO", "CODE: ${logOutFailureResponse?.code}")
@@ -188,17 +188,28 @@ constructor(
         }
     }
 
-    private fun loadSession() {
-        _session = sessionStorage.getSession()
-    }
+    override fun getAccessToken(): String? = _session?.tokens?.accessToken
+    override fun getRefreshToken(): String? = _session?.tokens?.refreshToken
 
-    fun setSession(session: Session) {
+
+    private fun setSession(session: Session) {
         _session = session
         sessionStorage.setSession(session)
     }
 
-    fun removeSession() {
+    override fun removeSession() {
         sessionStorage.removeSession()
         _session = null
+        sessionState.onNext(false)
+        // sessionState.onNext(null)
+    }
+
+    override fun updateToken(tokens: Tokens) {
+        var session = Session(
+            email = _session?.email!!,
+            profile = _session?.profile!!,
+            tokens = tokens
+        )
+        setSession(session)
     }
 }

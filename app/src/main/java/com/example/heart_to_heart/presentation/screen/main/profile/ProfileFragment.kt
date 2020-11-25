@@ -44,13 +44,13 @@ class ProfileFragment : BaseFragment() {
     private fun initUI() {
         viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer { event ->
             when(event) {
-                null -> {}
                 ProfileVMRoutingEvent.SHOW_LOGIN -> {
                     var toast = Toast.makeText(activity, "SUCCESSFULLY LOG OUT", Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
                     router.showLogIn()
                 }
+                else -> {}
             }
         })
     }

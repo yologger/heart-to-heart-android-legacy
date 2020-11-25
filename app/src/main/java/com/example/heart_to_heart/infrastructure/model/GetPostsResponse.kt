@@ -2,9 +2,9 @@ package com.example.heart_to_heart.infrastructure.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LogInResponse
+data class GetPostsResponse
 constructor(
-    @SerializedName("code") val code: Int,
+    @SerializedName("code") var code: String,
     @SerializedName("message") var message: String,
-    @SerializedName("data") var data: LogInResponseData
+    @SerializedName("data") var data: GetPostResponseData
 )

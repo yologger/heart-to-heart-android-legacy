@@ -1,7 +1,6 @@
 package com.example.heart_to_heart.presentation.base
 
 interface Router {
-    fun test()
     fun showLogIn()
     fun showSignUp()
     fun closeSignUp()

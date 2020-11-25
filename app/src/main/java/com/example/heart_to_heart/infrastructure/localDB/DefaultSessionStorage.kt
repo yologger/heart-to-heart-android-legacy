@@ -7,6 +7,9 @@ import com.example.heart_to_heart.data.model.Session
 import com.example.heart_to_heart.data.model.Tokens
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
 import com.google.gson.Gson
+import io.reactivex.Observable
+import io.reactivex.rxkotlin.cast
+import io.reactivex.subjects.BehaviorSubject
 
 class DefaultSessionStorage
 constructor(
@@ -52,30 +55,18 @@ constructor(
         var name = get("name", "ronaldo")
         Log.d("YOLO", "name: ${name}")
     }
-//    private fun set(key: String, value: String) {
-//        prefs.edit().putString(key, value).apply()
-//    }
 
     private fun <T> set(key: String, value: T) {
         val gson = Gson()
         val json = gson.toJson(value)
         prefs.edit().putString(key, json).apply()
     }
-//    private fun<T> get (key: String, defaultValue: String) {
-//        val json = prefs.getString(key, defaultValue).toString()
-//        val gson = Gson()
-//        val value = gson.fromJson<T>(json, T::class.java)
-//    }
 
     private fun get(key: String, defaultValue: String) {
         val json = prefs.getString(key, defaultValue).toString()
         val gson = Gson()
         val value = gson.fromJson<Session>(json, Session::class.java)
     }
-
-//    private fun get(key: String, defaultValue: String): String {
-//        return prefs.getString(key, defaultValue).toString()
-//    }
 
     private fun remove(key: String) {
         prefs.edit().remove(key).apply()

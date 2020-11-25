@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class SignUpFailureResponse
 constructor(
-    @SerializedName("code")
-    val code: String,
-    @SerializedName("error_message")
-    var errorMessage: String
+    @SerializedName("code") val code: Int,
+    @SerializedName("error_message") var errorMessage: String
 )

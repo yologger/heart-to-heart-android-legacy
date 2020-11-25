@@ -4,11 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.heart_to_heart.domain.usecase.LogOutUseCase
 import com.example.heart_to_heart.presentation.base.BaseViewModel
 
-
-enum class ProfileVMRoutingEvent {
-    SHOW_LOGIN
-}
-
 class ProfileViewModel
 constructor(
     private val logOutUseCase: LogOutUseCase
@@ -22,7 +17,8 @@ constructor(
                 routingEvent.setValue(ProfileVMRoutingEvent.SHOW_LOGIN)
                 routingEvent.setValue(null)
             } else {
-
+                routingEvent.setValue(ProfileVMRoutingEvent.SHOW_LOGIN)
+                routingEvent.setValue(null)
             }
         }, {
 

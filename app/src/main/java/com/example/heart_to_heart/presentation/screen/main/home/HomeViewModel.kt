@@ -8,16 +8,8 @@ class HomeViewModel
 constructor(
 
 ) : ViewModel() {
-    init {
-        Log.d("YOLO", "init{} from HomeViewModel")
-    }
-
-    fun test() {
-        Log.d("YOLO", "test() from HomeViewModel")
-    }
 
     override fun onCleared() {
         super.onCleared()
-        Log.d("YOLO", "onCleared() from HomeViewModel")
     }
 }

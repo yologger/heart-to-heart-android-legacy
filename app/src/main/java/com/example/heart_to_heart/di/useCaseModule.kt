@@ -8,4 +8,5 @@ var useCaseModule = module {
     factory { GetSessionUseCase(get()) }
     factory { LogInUseCase(get()) }
     factory { LogOutUseCase(get()) }
+    factory { GetAllPostsUseCase(get()) }
 }

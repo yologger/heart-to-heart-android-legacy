@@ -1,0 +1,82 @@
+package com.example.heart_to_heart.infrastructure.network.interceptor
+
+import android.util.Log
+import com.example.heart_to_heart.data.model.Tokens
+import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
+import com.example.heart_to_heart.domain.repository.AuthorizationRepository
+import com.example.heart_to_heart.infrastructure.model.RefreshTokensResponse
+import com.google.gson.Gson
+import okhttp3.*
+import java.net.HttpURLConnection
+
+const val REFRESH_TOKEN_URL = "http://10.0.2.2:8000/auth/token"
+
+class AuthInterceptor
+constructor(
+    private val authorizationRepository: AuthorizationRepository
+) : Interceptor {
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+
+        var accessToken = authorizationRepository.getAccessToken()!!
+        var response = chain.proceed(requestWithAccessToken(chain.request(), accessToken))
+
+        if (response.isSuccessful) {
+            Log.d("YOLO", "VALID ACCESS TOKEN / ORIGINAL REQUEST SUCCEED")
+            return response
+        } else {
+            Log.d("YOLO", "INVALID ACCESS TOKEN / ORIGINAL REQUEST FAIL")
+            var refreshToken = authorizationRepository.getRefreshToken()!!
+            var refreshTokenResponse = refreshTokens(refreshToken)
+            return if (refreshTokenResponse.isSuccessful) {
+                Log.d("YOLO", "VALID REFRESH TOKEN / REFRESHING ACCESS TOKEN REQUEST SUCCEED.")
+                response?.close()
+                refreshTokenResponse?.close()
+                var newAccessToken = authorizationRepository.getAccessToken()!!
+                // Retry
+                var retryResponse = chain.proceed(requestWithAccessToken(chain.request(), newAccessToken))
+                retryResponse
+            } else {
+                Log.d("YOLO", "INVALID REFRESH TOKEN / REFRESHING ACCESS TOKEN REQUEST FAIL.")
+                response?.close()
+                refreshTokenResponse
+            }
+        }
+    }
+
+    private fun requestWithAccessToken(request: Request, accessToken: String): Request {
+        return request
+            .newBuilder()
+            .header("Authorization", "Bearer ${accessToken}")
+            .build()
+    }
+
+    private fun refreshTokens(refreshToken: String): Response {
+
+        var okHttpClient = OkHttpClient()
+        var requestFormBody = FormBody.Builder().add("refresh_token", refreshToken).build()
+        var request = Request.Builder().url(REFRESH_TOKEN_URL).post(requestFormBody).build()
+        var response = okHttpClient.newCall(request).execute()
+
+        // Refreshing tokens succeed.
+        if (response.isSuccessful) {
+            val body = response?.body()?.string()!!
+            val gson = Gson()
+            var refreshTokensResponse =
+                gson.fromJson<RefreshTokensResponse>(body, RefreshTokensResponse::class.java)
+            val tokens = Tokens(
+                refreshTokensResponse.data.accessToken,
+                refreshTokensResponse.data.refreshToken
+            )
+            // Update tokens in local storage.
+            authorizationRepository.updateToken(tokens)
+        } else {
+            if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                // DELETE SESSION
+                Log.d("YOLO", "DELETE SESSION!")
+                authorizationRepository.removeSession()
+            }
+        }
+        return response
+    }
+}

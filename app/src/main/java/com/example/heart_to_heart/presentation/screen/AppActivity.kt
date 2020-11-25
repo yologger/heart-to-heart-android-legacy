@@ -2,7 +2,6 @@ package com.example.heart_to_heart.presentation.screen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.Router
@@ -22,19 +21,17 @@ class AppActivity : AppCompatActivity() {
     }
 
     private fun initBinding() {
-        viewModel.isSessionSet.observe(this, Observer {
-            when(it) {
-                null -> {}
-                true -> {
-                    Log.d("YOLO", "showMain() from AppActivity")
-                    router.showMain()
-                    viewModel.isSessionSet.setValue(null)
-                }
-                false -> {
-                    Log.d("YOLO", "showLogIn()() from AppActivity")
+        viewModel.routingEvent.observe(this, Observer { event ->
+            when (event) {
+                AppVMRoutingEvent.SHOW_LOGIN -> {
                     router.showLogIn()
-                    viewModel.isSessionSet.setValue(null)
+                    viewModel.routingEvent.postValue(null)
                 }
+                AppVMRoutingEvent.SHOW_MAIN -> {
+                    router.showMain()
+                    viewModel.routingEvent.postValue(null)
+                }
+                else -> { }
             }
         })
     }

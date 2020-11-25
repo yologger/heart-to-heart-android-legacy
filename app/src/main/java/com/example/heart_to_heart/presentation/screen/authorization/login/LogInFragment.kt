@@ -76,7 +76,9 @@ class LogInFragment : BaseFragment() {
                     router.showMain()
                 }
                 LogInVMRoutingEvent.UNKNOWN_ERROR -> {
-
+                    var toast = Toast.makeText(activity, "UNKNOWN_ERROR", Toast.LENGTH_LONG)
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
                 }
             }
         })
@@ -84,13 +86,5 @@ class LogInFragment : BaseFragment() {
 
 
     private fun initUI() {
-    }
-}
-
-object LogInFragmentBindingAdapter {
-    @BindingAdapter("app:errorText")
-    @JvmStatic
-    fun setErrorMessage(view: TextInputLayout, errorMessage: String?) {
-        view.error = errorMessage
     }
 }

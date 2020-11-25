@@ -1,7 +1,10 @@
 package com.example.heart_to_heart.di
 
 import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
+import com.example.heart_to_heart.data.repository.dataSource.remote.PostsAPI
+import com.example.heart_to_heart.infrastructure.network.interceptor.AuthInterceptor
 import com.example.heart_to_heart.infrastructure.network.authoriztion.DefaultAuthorizationAPI
+import com.example.heart_to_heart.infrastructure.network.post.DefaultPostsAPI
 import okhttp3.OkHttpClient
 
 import org.koin.dsl.module
@@ -13,22 +16,8 @@ val AUTHORIZATION_BASE_URL = "http://127.0.0.1:8000"
 
 
 var networkModule = module {
-
-    single {
-        var okHttpClient = OkHttpClient.Builder()
-            // .addNetworkInterceptor(NetworkIntercepter())
-            // .addInterceptor(AppIntercepter())
-            .build()
-
-        var retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-
-        retrofit
-    }
-
     single<AuthorizationAPI> { DefaultAuthorizationAPI() }
+    single<PostsAPI>{ DefaultPostsAPI(get()) }
+
+    factory { AuthInterceptor(get()) }
 }

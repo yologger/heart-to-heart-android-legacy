@@ -64,6 +64,9 @@ constructor(
                         SignUpError.NETWORK_CONNECTION_ERROR -> {
                             routingEvent.value = SignUpVMRoutingEvent.SHOW_NETWORK_ERROR
                         }
+                        SignUpError.UNKNOWN_ERROR -> {
+                            routingEvent.value = SignUpVMRoutingEvent.SHOW_UNKNOWN_ERROR
+                        }
                     }
                 }
             }

@@ -2,8 +2,9 @@ package com.example.heart_to_heart.infrastructure.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LogInFailureResponse
+data class RefreshTokensResponse
 constructor(
     @SerializedName("code") val code: Int,
-    @SerializedName("error_message") var errorMessage: String
+    @SerializedName("message") val message: String,
+    @SerializedName("data") val data: RefreshTokensResponseData
 )

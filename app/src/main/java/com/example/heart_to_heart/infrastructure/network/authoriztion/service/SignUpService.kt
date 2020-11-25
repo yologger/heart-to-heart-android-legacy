@@ -10,3 +10,7 @@ interface SignUpService {
     @POST("/auth/signup")
     fun signUp(@Body request: SignUpRequest): Call<SignUpResponse>
 }
+
+
+
+

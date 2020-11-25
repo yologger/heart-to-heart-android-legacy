@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
@@ -20,9 +21,18 @@ class HomeFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.test()
+        initBinding()
+        initUI()
+    }
+
+    private fun initBinding() {
+
+    }
+
+    private fun initUI() {
+        fragment_home_btn_test.setOnClickListener {
+        }
     }
 }

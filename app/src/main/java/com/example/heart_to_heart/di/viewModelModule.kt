@@ -14,6 +14,6 @@ var viewModelModule = module {
     viewModel { LogInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { HomeViewModel() }
-    viewModel { FollowViewModel() }
+    viewModel { FollowViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
 }
