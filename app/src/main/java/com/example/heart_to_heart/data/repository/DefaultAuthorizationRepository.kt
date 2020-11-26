@@ -9,13 +9,8 @@ import com.example.heart_to_heart.data.repository.dataSource.remote.Authorizatio
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.infrastructure.model.*
 import com.google.gson.Gson
-
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.cast
-import io.reactivex.subjects.BehaviorSubject
 import retrofit2.*
-
-
 
 class DefaultAuthorizationRepository
 constructor(
@@ -23,23 +18,7 @@ constructor(
     private val sessionStorage: SessionStorage
 ) : AuthorizationRepository {
 
-    private var _session: Session? = null
-    private var sessionState: BehaviorSubject<Boolean>
-
-    init {
-        this.loadSession()
-        sessionState = if (_session == null) {
-            BehaviorSubject.createDefault<Boolean>(false)
-        } else {
-            BehaviorSubject.createDefault<Boolean>(true)
-        }
-    }
-
-    private fun loadSession() {
-        _session = sessionStorage.getSession()
-    }
-
-    override fun getSessionState(): Observable<Boolean> = sessionState.cast()
+    override fun getSessionState(): Observable<Boolean> = sessionStorage.getSessionState()
 
     override fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult> {
         var signUpService = authorizationAPI.getSignUpService()
@@ -57,10 +36,17 @@ constructor(
                         } else {
                             val errorResponseBody = response?.errorBody()
                             val gson = Gson()
-                            var signUpFailureResponse = gson.fromJson(errorResponseBody?.string()!!, SignUpFailureResponse::class.java)
+                            var signUpFailureResponse = gson.fromJson(
+                                errorResponseBody?.string()!!,
+                                SignUpFailureResponse::class.java
+                            )
                             when (signUpFailureResponse.code) {
-                                -1 -> { emitter.onNext(SignUpResult.FAILURE(SignUpError.ALREADY_EXISTED_EMAIL)) }
-                                else -> { emitter.onNext(SignUpResult.FAILURE(SignUpError.UNKNOWN_ERROR)) }
+                                -1 -> {
+                                    emitter.onNext(SignUpResult.FAILURE(SignUpError.ALREADY_EXISTED_EMAIL))
+                                }
+                                else -> {
+                                    emitter.onNext(SignUpResult.FAILURE(SignUpError.UNKNOWN_ERROR))
+                                }
                             }
                         }
                     }
@@ -100,14 +86,23 @@ constructor(
                     } else {
                         val errorResponseBody = response?.errorBody()
                         var gson = Gson()
-                        var logInFailureResponse = gson.fromJson<LogInFailureResponse>(errorResponseBody?.string()!!, LogInFailureResponse::class.java)
+                        var logInFailureResponse = gson.fromJson<LogInFailureResponse>(
+                            errorResponseBody?.string()!!,
+                            LogInFailureResponse::class.java
+                        )
                         Log.d("YOLO", "CODE: ${logInFailureResponse.code}")
                         Log.d("YOLO", "MESSAGE: ${logInFailureResponse.errorMessage}")
 
                         when (logInFailureResponse.code) {
-                            -1 -> { emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_EMAIL)) }
-                            -2 -> { emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_PASSWORD)) }
-                            else -> { emitter.onNext(LogInResult.FAILURE(LogInError.UNKNOWN_ERROR)) }
+                            -1 -> {
+                                emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_EMAIL))
+                            }
+                            -2 -> {
+                                emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_PASSWORD))
+                            }
+                            else -> {
+                                emitter.onNext(LogInResult.FAILURE(LogInError.UNKNOWN_ERROR))
+                            }
                         }
                     }
                 }
@@ -123,61 +118,48 @@ constructor(
     override fun logOut(): Observable<Boolean> {
         val logOutService = authorizationAPI.getLogOutService()
         return Observable.create<Boolean> { emitter ->
-            if (sessionState == null) {
+            if (sessionStorage.getSession() == null) {
                 emitter.onNext(false)
             } else {
-                val accessToken = _session?.tokens?.accessToken
+                var accessToken = sessionStorage.getAccessToken()!!
                 logOutService.logOut("Bearer $accessToken")
                     .enqueue(object : Callback<LogOutResponse> {
                         override fun onResponse(
                             call: Call<LogOutResponse>,
                             response: Response<LogOutResponse>
                         ) {
+                            Log.d("YOLO", "///////////////////////////////////////////////////////")
                             if (response.isSuccessful) {
+                                // (VALID ACCESS TOKEN) or (INVALID ACCESS TOKEN && VALID REFRESH TOKEN)
+                                Log.d("YOLO", "LOGOUT REQUEST SUCCESS")
                                 removeSession()
                                 emitter.onNext(true)
-                                Log.d("YOLO", "MESSAGE: HERE")
                             } else {
-                                removeSession()
+                                // (INVALID REFRESH TOKEN)
+                                Log.d("YOLO", "LOGOUT REQUEST FAILURE")
                                 var errorResponseBody = response?.errorBody()
                                 val gson = Gson()
                                 var logOutFailureResponse = gson.fromJson<LogOutFailureResponse>(errorResponseBody?.string()!!, LogOutFailureResponse::class.java)
-
-                                Log.d("YOLO", "FAILURE")
-                                Log.d("YOLO", "MESSAGE: ${logOutFailureResponse?.message}")
+                                Log.d("YOLO", "MESSAGE: ${logOutFailureResponse?.errorMessage}")
                                 Log.d("YOLO", "CODE: ${logOutFailureResponse?.code}")
                                 when (logOutFailureResponse?.code) {
-                                    -1 -> {
-                                        Log.d("YOLO", "No Authorization Header")
-                                    }
-                                    -2 -> {
-                                        Log.d(
-                                            "YOLO",
-                                            "Authorization Header must starts with Bearer."
-                                        )
-                                    }
-                                    -3 -> {
-                                        Log.d("YOLO", "Invalid Access Token")
-                                    }
-                                    -4 -> {
-                                        Log.d("YOLO", "Expired Access Token")
-                                        // Reissue AccessToken
-                                    }
-                                    -5 -> {
-                                        Log.d("YOLO", "Invalid Access Token. User doesn't exist.")
-                                    }
-                                    -6 -> {
-                                        Log.d("YOLO", "Access token has already been logged out.")
-                                    }
-                                    -7 -> {
-                                        Log.d("YOLO", "Old Access Token")
-                                    }
-                                    else -> {
-                                        Log.d("YOLO", "Unknown Error")
-                                    }
+//                                    -1 -> { Log.d("YOLO", "Access Token Error / No Authorization Header") }
+//                                    -2 -> { Log.d("YOLO", "Access Token Error / Authorization Header doesn't start with Bearer") }
+//                                    -3 -> { Log.d("YOLO", "Access Token Error / Invalid Access Token") }
+//                                    -4 -> { Log.d("YOLO", "Access Token Error / Access Token has expired") }
+//                                    -5 -> { Log.d("YOLO", "Access Token Error / Invalid Access Token. User does not exists") }
+//                                    -6 -> { Log.d("YOLO", "Access Token Error / Invalid Access Token. User already has logged out") }
+//                                    -7 -> { Log.d("YOLO", "Access Token Error / Invalid Access Token. Old Access Token") }
+                                    -11 -> { Log.d("YOLO", "Refresh Token Error / No Refresh Token in request body") }
+                                    -12 -> { Log.d("YOLO", "Refresh Token Error / Invalid Refresh Token") }
+                                    -13 -> { Log.d("YOLO", "Refresh Token Error / Refresh Token has expired") }
+                                    -14 -> { Log.d("YOLO", "Refresh Token Error / Invalid Refresh Token. User does not exists") }
+                                    -15 -> { Log.d("YOLO", "Refresh Token Error / Invalid Refresh Token. User already has logged out") }
+                                    -16 -> { Log.d("YOLO", "Refresh Token Error / Invalid Refresh Token. Old Refresh Token") }
+                                    else -> { Log.d("YOLO", "Unknown Error") }
                                 }
                             }
-                            emitter.onNext(false)
+                            // emitter.onNext(false)
                         }
 
                         override fun onFailure(call: Call<LogOutResponse>, t: Throwable) {
@@ -188,28 +170,6 @@ constructor(
         }
     }
 
-    override fun getAccessToken(): String? = _session?.tokens?.accessToken
-    override fun getRefreshToken(): String? = _session?.tokens?.refreshToken
-
-
-    private fun setSession(session: Session) {
-        _session = session
-        sessionStorage.setSession(session)
-    }
-
-    override fun removeSession() {
-        sessionStorage.removeSession()
-        _session = null
-        sessionState.onNext(false)
-        // sessionState.onNext(null)
-    }
-
-    override fun updateToken(tokens: Tokens) {
-        var session = Session(
-            email = _session?.email!!,
-            profile = _session?.profile!!,
-            tokens = tokens
-        )
-        setSession(session)
-    }
+    private fun setSession(session: Session) = sessionStorage.setSession(session)
+    override fun removeSession() = sessionStorage.removeSession()
 }

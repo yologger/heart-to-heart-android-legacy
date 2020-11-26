@@ -2,7 +2,6 @@ package com.example.heart_to_heart.infrastructure.localDB
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.heart_to_heart.data.model.Session
 import com.example.heart_to_heart.data.model.Tokens
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
@@ -18,61 +17,52 @@ constructor(
 
     private val prefs: SharedPreferences =
         context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+    private var _session: Session? = null
+    private var sessionState: BehaviorSubject<Boolean>
+
+    init {
+        loadSession()
+        sessionState = if (_session == null) {
+            BehaviorSubject.createDefault<Boolean>(false)
+        } else {
+            BehaviorSubject.createDefault<Boolean>(true)
+        }
+    }
+
+    private fun loadSession() {
+        val json = prefs.getString("session_key", null).toString()
+        val gson = Gson()
+        _session = gson.fromJson(json, Session::class.java)
+    }
+
+    override fun getSessionState(): Observable<Boolean> = sessionState.cast()
 
     override fun setSession(session: Session) {
+        _session = session
         val gson = Gson()
         val json = gson.toJson(session)
         prefs.edit().putString("session_key", json).apply()
     }
 
-    override fun getSession(): Session? {
-        val json = prefs.getString("session_key", null).toString()
-        val gson = Gson()
-        return gson.fromJson(json, Session::class.java)
-    }
-
     override fun removeSession() {
         prefs.edit().remove("session_key").apply()
+        _session = null
+        sessionState.onNext(false)
     }
 
-
-
-    override fun saveToken(tokens: Tokens) {
+    override fun updateTokens(tokens: Tokens) {
+        var session = Session(
+            email = _session?.email!!,
+            profile = _session?.profile!!,
+            tokens = tokens
+        )
         val gson = Gson()
-        val json = gson.toJson(tokens)
-        prefs.edit().putString("tokens", json).apply()
+        val json = gson.toJson(session)
+        prefs.edit().putString("session_key", json).apply()
+        _session = session
     }
 
-    override fun getTokens(): Tokens? {
-        val json = prefs.getString("tokens", null).toString()
-        val gson = Gson()
-        val value = gson.fromJson<Tokens>(json, Tokens::class.java)
-        return value
-    }
-
-
-    override fun printToken() {
-        var name = get("name", "ronaldo")
-        Log.d("YOLO", "name: ${name}")
-    }
-
-    private fun <T> set(key: String, value: T) {
-        val gson = Gson()
-        val json = gson.toJson(value)
-        prefs.edit().putString(key, json).apply()
-    }
-
-    private fun get(key: String, defaultValue: String) {
-        val json = prefs.getString(key, defaultValue).toString()
-        val gson = Gson()
-        val value = gson.fromJson<Session>(json, Session::class.java)
-    }
-
-    private fun remove(key: String) {
-        prefs.edit().remove(key).apply()
-    }
-
-    private fun clearAll() {
-        prefs.edit().clear().apply()
-    }
+    override fun getAccessToken(): String? = _session?.tokens?.accessToken
+    override fun getRefreshToken(): String? = _session?.tokens?.refreshToken
+    override fun getSession(): Session? = _session
 }

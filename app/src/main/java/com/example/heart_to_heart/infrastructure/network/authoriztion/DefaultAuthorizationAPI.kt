@@ -15,12 +15,11 @@ import java.util.concurrent.TimeUnit
 
 class DefaultAuthorizationAPI
 constructor(
+    private val authInterceptor: AuthInterceptor
 ) : AuthorizationAPI {
 
     override fun getSignUpService(): SignUpService {
         var okHttpClient = OkHttpClient.Builder()
-            // .addNetworkInterceptor(NetworkIntercepter())
-            // .addInterceptor(AppIntercepter())
             .build()
 
         var retrofit = Retrofit.Builder()
@@ -38,7 +37,6 @@ constructor(
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
-            // .addNetworkInterceptor(NetworkIntercepter())
             .build()
 
         var retrofit = Retrofit.Builder()
@@ -53,8 +51,7 @@ constructor(
 
     override fun getLogOutService(): LogOutService {
         var okHttpClient = OkHttpClient.Builder()
-            // .addNetworkInterceptor(NetworkIntercepter())
-            // .addInterceptor(AppIntercepter())
+            .addInterceptor(authInterceptor)
             .build()
 
         var retrofit = Retrofit.Builder()
