@@ -25,29 +25,42 @@ constructor(
         }
         logInUseCase.email = email.value ?: ""
         logInUseCase.password = password.value ?: ""
-        logInUseCase.execute().subscribe { logInResult ->
-            when (logInResult) {
-                is LogInResult.SUCCESS -> {
-                    routingEvent.setValue(LogInVMRoutingEvent.SHOW_MAIN)
-                }
-                is LogInResult.FAILURE -> {
-                    when (logInResult.error) {
-                        LogInError.NETWORK_CONNECTION_ERROR -> {
-                            routingEvent.setValue(LogInVMRoutingEvent.NETWORK_CONNECTION_ERROR)
-                        }
-                        LogInError.INVALID_EMAIL -> {
-                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_EMAIL_ERROR)
-                        }
-                        LogInError.INVALID_PASSWORD -> {
-                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_PASSWORD_ERROR)
-                        }
-                        LogInError.UNKNOWN_ERROR -> {
-                            routingEvent.setValue(LogInVMRoutingEvent.UNKNOWN_ERROR)
-                        }
-                    }
-                }
+        var disposable = logInUseCase.execute().subscribe(
+            { logInResult: LogInResult ->
+
+            }, {
+
+            }, {
+
+            }, {
+
             }
-        }.apply { disposables.add(this) }
+        )
+
+        disposable.dispose()
+//        logInUseCase.execute().subscribe { logInResult ->
+//            when (logInResult) {
+//                is LogInResult.SUCCESS -> {
+//                    routingEvent.setValue(LogInVMRoutingEvent.SHOW_MAIN)
+//                }
+//                is LogInResult.FAILURE -> {
+//                    when (logInResult.error) {
+//                        LogInError.NETWORK_CONNECTION_ERROR -> {
+//                            routingEvent.setValue(LogInVMRoutingEvent.NETWORK_CONNECTION_ERROR)
+//                        }
+//                        LogInError.INVALID_EMAIL -> {
+//                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_EMAIL_ERROR)
+//                        }
+//                        LogInError.INVALID_PASSWORD -> {
+//                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_PASSWORD_ERROR)
+//                        }
+//                        LogInError.UNKNOWN_ERROR -> {
+//                            routingEvent.setValue(LogInVMRoutingEvent.UNKNOWN_ERROR)
+//                        }
+//                    }
+//                }
+//            }
+//        }.apply { disposables.add(this) }
     }
 
 

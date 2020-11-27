@@ -1,9 +1,11 @@
 package com.example.heart_to_heart.presentation.screen.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.heart_to_heart.R
@@ -25,7 +27,18 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.initBottomNavigationView()
+        initBinding()
+        initUI()
+    }
+
+    private fun initBinding() {
+        viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer {
+
+        })
+    }
+
+    private fun initUI() {
+        initBottomNavigationView()
     }
 
     private fun initBottomNavigationView() {
@@ -33,22 +46,4 @@ class MainFragment : BaseFragment() {
         var navController = navHostFragment?.navController
         fragment_main_bnv.setupWithNavController(navController!!)
     }
-
-//    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-//        when (menuItem.itemId) {
-//            R.id.menu_main_bottom_navigation_home -> {
-//                Log.d("YOLO", "HOME TAB")
-//                return true
-//            }
-//            R.id.menu_main_bottom_navigation_follow -> {
-//                Log.d("YOLO", "FOLLOW TAB")
-//                return true
-//            }
-//            R.id.menu_main_bottom_navigation_profile -> {
-//                Log.d("YOLO", "PROFILE TAB")
-//                return true
-//            }
-//        }
-//        return false
-//    }
 }

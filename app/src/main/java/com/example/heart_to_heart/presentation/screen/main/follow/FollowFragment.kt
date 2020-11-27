@@ -24,6 +24,7 @@ class FollowFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getAllPost()
         initBinding()
         initUI()
     }
@@ -33,8 +34,8 @@ class FollowFragment : BaseFragment() {
     }
 
     fun initUI() {
-        fragment_follow_btn.setOnClickListener {
-            viewModel.getAllPost()
-        }
+//        fragment_follow_btn.setOnClickListener {
+//            viewModel.getAllPost()
+//        }
     }
 }
