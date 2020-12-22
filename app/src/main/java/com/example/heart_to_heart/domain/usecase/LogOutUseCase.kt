@@ -1,9 +1,7 @@
 package com.example.heart_to_heart.domain.usecase
 
-import android.util.Log
 import com.example.heart_to_heart.domain.base.BaseUseCase
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
-import com.example.heart_to_heart.infrastructure.model.LogInResult
 import io.reactivex.Observable
 
 class LogOutUseCase

@@ -6,6 +6,8 @@ interface Router {
     fun closeSignUp()
     fun showMain()
     fun closeMain()
+    fun showCreatePost()
+    fun closeCreatePost()
 //    fun back()
 //    fun navigationUp(): Boolean
 //    fun isInRootScreen(): Boolean

@@ -1,16 +1,10 @@
 package com.example.heart_to_heart.presentation.screen.authorization.signup
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.heart_to_heart.domain.usecase.SignUpUseCase
-import com.example.heart_to_heart.infrastructure.model.SignUpError
-import com.example.heart_to_heart.infrastructure.model.SignUpResponse
-import com.example.heart_to_heart.infrastructure.model.SignUpResult
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.SignUpError
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.SignUpResult
 import com.example.heart_to_heart.presentation.base.BaseViewModel
-import com.example.heart_to_heart.presentation.screen.AppRouter
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
 
 class SignUpViewModel
 constructor(
@@ -78,7 +72,9 @@ constructor(
     }
 
     private fun validateInputs(): Boolean {
-        if (!validateEmail() or !validateFirstName() or !validateLastName() or !validateNickname() or !validatePassword()) { return false }
+        if (!validateEmail() or !validateFirstName() or !validateLastName() or !validateNickname() or !validatePassword()) {
+            return false
+        }
         return true
     }
 

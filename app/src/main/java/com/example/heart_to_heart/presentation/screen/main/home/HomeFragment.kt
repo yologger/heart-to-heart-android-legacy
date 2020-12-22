@@ -1,9 +1,8 @@
 package com.example.heart_to_heart.presentation.screen.main.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -32,7 +31,42 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initUI() {
-        fragment_home_btn_test.setOnClickListener {
+        this.initToolbar()
+        this.initSearchView()
+    }
+
+    private fun initToolbar() {
+        fragment_home_tb.inflateMenu(R.menu.menu_fragment_home)
+        fragment_home_tb.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.menu_fragment_home_action_post -> {
+                    Log.d("YOLO", "button clicked!")
+                    router.showCreatePost()
+                }
+                else -> {
+
+                }
+            }
+            false
+        }
+    }
+
+    private fun initSearchView() {
+
+        fragment_home_sv.setOnClickListener {
+            fragment_home_sv.isIconified = false
+        }
+
+        fragment_home_sv.setOnSearchClickListener {
+            Log.d("YOLO", "setOnSearchClickListener")
+            // fragment_home_btn.visibility = View.INVISIBLE
+        }
+
+        fragment_home_sv.setOnCloseListener {
+            Log.d("YOLO", "setOnCloseListener")
+            // fragment_home_btn.visibility = View.VISIBLE
+            fragment_home_sv.clearFocus()
+            return@setOnCloseListener false
         }
     }
 }

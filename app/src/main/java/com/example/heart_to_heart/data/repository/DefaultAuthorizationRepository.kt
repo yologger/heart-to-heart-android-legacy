@@ -7,7 +7,7 @@ import com.example.heart_to_heart.data.model.Tokens
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
 import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
 import com.example.heart_to_heart.domain.repository.AuthorizationRepository
-import com.example.heart_to_heart.infrastructure.model.*
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.*
 import com.google.gson.Gson
 import io.reactivex.Observable
 import retrofit2.*
@@ -18,11 +18,16 @@ constructor(
     private val sessionStorage: SessionStorage
 ) : AuthorizationRepository {
 
-    override fun getSessionState(): Observable<Boolean> = sessionStorage.getSessionState()
-
     override fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult> {
         var signUpService = authorizationAPI.getSignUpService()
-        val signUpRequest = SignUpRequest(email, firstName, lastName, nickname, password)
+        val signUpRequest =
+            SignUpRequest(
+                email,
+                firstName,
+                lastName,
+                nickname,
+                password
+            )
         return Observable.create<SignUpResult> { emitter ->
             signUpService
                 .signUp(signUpRequest)
@@ -61,7 +66,11 @@ constructor(
     override fun logIn(email: String, password: String): Observable<LogInResult> {
 
         var logInService = authorizationAPI.getLogInService()
-        val logInRequest = LogInRequest(email, password)
+        val logInRequest =
+            LogInRequest(
+                email,
+                password
+            )
 
         return Observable.create<LogInResult> { emitter ->
             logInService.logIn(logInRequest).enqueue(object : Callback<LogInResponse> {
@@ -81,18 +90,14 @@ constructor(
                         var profile = Profile(email, nickname, userId)
                         var session = Session(email, profile, tokens)
                         setSession(session)
-
                         emitter.onNext(LogInResult.SUCCESS)
                     } else {
                         val errorResponseBody = response?.errorBody()
-                        var gson = Gson()
-                        var logInFailureResponse = gson.fromJson<LogInFailureResponse>(
+                        val gson = Gson()
+                        val logInFailureResponse = gson.fromJson<LogInFailureResponse>(
                             errorResponseBody?.string()!!,
                             LogInFailureResponse::class.java
                         )
-                        Log.d("YOLO", "CODE: ${logInFailureResponse.code}")
-                        Log.d("YOLO", "MESSAGE: ${logInFailureResponse.errorMessage}")
-
                         when (logInFailureResponse.code) {
                             -1 -> {
                                 emitter.onNext(LogInResult.FAILURE(LogInError.INVALID_EMAIL))
@@ -170,6 +175,7 @@ constructor(
         }
     }
 
+    override fun getSessionState(): Observable<Boolean> = sessionStorage.getSessionState()
     private fun setSession(session: Session) = sessionStorage.setSession(session)
     override fun removeSession() = sessionStorage.removeSession()
 }

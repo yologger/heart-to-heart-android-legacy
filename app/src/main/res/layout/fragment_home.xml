@@ -17,18 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <Button
-        android:id="@+id/fragment_home_btn_test"
-        android:layout_width="wrap_content"
+    <SearchView
+        android:id="@+id/fragment_home_sv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:background="@drawable/background_search_view"
+        android:queryHint="검색어를 입력해주세요."
+        android:layoutDirection="rtl"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_home_tb"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_home_tb" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,11 +18,11 @@ constructor(
     private val prefs: SharedPreferences =
         context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
     private var _session: Session? = null
-    private var sessionState: BehaviorSubject<Boolean>
+    private var _sessionState: BehaviorSubject<Boolean>
 
     init {
         loadSession()
-        sessionState = if (_session == null) {
+        _sessionState = if (_session == null) {
             BehaviorSubject.createDefault<Boolean>(false)
         } else {
             BehaviorSubject.createDefault<Boolean>(true)
@@ -35,31 +35,31 @@ constructor(
         _session = gson.fromJson(json, Session::class.java)
     }
 
-    override fun getSessionState(): Observable<Boolean> = sessionState.cast()
+    override fun getSessionState(): Observable<Boolean> = _sessionState.cast()
 
     override fun setSession(session: Session) {
-        _session = session
         val gson = Gson()
         val json = gson.toJson(session)
         prefs.edit().putString("session_key", json).apply()
+        _session = session
     }
 
     override fun removeSession() {
         prefs.edit().remove("session_key").apply()
         _session = null
-        sessionState.onNext(false)
+        _sessionState.onNext(false)
     }
 
     override fun updateTokens(tokens: Tokens) {
-        var session = Session(
+        var newSession = Session(
             email = _session?.email!!,
             profile = _session?.profile!!,
             tokens = tokens
         )
         val gson = Gson()
-        val json = gson.toJson(session)
+        val json = gson.toJson(newSession)
         prefs.edit().putString("session_key", json).apply()
-        _session = session
+        _session = newSession
     }
 
     override fun getAccessToken(): String? = _session?.tokens?.accessToken

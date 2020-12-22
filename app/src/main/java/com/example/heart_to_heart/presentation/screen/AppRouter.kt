@@ -36,4 +36,12 @@ constructor(
     override fun closeMain() {
         navController.popBackStack()
     }
+
+    override fun showCreatePost() {
+        navController.navigate(R.id.action_mainFragment_to_createPostFragment)
+    }
+
+    override fun closeCreatePost() {
+        navController.popBackStack()
+    }
 }

@@ -8,7 +8,6 @@ import io.reactivex.schedulers.Schedulers
 
 class AsyncTransformer<T> : ObservableTransformer<T, T> {
     override fun apply(upstream: Observable<T>): ObservableSource<T> {
-        return upstream
-//        return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 }

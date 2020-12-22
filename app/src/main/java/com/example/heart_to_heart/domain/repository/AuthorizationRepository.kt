@@ -1,7 +1,7 @@
 package com.example.heart_to_heart.domain.repository
 
-import com.example.heart_to_heart.infrastructure.model.LogInResult
-import com.example.heart_to_heart.infrastructure.model.SignUpResult
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.LogInResult
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.SignUpResult
 import io.reactivex.Observable
 
 interface AuthorizationRepository {

@@ -1,12 +1,12 @@
 package com.example.heart_to_heart.domain.usecase
 
-import com.example.heart_to_heart.domain.repository.PostsRepository
+import com.example.heart_to_heart.domain.repository.PostRepository
 
 class GetAllPostsUseCase
 constructor(
-    private var postsRepository: PostsRepository
+    private var postRepository: PostRepository
 )  {
     fun execute() {
-        postsRepository.getAllPosts()
+        postRepository.getAllPosts()
     }
 }

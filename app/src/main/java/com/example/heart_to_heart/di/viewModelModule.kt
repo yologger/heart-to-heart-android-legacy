@@ -6,6 +6,7 @@ import com.example.heart_to_heart.presentation.screen.authorization.signup.SignU
 import com.example.heart_to_heart.presentation.screen.main.MainViewModel
 import com.example.heart_to_heart.presentation.screen.main.follow.FollowViewModel
 import com.example.heart_to_heart.presentation.screen.main.home.HomeViewModel
+import com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostViewModel
 import com.example.heart_to_heart.presentation.screen.main.profile.ProfileViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -18,4 +19,5 @@ var viewModelModule = module {
     viewModel { HomeViewModel() }
     viewModel { FollowViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { CreatePostViewModel(get()) }
 }

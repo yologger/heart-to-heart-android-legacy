@@ -1,9 +1,10 @@
 package com.example.heart_to_heart.presentation.screen.authorization.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.heart_to_heart.domain.usecase.LogInUseCase
-import com.example.heart_to_heart.infrastructure.model.LogInError
-import com.example.heart_to_heart.infrastructure.model.LogInResult
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.LogInError
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.LogInResult
 import com.example.heart_to_heart.presentation.base.BaseViewModel
 
 class LogInViewModel
@@ -25,42 +26,37 @@ constructor(
         }
         logInUseCase.email = email.value ?: ""
         logInUseCase.password = password.value ?: ""
-        var disposable = logInUseCase.execute().subscribe(
+        logInUseCase.execute().subscribe(
             { logInResult: LogInResult ->
-
+                when (logInResult) {
+                    is LogInResult.SUCCESS -> {
+                        routingEvent.value = LogInVMRoutingEvent.SHOW_MAIN
+                    }
+                    is LogInResult.FAILURE -> {
+                        when (logInResult.error) {
+                            LogInError.INVALID_EMAIL -> {
+                                routingEvent.value = LogInVMRoutingEvent.INVALID_EMAIL_ERROR
+                            }
+                            LogInError.INVALID_PASSWORD -> {
+                                routingEvent.value = LogInVMRoutingEvent.INVALID_PASSWORD_ERROR
+                            }
+                            LogInError.NETWORK_CONNECTION_ERROR -> {
+                                routingEvent.value = LogInVMRoutingEvent.NETWORK_CONNECTION_ERROR
+                            }
+                            LogInError.UNKNOWN_ERROR -> {
+                                routingEvent.value = LogInVMRoutingEvent.UNKNOWN_ERROR
+                            }
+                        }
+                    }
+                }
             }, {
-
+                routingEvent.value = LogInVMRoutingEvent.UNKNOWN_ERROR
             }, {
 
             }, {
 
             }
-        )
-
-        disposable.dispose()
-//        logInUseCase.execute().subscribe { logInResult ->
-//            when (logInResult) {
-//                is LogInResult.SUCCESS -> {
-//                    routingEvent.setValue(LogInVMRoutingEvent.SHOW_MAIN)
-//                }
-//                is LogInResult.FAILURE -> {
-//                    when (logInResult.error) {
-//                        LogInError.NETWORK_CONNECTION_ERROR -> {
-//                            routingEvent.setValue(LogInVMRoutingEvent.NETWORK_CONNECTION_ERROR)
-//                        }
-//                        LogInError.INVALID_EMAIL -> {
-//                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_EMAIL_ERROR)
-//                        }
-//                        LogInError.INVALID_PASSWORD -> {
-//                            routingEvent.setValue(LogInVMRoutingEvent.INVALID_PASSWORD_ERROR)
-//                        }
-//                        LogInError.UNKNOWN_ERROR -> {
-//                            routingEvent.setValue(LogInVMRoutingEvent.UNKNOWN_ERROR)
-//                        }
-//                    }
-//                }
-//            }
-//        }.apply { disposables.add(this) }
+        ).apply { disposables.add(this) }
     }
 
 
