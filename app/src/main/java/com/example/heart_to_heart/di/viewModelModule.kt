@@ -5,6 +5,8 @@ import com.example.heart_to_heart.presentation.screen.authorization.login.LogInV
 import com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpViewModel
 import com.example.heart_to_heart.presentation.screen.main.MainViewModel
 import com.example.heart_to_heart.presentation.screen.main.follow.FollowViewModel
+import com.example.heart_to_heart.presentation.screen.main.follow.follower.FollowerViewModel
+import com.example.heart_to_heart.presentation.screen.main.follow.following.FollowingViewModel
 import com.example.heart_to_heart.presentation.screen.main.home.HomeViewModel
 import com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostViewModel
 import com.example.heart_to_heart.presentation.screen.main.profile.ProfileViewModel
@@ -20,4 +22,6 @@ var viewModelModule = module {
     viewModel { FollowViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
     viewModel { CreatePostViewModel(get()) }
+    viewModel { FollowingViewModel() }
+    viewModel { FollowerViewModel() }
 }

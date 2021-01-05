@@ -51,11 +51,12 @@
                 tools:layout_editor_absoluteY="72dp" />
         </LinearLayout>
 
-        <Button
+        <ToggleButton
             android:id="@+id/fragment_home_item_post_btn_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FOLLOW"
+            android:textOn="FOLLOW"
+            android:textOff="FOLLOWING"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

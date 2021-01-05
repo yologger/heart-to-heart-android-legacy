@@ -38,7 +38,6 @@ import java.time.format.DateTimeFormatter
 class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by viewModel()
-
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var toolbar: Toolbar

@@ -4,38 +4,68 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_follow.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.heart_to_heart.presentation.screen.main.follow.follower.FollowerFragment
+import com.example.heart_to_heart.presentation.screen.main.follow.following.FollowingFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FollowFragment : BaseFragment() {
 
     private val viewModel: FollowViewModel by viewModel()
 
+    lateinit var viewPager2: ViewPager2
+    lateinit var tabLayout: TabLayout
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_follow, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_follow, container, false)
+        viewPager2 = rootView.findViewById(R.id.fragment_follow_vp)
+        tabLayout = rootView.findViewById(R.id.fragment_follow_tl)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllPost()
-        initBinding()
         initUI()
+        initBinding()
+    }
+    private val tabTextList = arrayListOf("FOLLOWING", "FOLLOWER")
+
+
+    private fun initUI() {
+        viewPager2.adapter = ViewPagerAdapter(requireActivity())
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+            tab.text = tabTextList[position]
+        }.attach()
     }
 
-    fun initBinding() {
+    private fun initBinding() {
 
     }
 
-    fun initUI() {
-//        fragment_follow_btn.setOnClickListener {
-//            viewModel.getAllPost()
-//        }
+
+    inner class ViewPagerAdapter
+    constructor(
+        fragmentActivity: FragmentActivity
+    ) : FragmentStateAdapter(fragmentActivity) {
+        override fun getItemCount(): Int = 2
+
+        override fun createFragment(position: Int): Fragment {
+            return when(position) {
+                0 -> FollowingFragment()
+                else -> FollowerFragment()
+            }
+        }
+
     }
 }
