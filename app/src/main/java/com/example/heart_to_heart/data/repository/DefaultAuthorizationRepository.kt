@@ -19,15 +19,9 @@ constructor(
 ) : AuthorizationRepository {
 
     override fun signUp(email: String, firstName: String, lastName: String, nickname: String, password: String): Observable<SignUpResult> {
-        var signUpService = authorizationAPI.getSignUpService()
-        val signUpRequest =
-            SignUpRequest(
-                email,
-                firstName,
-                lastName,
-                nickname,
-                password
-            )
+        val signUpRequest = SignUpRequest(email, firstName, lastName, nickname, password)
+        val signUpService = authorizationAPI.getSignUpService()
+
         return Observable.create<SignUpResult> { emitter ->
             signUpService
                 .signUp(signUpRequest)
@@ -65,12 +59,8 @@ constructor(
 
     override fun logIn(email: String, password: String): Observable<LogInResult> {
 
-        var logInService = authorizationAPI.getLogInService()
-        val logInRequest =
-            LogInRequest(
-                email,
-                password
-            )
+        val logInService = authorizationAPI.getLogInService()
+        val logInRequest = LogInRequest(email, password)
 
         return Observable.create<LogInResult> { emitter ->
             logInService.logIn(logInRequest).enqueue(object : Callback<LogInResponse> {

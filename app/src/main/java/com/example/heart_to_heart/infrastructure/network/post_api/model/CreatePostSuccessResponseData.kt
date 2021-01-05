@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class CreatePostSuccessResponseData
 constructor(
-    @SerializedName("images") val images: List<String>
+    @SerializedName("image_urls") val imageUrls: List<String>
 )

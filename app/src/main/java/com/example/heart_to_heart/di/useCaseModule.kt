@@ -8,6 +8,8 @@ var useCaseModule = module {
     factory { GetSessionUseCase(get()) }
     factory { LogInUseCase(get()) }
     factory { LogOutUseCase(get()) }
-    factory { GetAllPostsUseCase(get()) }
+    factory { GetPostsUseCase(get()) }
     factory { CreatePostUseCase(get()) }
+    factory { GetUserInfoUseCase(get()) }
+    factory { UploadAvatarImageUseCase(get()) }
 }

@@ -19,16 +19,12 @@ constructor(
         var accessToken = sessionStorage.getAccessToken()!!
         var response = chain.proceed(requestWithAccessToken(chain.request(), accessToken))
 
-        Log.d("YOLO", "///////////////////////////////////////////////////////")
         if (response.isSuccessful) {
-            Log.d("YOLO", "VALID ACCESS TOKEN / ORIGINAL REQUEST SUCCEED")
             return response
         } else {
-            Log.d("YOLO", "INVALID ACCESS TOKEN / ORIGINAL REQUEST FAIL")
             var refreshToken = sessionStorage.getRefreshToken()!!
             var refreshTokenResponse = refreshTokens(refreshToken)
             return if (refreshTokenResponse.isSuccessful) {
-                Log.d("YOLO", "VALID REFRESH TOKEN / REFRESHING ACCESS TOKEN REQUEST SUCCEED.")
                 response?.close()
                 refreshTokenResponse?.close()
                 var newAccessToken = sessionStorage.getAccessToken()!!
@@ -37,7 +33,6 @@ constructor(
                 var retryResponse = chain.proceed(requestWithAccessToken(chain.request(), newAccessToken))
                 retryResponse
             } else {
-                Log.d("YOLO", "INVALID REFRESH TOKEN / REFRESHING ACCESS TOKEN REQUEST FAIL.")
                 response?.close()
                 refreshTokenResponse
             }

@@ -1,20 +1,23 @@
-package com.example.heart_to_heart.infrastructure.network.post_api
+package com.example.heart_to_heart.infrastructure.network.user_api
 
-import com.example.heart_to_heart.data.repository.dataSource.remote.PostsAPI
+import com.example.heart_to_heart.data.repository.dataSource.remote.base.UserAPI
 import com.example.heart_to_heart.infrastructure.network.interceptor.AuthInterceptor
-import com.example.heart_to_heart.infrastructure.network.post_api.service.PostService
-import okhttp3.*
+import com.example.heart_to_heart.infrastructure.network.user_api.service.UserService
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val BASE_URL = "http://10.0.2.2:8000"
 
-class DefaultPostsAPI
-constructor(
-    private val authInterceptor: AuthInterceptor
-) : PostsAPI {
+class DefaultUserAPI: UserAPI {
 
-    override fun getPostsService(): PostService {
+    private val authInterceptor: AuthInterceptor
+
+    constructor(authInterceptor: AuthInterceptor) {
+        this.authInterceptor = authInterceptor
+    }
+
+    override fun getUserService(): UserService {
         val okHttpClient = OkHttpClient.Builder()
             // .addNetworkInterceptor(authInterceptor)
             .addInterceptor(authInterceptor)
@@ -26,7 +29,7 @@ constructor(
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val service = retrofit.create(PostService::class.java)
+        val service = retrofit.create(UserService::class.java)
         return service
     }
 }

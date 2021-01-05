@@ -3,18 +3,15 @@ package com.example.heart_to_heart.presentation.screen.main.home.create_post
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,17 +20,12 @@ import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentCreatePostBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import gun0912.tedimagepicker.builder.TedImagePicker
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_create_post.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.concurrent.TimeUnit
 
 class CreatePostFragment : BaseFragment() {
 
     private val viewModel: CreatePostViewModel by viewModel()
+
     private lateinit var binding: FragmentCreatePostBinding
 
     private lateinit var toolbar: Toolbar
@@ -130,7 +122,7 @@ class CreatePostFragment : BaseFragment() {
 
         inner class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(uri: Uri) {
-                val imageView = itemView.findViewById<ImageView>(R.id.item_fragment_create_post_image_with_clear_button_img)
+                val imageView = itemView.findViewById<ImageView>(R.id.fragment_create_post_item_image_iv)
                 Glide.with(fragment)
                     .load(uri)
                     .into(imageView)
@@ -139,7 +131,7 @@ class CreatePostFragment : BaseFragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_fragment_create_post_image_with_clear_button, parent, false)
+                .inflate(R.layout.fragment_create_post_item_image, parent, false)
             return RecyclerViewHolder(view)
         }
 

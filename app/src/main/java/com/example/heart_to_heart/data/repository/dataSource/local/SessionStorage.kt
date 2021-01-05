@@ -13,4 +13,5 @@ interface SessionStorage: LocalDataSource {
     fun getAccessToken(): String?
     fun getRefreshToken(): String?
     fun getSession(): Session?
+    fun getUserId(): String?
 }

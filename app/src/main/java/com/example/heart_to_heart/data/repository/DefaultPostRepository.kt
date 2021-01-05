@@ -1,13 +1,10 @@
 package com.example.heart_to_heart.data.repository
 
 import android.net.Uri
-import android.util.Log
+import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
 import com.example.heart_to_heart.data.repository.dataSource.remote.PostsAPI
 import com.example.heart_to_heart.domain.repository.PostRepository
-import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostError
-import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostFailureResponse
-import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostResult
-import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostSuccessResponse
+import com.example.heart_to_heart.infrastructure.network.post_api.model.*
 import com.google.gson.Gson
 import io.reactivex.Observable
 import okhttp3.MediaType
@@ -19,14 +16,47 @@ import java.io.File
 
 class DefaultPostRepository
 constructor(
-    private val postsAPI: PostsAPI
+    private val postAPI: PostsAPI,
+    private val sessionStorage: SessionStorage
 ) : PostRepository {
 
-    override fun getAllPosts() {
+    override fun getPosts(page: Int, size: Int): Observable<GetAllPostsResult> {
+        return Observable.create<GetAllPostsResult> { emitter ->
+            val postService = postAPI.getPostsService()
+            postService.getPosts(page, size).enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    val gson = Gson()
+                    if(response.isSuccessful) {
+                        val successResponse = gson.fromJson<GetAllPostsSuccessResponse>(
+                            response.body()?.string()!!,
+                            GetAllPostsSuccessResponse::class.java
+                        )
+                        emitter.onNext(GetAllPostsResult.SUCCESS(GetAllPostsResultData(successResponse.data.posts)))
+                    } else {
+                        val failureResponse = gson.fromJson<GetAllPostsFailureResponse>(
+                            response.errorBody()?.string()!!,
+                            GetAllPostsFailureResponse::class.java
+                        )
+                        emitter.onNext(GetAllPostsResult.FAILURE(GetAllPostsError.UNKNOWN_ERROR))
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
+                }
+            })
+        }
     }
 
     override fun createPost(content: String, uris: MutableList<Uri>): Observable<CreatePostResult> {
+
+        if (sessionStorage.getUserId() == null) {
+            return Observable.create<CreatePostResult> { emitter
+                -> emitter.onNext(CreatePostResult.FAILURE(CreatePostError.NO_LOG_IN))
+            }
+        }
+
+        val userId = sessionStorage.getUserId()!!
+
         return Observable.create<CreatePostResult> { emitter ->
 
             var bodies = uris.map {
@@ -37,13 +67,11 @@ constructor(
             }
 
             val contentBody = RequestBody.create(MediaType.parse("multipart/form-data"), content)
+            var userIdBody = RequestBody.create(MediaType.parse("multipart/form-data"), userId)
 
-            val postsService = postsAPI.getPostsService()
-            postsService.post(bodies, contentBody).enqueue(object: Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
+            val postService = postAPI.getPostsService()
+            postService.createPost(bodies, contentBody, userIdBody).enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val gson = Gson()
                     if(response.isSuccessful) {
                         val createPostSuccessResponse = gson.fromJson<CreatePostSuccessResponse>(

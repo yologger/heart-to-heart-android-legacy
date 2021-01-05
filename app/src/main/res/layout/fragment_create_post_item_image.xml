@@ -7,7 +7,7 @@
     android:layout_height="100dp">
 
     <ImageView
-        android:id="@+id/item_fragment_create_post_image_with_clear_button_img"
+        android:id="@+id/fragment_create_post_item_image_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -15,7 +15,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ImageButton
-        android:id="@+id/item_fragment_create_post_image_with_clear_button_btn"
+        android:id="@+id/fragment_create_post_item_image_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_baseline_cancel_24"

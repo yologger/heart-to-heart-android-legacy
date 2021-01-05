@@ -15,8 +15,7 @@ constructor(
     private val context: Context
 ) : SessionStorage {
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
     private var _session: Session? = null
     private var _sessionState: BehaviorSubject<Boolean>
 
@@ -65,4 +64,5 @@ constructor(
     override fun getAccessToken(): String? = _session?.tokens?.accessToken
     override fun getRefreshToken(): String? = _session?.tokens?.refreshToken
     override fun getSession(): Session? = _session
+    override fun getUserId(): String? = _session?.profile?.userId
 }

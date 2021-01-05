@@ -13,15 +13,10 @@ constructor(
     val routingEvent = MutableLiveData<MainVMRoutingEvent>(MainVMRoutingEvent.SHOW_MAIN)
 
     init {
-        Log.d("YOLO", "init{} from MainViewModel")
         validateSession()
     }
 
-    fun test() {
-        Log.d("YOLO", "test() from MainViewModel")
-    }
 
     private fun validateSession() {
-        Log.d("YOLO", "validateSession() from MainViewModel")
     }
 }
