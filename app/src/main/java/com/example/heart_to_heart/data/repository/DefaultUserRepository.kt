@@ -3,7 +3,7 @@ package com.example.heart_to_heart.data.repository
 import android.net.Uri
 import android.util.Log
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
-import com.example.heart_to_heart.data.repository.dataSource.remote.base.UserAPI
+import com.example.heart_to_heart.data.repository.dataSource.remote.UserAPI
 import com.example.heart_to_heart.domain.repository.UserRepository
 import com.example.heart_to_heart.infrastructure.network.user_api.model.*
 import com.google.gson.Gson

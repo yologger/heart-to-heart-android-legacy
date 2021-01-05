@@ -1,8 +1,9 @@
 package com.example.heart_to_heart.data.repository
 
 import android.net.Uri
+import android.util.Log
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
-import com.example.heart_to_heart.data.repository.dataSource.remote.PostsAPI
+import com.example.heart_to_heart.data.repository.dataSource.remote.PostAPI
 import com.example.heart_to_heart.domain.repository.PostRepository
 import com.example.heart_to_heart.infrastructure.network.post_api.model.*
 import com.google.gson.Gson
@@ -16,13 +17,13 @@ import java.io.File
 
 class DefaultPostRepository
 constructor(
-    private val postAPI: PostsAPI,
+    private val postAPI: PostAPI,
     private val sessionStorage: SessionStorage
 ) : PostRepository {
 
     override fun getPosts(page: Int, size: Int): Observable<GetAllPostsResult> {
         return Observable.create<GetAllPostsResult> { emitter ->
-            val postService = postAPI.getPostsService()
+            val postService = postAPI.getPostService()
             postService.getPosts(page, size).enqueue(object: Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val gson = Gson()
@@ -69,7 +70,7 @@ constructor(
             val contentBody = RequestBody.create(MediaType.parse("multipart/form-data"), content)
             var userIdBody = RequestBody.create(MediaType.parse("multipart/form-data"), userId)
 
-            val postService = postAPI.getPostsService()
+            val postService = postAPI.getPostService()
             postService.createPost(bodies, contentBody, userIdBody).enqueue(object: Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val gson = Gson()

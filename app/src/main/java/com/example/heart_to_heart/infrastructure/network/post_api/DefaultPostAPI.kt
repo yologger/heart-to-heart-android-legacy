@@ -1,6 +1,6 @@
 package com.example.heart_to_heart.infrastructure.network.post_api
 
-import com.example.heart_to_heart.data.repository.dataSource.remote.PostsAPI
+import com.example.heart_to_heart.data.repository.dataSource.remote.PostAPI
 import com.example.heart_to_heart.infrastructure.network.interceptor.AuthInterceptor
 import com.example.heart_to_heart.infrastructure.network.post_api.service.PostService
 import okhttp3.*
@@ -12,9 +12,9 @@ const val BASE_URL = "http://10.0.2.2:8000"
 class DefaultPostsAPI
 constructor(
     private val authInterceptor: AuthInterceptor
-) : PostsAPI {
+) : PostAPI {
 
-    override fun getPostsService(): PostService {
+    override fun getPostService(): PostService {
         val okHttpClient = OkHttpClient.Builder()
             // .addNetworkInterceptor(authInterceptor)
             .addInterceptor(authInterceptor)

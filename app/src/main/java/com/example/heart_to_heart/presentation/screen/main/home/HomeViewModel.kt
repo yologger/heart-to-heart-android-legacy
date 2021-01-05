@@ -24,7 +24,6 @@ constructor(
     val postsLiveData: MutableLiveData<MutableList<Post?>> = MutableLiveData(posts)
 
     fun getPosts() {
-        Log.d("YOLO", "getPosts() from ViewModel")
         if (!hasMoreItems) {
             return
         }

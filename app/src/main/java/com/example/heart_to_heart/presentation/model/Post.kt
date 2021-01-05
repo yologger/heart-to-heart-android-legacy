@@ -8,5 +8,6 @@ constructor(
     @SerializedName("content") val content: String,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("userId") val userId: Int,
+    @SerializedName("user") val user: User,
     @SerializedName("postImages") val postImages: List<PostImage>
 )

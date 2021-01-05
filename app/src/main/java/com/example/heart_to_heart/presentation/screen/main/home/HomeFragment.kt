@@ -1,5 +1,6 @@
 package com.example.heart_to_heart.presentation.screen.main.home
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -19,13 +20,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentHomeBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.model.Post
+import com.example.heart_to_heart.presentation.screen.main.profile.BASE_URL
+import com.ouattararomuald.slider.ImageSlider
+import com.ouattararomuald.slider.SliderAdapter
+import com.ouattararomuald.slider.loaders.glide.GlideImageLoaderFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.RuntimeException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HomeFragment : BaseFragment() {
 
@@ -105,7 +113,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        recyclerViewAdapter = RecyclerViewAdapter(viewModel.posts, this)
+        recyclerViewAdapter = RecyclerViewAdapter(viewModel.posts, this, context)
         recyclerView.adapter = recyclerViewAdapter
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -117,7 +125,8 @@ class HomeFragment : BaseFragment() {
     class RecyclerViewAdapter
     constructor(
         private var posts: MutableList<Post?>,
-        private var fragment: HomeFragment
+        private var fragment: HomeFragment,
+        private var context: Context?
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         companion object {
@@ -127,14 +136,33 @@ class HomeFragment : BaseFragment() {
 
         inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-            private var textViewEmail: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_email)
+            private var textViewNickname: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_nickname)
             private var imageViewAvatar: ImageView = itemView.findViewById<ImageView>(R.id.fragment_home_item_post_iv_avatar)
             private var textViewContent: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_content)
-
+            private var textViewCreatedAt: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_created_at)
+            private var imageSlider: ImageSlider = itemView.findViewById(R.id.fragment_home_item_post_is)
 
             fun bind(post: Post) {
                 textViewContent.text = post.content
-                imageViewAvatar.setImageResource(R.drawable.avatar_default)
+                textViewNickname.text = post.user.nickname
+
+                val datetime = LocalDateTime.parse(post.createdAt, DateTimeFormatter.ISO_DATE_TIME)
+                textViewCreatedAt.text = datetime.format(DateTimeFormatter.ISO_DATE)
+
+                if (post.user.avatarUrl == null) {
+                    Glide.with(fragment).load(R.drawable.avatar_default).into(imageViewAvatar)
+                } else {
+                    val url = "$BASE_URL/${post.user.avatarUrl}"
+                    Glide.with(fragment).load(url).into(imageViewAvatar)
+                }
+
+                if (post.postImages.isEmpty()) {
+                    imageSlider.visibility = View.GONE
+                } else {
+                    imageSlider.visibility = View.VISIBLE
+                    val images = post.postImages.map { "$BASE_URL/${it.url}" }
+                    imageSlider.adapter = SliderAdapter(context!!, GlideImageLoaderFactory(), imageUrls = images)
+                }
             }
         }
 
@@ -232,3 +260,4 @@ class HomeFragment : BaseFragment() {
         }
     }
 }
+
