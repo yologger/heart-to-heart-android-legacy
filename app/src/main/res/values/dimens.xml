@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="xm_padding">4dp</dimen>
-    <dimen name="sm_padding">8dp</dimen>
-    <dimen name="md_padding">16dp</dimen>
-    <dimen name="lg_padding">24dp</dimen>
-    <dimen name="xl_padding">32dp</dimen>
+    <dimen name="padding_xs">4dp</dimen>
+    <dimen name="padding_sm">8dp</dimen>
+    <dimen name="padding_md">16dp</dimen>
+    <dimen name="padding_lg">24dp</dimen>
+    <dimen name="padding_xl">32dp</dimen>
 
-    <dimen name="xm_margin">4dp</dimen>
-    <dimen name="sm_margin">8dp</dimen>
-    <dimen name="md_margin">16dp</dimen>
-    <dimen name="lg_margin">24dp</dimen>
-    <dimen name="xl_margin">32dp</dimen>
+    <dimen name="margin_xs">4dp</dimen>
+    <dimen name="margin_sm">8dp</dimen>
+    <dimen name="margin_md">16dp</dimen>
+    <dimen name="margin_lg">24dp</dimen>
+    <dimen name="margin_xl">32dp</dimen>
+
+    <dimen name="radius_xs">4dp</dimen>
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">16dp</dimen>
+    <dimen name="radius_lg">24dp</dimen>
+    <dimen name="radius_xl">32dp</dimen>
 </resources>

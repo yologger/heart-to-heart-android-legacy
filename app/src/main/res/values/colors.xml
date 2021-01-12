@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="color.primary.default">#0F1361</color>
+    <color name="color.primary.dark">#01014D</color>
+    <color name="color.primary.light">#01014D</color>
+    <color name="color.primary.accent">#F91C6B</color>
+
+    <color name="color.secondary.default">#F91C6B</color>
+    <color name="color.secondary.dark">#EC0054</color>
+    <color name="color.secondary.light">#FB4F8D</color>
+    <color name="color.secondary.accent">#00013E</color>
+
+    <color name="color.background.white">#FFFFFF</color>
+    <color name="color.background.lightGrey">#EDEDED</color>
+    <color name="color.background.grey">#999999</color>
+    <color name="color.background.darkGrey">#666666</color>
+    <color name="color.background.black">#000000</color>
+
+    <color name="color.text.black">#000000</color>
+    <color name="color.text.darkGrey">#222222</color>
+    <color name="color.text.white">#FFFFFF</color>
+    <color name="color.text.onPrimary">#FFFFFF</color>
+    <color name="color.text.onSecondary">#FFFFFF</color>
+
+    <color name="color.button.background.primary">#FFFFFF</color>
+    <color name="color.button.background.secondary">#FFFFFF</color>
+    <color name="color.button.text.primary">#FFFFFF</color>
+    <color name="color.button.text.secondary">#FFFFFF</color>
+
 </resources>

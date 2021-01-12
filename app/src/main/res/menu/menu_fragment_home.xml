@@ -4,7 +4,8 @@
 
     <item
         android:id="@+id/menu_fragment_home_action_post"
-        android:title="POST"
-        app:showAsAction="always" />
+        android:icon="@drawable/ic_baseline_create_24"
+        app:showAsAction="always"
+        android:title="POST" />
 
 </menu>

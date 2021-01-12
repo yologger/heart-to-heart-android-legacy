@@ -9,18 +9,18 @@
             type="com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".presentation.screen.main.home.create_post.CreatePostFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/fragment_create_post_tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            android:theme="@style/Custom.Style.ToolBarStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,17 +31,19 @@
             android:id="@+id/fragment_create_post_cl_images"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00FFFF"
-            android:padding="4dp"
+            android:paddingTop="@dimen/margin_sm"
+            android:paddingBottom="@dimen/margin_sm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_create_post_tb">
 
-            <Button
+            <ImageButton
                 android:id="@+id/fragment_create_post_btn_gallery"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="Photo"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_margin="@dimen/margin_md"
+                android:background="@drawable/radius"
+                android:src="@drawable/ic_baseline_photo_camera_grey_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/fragment_create_post_rv"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,25 +52,32 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragment_create_post_rv"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/fragment_create_post_btn_gallery"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color.background.lightGrey"/>
         <EditText
             android:id="@+id/fragment_create_post_ed"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:ems="10"
+            android:padding="@dimen/padding_md"
+            android:background="@android:color/transparent"
             android:gravity="start|top"
+            android:textSize="20sp"
             android:inputType="textMultiLine"
+            android:hint="What's one your mind?"
             android:text="@={viewModel.contentLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_create_post_cl_images" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

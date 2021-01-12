@@ -18,18 +18,20 @@
             android:id="@+id/fragment_log_in_cl_title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/padding_lg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/fragment_log_in_tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LOG IN"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:src="@drawable/brand_image"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -38,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="@dimen/padding_md"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_log_in_cl_title_container">
@@ -46,7 +49,6 @@
                 android:id="@+id/fragment_log_in_til_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 app:errorText="@{viewModel.emailErrorText}"
                 app:errorEnabled="true">
 
@@ -62,7 +64,6 @@
                 android:id="@+id/fragment_log_in_til_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 app:errorText="@{viewModel.passwordErrorText}"
                 app:errorEnabled="true"
                 app:passwordToggleEnabled="true">
@@ -75,47 +76,61 @@
                     android:inputType="textPassword"></com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/fragment_log_in_btn_login"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:onClick="@{() -> viewModel.logIn()}"
-                android:text="LOG IN" />
+                >
 
-            <Button
-                android:id="@+id/fragment_log_in_btn_find_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="Find Password" />
+                <Button
+                    android:id="@+id/fragment_log_in_btn_find_email"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Find Email" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color.background.lightGrey" />
+
+                <Button
+                    android:id="@+id/fragment_log_in_btn_find_password"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="Find Password" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color.background.lightGrey" />
+
+                <Button
+                    android:id="@+id/fragment_log_in_btn_signup"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.signUp()}"
+                    android:background="@android:color/transparent"
+                    android:text="SIGN UP" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/fragment_log_in_btn_login"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{() -> viewModel.logIn()}"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't you have any account?"/>
-
-            <Button
-                android:id="@+id/fragment_log_in_btn_signup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.signUp()}"
-                android:text="GO TO SIGN UP" />
-
-        </LinearLayout>
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/color.secondary.default"
+            android:textColor="@color/color.text.onSecondary"
+            android:text="LOG IN" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

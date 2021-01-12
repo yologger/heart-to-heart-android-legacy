@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -16,6 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentCreatePostBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
@@ -29,7 +33,7 @@ class CreatePostFragment : BaseFragment() {
     private lateinit var binding: FragmentCreatePostBinding
 
     private lateinit var toolbar: Toolbar
-    private lateinit var galleryButton: Button
+    private lateinit var galleryButton: ImageButton
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
@@ -44,7 +48,7 @@ class CreatePostFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_create_post, container, false)
         val rootView = binding.root
         toolbar = rootView.findViewById<Toolbar>(R.id.fragment_create_post_tb)
-        galleryButton = rootView.findViewById<Button>(R.id.fragment_create_post_btn_gallery)
+        galleryButton = rootView.findViewById<ImageButton>(R.id.fragment_create_post_btn_gallery)
         recyclerView = rootView.findViewById<RecyclerView>(R.id.fragment_create_post_rv)
         return rootView
     }
@@ -125,6 +129,7 @@ class CreatePostFragment : BaseFragment() {
                 val imageView = itemView.findViewById<ImageView>(R.id.fragment_create_post_item_image_iv)
                 Glide.with(fragment)
                     .load(uri)
+                    .transform(CenterCrop(), RoundedCorners(16))
                     .into(imageView)
             }
         }

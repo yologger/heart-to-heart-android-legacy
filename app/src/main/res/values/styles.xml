@@ -1,15 +1,32 @@
-<resources>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Custom.Style.ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:background">@color/color.primary.default</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButtonOverflowStyle</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
-    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Custom.Style.BottomNavigationViewStyle" parent="Theme.MaterialComponents.Light.Bridge">
+        <item name="android:background">@color/color.primary.default</item>
     </style>
 
+    <style name="Custom.Style.TextView.Normal" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/color.text.black</item>
+    </style>
+    <style name="Custom.Style.TextView.Bold" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/color.text.black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ActionButtonOverflowStyle">
+
+    </style>
+
+    <style name="DrawerArrowStyle">
+
+    </style>
 </resources>

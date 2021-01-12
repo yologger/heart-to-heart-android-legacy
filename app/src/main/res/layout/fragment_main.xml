@@ -20,11 +20,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/fragment_main_bnv"
+        style="@style/Custom.Style.BottomNavigationViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconTint="@drawable/selector_color_bottom_navigation_item"
+        app:itemTextColor="@drawable/selector_color_bottom_navigation_item"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_main_nvf"
         app:menu="@menu/menu_fragment_main_bottom_navigation" />
 

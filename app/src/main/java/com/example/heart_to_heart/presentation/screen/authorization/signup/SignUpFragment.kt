@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -22,12 +23,16 @@ class SignUpFragment : BaseFragment() {
     private val viewModel: SignUpViewModel by viewModel()
     private lateinit var binding: FragmentSignUpBinding
 
+    private lateinit var toolbar: Toolbar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
-        return binding.root
+        val rootView = binding.root
+        toolbar = rootView.findViewById(R.id.fragment_sign_up_tb)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,5 +78,12 @@ class SignUpFragment : BaseFragment() {
         })
     }
 
-    private fun initUI() {}
+    private fun initUI() {
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_black_24)
+        toolbar.setNavigationOnClickListener { router.closeSignUp() }
+    }
 }

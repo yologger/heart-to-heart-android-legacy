@@ -12,16 +12,16 @@
         android:id="@+id/fragment_home_item_post_cl_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="#99ff99">
+        android:background="@android:color/white"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/fragment_home_item_post_iv_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
+            android:foreground="@drawable/radius_md"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -39,16 +39,13 @@
                 android:id="@+id/fragment_home_item_post_tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="283dp"
-                tools:layout_editor_absoluteY="42dp" />
+                style="@style/Custom.Style.TextView.Bold"
+                android:text="Nickname"/>
             <TextView
                 android:id="@+id/fragment_home_item_post_tv_created_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="283dp"
-                tools:layout_editor_absoluteY="72dp" />
+                android:text="0000-00-00" />
         </LinearLayout>
 
         <ToggleButton
@@ -119,16 +116,16 @@
                 android:layout_marginRight="8dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_baseline_favorite_24"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
+                style="@style/Custom.Style.TextView.Normal"
                 android:text="30"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/Custom.Style.TextView.Normal"
                 android:text="likes"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
