@@ -17,6 +17,8 @@
     <color name="color.background.black">#000000</color>
 
     <color name="color.text.black">#000000</color>
+    <color name="color.text.lightGrey">#EDEDED</color>
+    <color name="color.text.grey">#999999</color>
     <color name="color.text.darkGrey">#222222</color>
     <color name="color.text.white">#FFFFFF</color>
     <color name="color.text.onPrimary">#FFFFFF</color>
@@ -26,5 +28,8 @@
     <color name="color.button.background.secondary">#FFFFFF</color>
     <color name="color.button.text.primary">#FFFFFF</color>
     <color name="color.button.text.secondary">#FFFFFF</color>
+
+    <color name="color.icon.black">#000000</color>
+    <color name="color.icon.white">#FFFFFF</color>
 
 </resources>

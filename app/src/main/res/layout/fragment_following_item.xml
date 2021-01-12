@@ -31,18 +31,9 @@
         android:id="@+id/fragment_following_item_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/Custom.Style.ToggleButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textAllCaps="false"
-        android:background="@drawable/selector_toggle_button"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:paddingTop="@dimen/padding_xs"
-        android:paddingBottom="@dimen/padding_xs"
-        android:paddingStart="@dimen/padding_lg"
-        android:paddingEnd="@dimen/padding_lg"
-        android:textOn="Following"
-        android:textOff="Follow"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

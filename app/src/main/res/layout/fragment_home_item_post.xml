@@ -39,12 +39,14 @@
                 android:id="@+id/fragment_home_item_post_tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Custom.Style.TextView.Bold"
+                style="@style/Custom.Style.TextView.Body1.Bold"
                 android:text="Nickname"/>
             <TextView
                 android:id="@+id/fragment_home_item_post_tv_created_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/Custom.Style.TextView.Body2.Normal"
+                android:textColor="@color/color.text.grey"
                 android:text="0000-00-00" />
         </LinearLayout>
 
@@ -52,8 +54,7 @@
             android:id="@+id/fragment_home_item_post_btn_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOn="FOLLOW"
-            android:textOff="FOLLOWING"
+            style="@style/Custom.Style.ToggleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -62,12 +63,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_home_item_post_cl_content"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="#DBBDFA">
-
+        android:layout_height="wrap_content">
         <TextView
+            android:paddingStart="@dimen/padding_md"
+            android:paddingEnd="@dimen/padding_md"
+            android:paddingBottom="@dimen/padding_md"
             android:id="@+id/fragment_home_item_post_tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,8 +77,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:textAlignment="textStart"
-            android:text="qweqweqweqwejqwlepoqwueoiqwueoiqwueoiueqwoiuqwoieuqwioeuqowieuqowiueoq" />
+            style="@style/Custom.Style.TextView.Body1.Normal"
+            android:text="" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +97,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
+        android:layout_marginLeft="@dimen/radius_md"
+        android:layout_marginRight="@dimen/radius_md"
         android:background="#A0A0A0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,22 +114,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="16dp">
-            <ImageButton
+            <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_baseline_favorite_24"/>
+                android:layout_marginRight="@dimen/margin_xs"
+                style="@style/Custom.Style.ToggleButton.Like"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                style="@style/Custom.Style.TextView.Normal"
+                android:layout_marginRight="@dimen/margin_xs"
+                style="@style/Custom.Style.TextView.Body1.Bold"
                 android:text="30"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Custom.Style.TextView.Normal"
+                style="@style/Custom.Style.TextView.Body1.Normal"
                 android:text="likes"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,6 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.RuntimeException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class HomeFragment : BaseFragment() {
 
@@ -52,7 +53,7 @@ class HomeFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val rootView = binding.root
         toolbar = rootView.findViewById<Toolbar>(R.id.fragment_home_tb)
-        searchView = rootView.findViewById<SearchView>(R.id.fragment_home_sv)
+        // searchView = rootView.findViewById<SearchView>(R.id.fragment_home_sv)
         recyclerView = rootView.findViewById<RecyclerView>(R.id.fragment_home_rv)
         return rootView
     }
@@ -66,7 +67,7 @@ class HomeFragment : BaseFragment() {
 
     private fun initUI() {
         initToolbar()
-        initSearchView()
+        // initSearchView()
         initRecyclerView()
     }
 
@@ -76,7 +77,6 @@ class HomeFragment : BaseFragment() {
         })
 
         viewModel.isLoading.observe(this.viewLifecycleOwner, Observer { isLoading ->
-            Log.d("YOLO", "isLoading from observer: ${isLoading}")
             if (isLoading) {
                 recyclerViewAdapter.showLoadingView()
             } else {
@@ -92,6 +92,9 @@ class HomeFragment : BaseFragment() {
                 R.id.menu_fragment_home_action_post -> {
                     router.showCreatePost()
                 }
+                R.id.menu_fragment_create_post_action_post -> {
+
+                }
                 else -> {
                 }
             }
@@ -99,17 +102,17 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun initSearchView() {
-        searchView.setOnClickListener { fragment_home_sv.isIconified = false }
-        searchView.setOnSearchClickListener {
-            // fragment_home_btn.visibility = View.INVISIBLE
-        }
-        searchView.setOnCloseListener {
-            // fragment_home_btn.visibility = View.VISIBLE
-            fragment_home_sv.clearFocus()
-            return@setOnCloseListener false
-        }
-    }
+//    private fun initSearchView() {
+//        searchView.setOnClickListener { fragment_home_sv.isIconified = false }
+//        searchView.setOnSearchClickListener {
+//            // fragment_home_btn.visibility = View.INVISIBLE
+//        }
+//        searchView.setOnCloseListener {
+//            // fragment_home_btn.visibility = View.VISIBLE
+//            fragment_home_sv.clearFocus()
+//            return@setOnCloseListener false
+//        }
+//    }
 
     private fun initRecyclerView() {
         recyclerViewAdapter = RecyclerViewAdapter(viewModel.posts, this, context)
@@ -146,7 +149,7 @@ class HomeFragment : BaseFragment() {
                 textViewNickname.text = post.user.nickname
 
                 val datetime = LocalDateTime.parse(post.createdAt, DateTimeFormatter.ISO_DATE_TIME)
-                textViewCreatedAt.text = datetime.format(DateTimeFormatter.ISO_DATE)
+                textViewCreatedAt.text = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).format(datetime)
 
                 if (post.user.avatarUrl == null) {
                     Glide.with(fragment).load(R.drawable.avatar_default).into(imageViewAvatar)
@@ -161,6 +164,12 @@ class HomeFragment : BaseFragment() {
                     imageSlider.visibility = View.VISIBLE
                     val images = post.postImages.map { "$BASE_URL/${it.url}" }
                     imageSlider.adapter = SliderAdapter(context!!, GlideImageLoaderFactory(), imageUrls = images)
+                }
+
+                if (post.content.isEmpty()) {
+                    textViewContent.visibility = View.GONE
+                } else {
+                    textViewContent.visibility = View.VISIBLE
                 }
             }
         }

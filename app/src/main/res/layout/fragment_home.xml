@@ -10,42 +10,33 @@
             type="com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context=".presentation.screen.main.home.HomeFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/fragment_home_tb"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Custom.Style.ToolBarStyle"
-            app:layout_constraintBottom_toTopOf="@+id/fragment_home_sv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:fitsSystemWindows="true">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/fragment_home_sv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_search_view"
-            android:layoutDirection="rtl"
-            android:queryHint="검색어를 입력해주세요."
-            app:layout_constraintBottom_toTopOf="@+id/fragment_home_rv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_home_tb" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/fragment_home_tb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Custom.Style.ToolBar"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_home_rv"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="#999999"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_home_sv" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

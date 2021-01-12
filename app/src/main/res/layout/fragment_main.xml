@@ -20,7 +20,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/fragment_main_bnv"
-        style="@style/Custom.Style.BottomNavigationViewStyle"
+        style="@style/Custom.Style.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemIconTint="@drawable/selector_color_bottom_navigation_item"
