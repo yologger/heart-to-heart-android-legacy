@@ -1,7 +1,11 @@
 package com.example.heart_to_heart.presentation.screen
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.Router
@@ -34,5 +38,15 @@ class AppActivity : AppCompatActivity() {
                 else -> { }
             }
         })
+    }
+
+    fun hideKeyboard() {
+        val view = currentFocus
+        if (view == null) {
+            return
+        } else {
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
+            inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
     }
 }

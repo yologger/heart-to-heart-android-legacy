@@ -53,12 +53,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/Custom.Style.TextView.Bold"
+                            style="@style/Custom.Style.TextView.Body1.Bold"
                             android:text="CR7" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/Custom.Style.TextView.Body2.Normal"
+                            android:textColor="@color/color.text.grey"
                             android:text="ronaldo@gmail.com" />
                     </LinearLayout>
 
@@ -82,13 +84,14 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="POST"
+                            android:text="300"
+                            style="@style/Custom.Style.TextView.Headline.Bold"
                             android:textAlignment="center" />
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="300"
+                            android:text="Posts"
+                            style="@style/Custom.Style.TextView.Body1.Normal"
                             android:textAlignment="center" />
                     </LinearLayout>
 
@@ -98,17 +101,17 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:padding="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="FOLLOWER"
-                            android:textAlignment="center" />
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="300"
+                            style="@style/Custom.Style.TextView.Headline.Bold"
+                            android:textAlignment="center" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Custom.Style.TextView.Body1.Normal"
+                            android:text="Followers"
                             android:textAlignment="center" />
                     </LinearLayout>
 
@@ -118,17 +121,17 @@
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:padding="10dp">
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="FOLLOWING"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Custom.Style.TextView.Headline.Bold"
                             android:text="300"
+                            android:textAlignment="center" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Followings"
+                            style="@style/Custom.Style.TextView.Body1.Normal"
                             android:textAlignment="center" />
                     </LinearLayout>
 

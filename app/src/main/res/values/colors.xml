@@ -2,12 +2,12 @@
 <resources>
     <color name="color.primary.default">#0F1361</color>
     <color name="color.primary.dark">#01014D</color>
-    <color name="color.primary.light">#01014D</color>
+    <color name="color.primary.light">#2128AA</color>
     <color name="color.primary.accent">#F91C6B</color>
 
     <color name="color.secondary.default">#F91C6B</color>
     <color name="color.secondary.dark">#EC0054</color>
-    <color name="color.secondary.light">#FB4F8D</color>
+    <color name="color.secondary.light">#FD699E</color>
     <color name="color.secondary.accent">#00013E</color>
 
     <color name="color.background.white">#FFFFFF</color>

@@ -3,14 +3,12 @@ package com.example.heart_to_heart.presentation.screen.main.home.create_post
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -23,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentCreatePostBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
+import com.example.heart_to_heart.presentation.screen.AppActivity
 import gun0912.tedimagepicker.builder.TedImagePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,6 +33,7 @@ class CreatePostFragment : BaseFragment() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var galleryButton: ImageButton
+    private lateinit var editTextContent: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
@@ -48,6 +48,7 @@ class CreatePostFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_create_post, container, false)
         val rootView = binding.root
         toolbar = rootView.findViewById<Toolbar>(R.id.fragment_create_post_tb)
+        editTextContent = rootView.findViewById(R.id.fragment_create_post_ed)
         galleryButton = rootView.findViewById<ImageButton>(R.id.fragment_create_post_btn_gallery)
         recyclerView = rootView.findViewById<RecyclerView>(R.id.fragment_create_post_rv)
         return rootView
@@ -60,24 +61,8 @@ class CreatePostFragment : BaseFragment() {
     }
 
     private fun initUI() {
-        // Initialize Toolbar
-        toolbar.inflateMenu(R.menu.menu_fragment_create_post)
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_close_24)
-        toolbar.setNavigationOnClickListener { router.closeCreatePost() }
-        toolbar.setOnMenuItemClickListener { item ->
-            when (item?.itemId) {
-                R.id.menu_fragment_create_post_action_post -> { post() }
-                else -> { }
-            }
-            true
-        }
-
-        // Initialize RecyclerView
-        recyclerViewAdapter = RecyclerViewAdapter(viewModel.imageUris, this)
-        recyclerView.adapter = recyclerViewAdapter
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        recyclerView.layoutManager = layoutManager
+        initToolbar()
+        initRecyclerView()
     }
 
     private fun initBinding() {
@@ -100,6 +85,7 @@ class CreatePostFragment : BaseFragment() {
             when(event) {
                 null -> { }
                 CreatePostVMRoutingEvent.CLOSE -> {
+                    (activity as AppActivity)?.hideKeyboard()
                     viewModel.routingEvent.setValue(null)
                     router.closeCreatePost()
                 }
@@ -108,10 +94,33 @@ class CreatePostFragment : BaseFragment() {
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
                     viewModel.routingEvent.setValue(null)
-
                 }
             }
         })
+    }
+
+    private fun initToolbar() {
+        toolbar.inflateMenu(R.menu.menu_fragment_create_post)
+        toolbar.setNavigationIcon(R.drawable.icon_close_24_white)
+        toolbar.setNavigationOnClickListener {
+            (activity as AppActivity)?.hideKeyboard()
+            router.closeCreatePost()
+        }
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.menu_fragment_create_post_action_post -> { post() }
+                else -> { }
+            }
+            true
+        }
+    }
+
+    private fun initRecyclerView() {
+        recyclerViewAdapter = RecyclerViewAdapter(viewModel.imageUris, this)
+        recyclerView.adapter = recyclerViewAdapter
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerView.layoutManager = layoutManager
     }
 
     private fun post() {

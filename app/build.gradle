@@ -55,6 +55,7 @@ dependencies {
     // Android Component ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation 'androidx.wear:wear:1.0.0'
 
     // JUnit & Espresso
     testImplementation 'junit:junit:4.12'
@@ -100,6 +101,7 @@ dependencies {
 
     // ImageSlider
     implementation 'com.ouattararomuald:slider-glide:3.0.1'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
 
     // Data Binding
     kapt 'com.android.databinding:compiler:3.1.4'

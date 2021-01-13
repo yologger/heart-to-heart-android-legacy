@@ -87,6 +87,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:textColor="@color/color.text.grey"
+                    android:textAllCaps="false"
                     android:text="Find Email" />
 
                 <View
@@ -100,6 +102,8 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:textColor="@color/color.text.grey"
+                    android:textAllCaps="false"
                     android:text="Find Password" />
 
                 <View
@@ -112,9 +116,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/color.text.grey"
                     android:onClick="@{() -> viewModel.signUp()}"
                     android:background="@android:color/transparent"
-                    android:text="SIGN UP" />
+                    android:textAllCaps="false"
+                    android:text="Sign Up" />
 
             </LinearLayout>
 

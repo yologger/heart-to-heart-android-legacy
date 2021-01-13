@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_xs"
         android:layout_marginRight="@dimen/margin_xs"
-        app:srcCompat="@drawable/ic_baseline_cancel_24"
+        app:srcCompat="@drawable/icon_cancel_24_white"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

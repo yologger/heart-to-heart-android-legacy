@@ -12,6 +12,7 @@ import androidx.lifecycle.*
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentLogInBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
+import com.example.heart_to_heart.presentation.screen.AppActivity
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -47,6 +48,7 @@ class LogInFragment : BaseFragment() {
             when(event) {
                 null -> { }
                 LogInVMRoutingEvent.SHOW_SIGN_UP -> {
+                    (activity as AppActivity)?.hideKeyboard()
                     viewModel.routingEvent.setValue(null)
                     router.showSignUp()
                 }
@@ -72,6 +74,7 @@ class LogInFragment : BaseFragment() {
                     viewModel.routingEvent.setValue(null)
                 }
                 LogInVMRoutingEvent.SHOW_MAIN -> {
+                    (activity as AppActivity)?.hideKeyboard()
                     viewModel.routingEvent.setValue(null)
                     router.showMain()
                 }

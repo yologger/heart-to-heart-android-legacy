@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/ic_home_24dp"
+        android:icon="@drawable/icon_home_24_white"
         android:title="Home" />
     <item
         android:id="@+id/followFragment"
-        android:icon="@drawable/ic_group_24dp"
+        android:icon="@drawable/icon_group_24_white"
         android:title="Follow" />
     <item
         android:id="@+id/profileFragment"
-        android:icon="@drawable/ic_account_circle_24dp"
+        android:icon="@drawable/icon_account_circle_24_white"
         android:title="Profile" />
 </menu>

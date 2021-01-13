@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentSignUpBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
+import com.example.heart_to_heart.presentation.screen.AppActivity
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,6 +49,7 @@ class SignUpFragment : BaseFragment() {
         viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer { event ->
             when (event) {
                 SignUpVMRoutingEvent.CLOSE -> {
+                    (activity as AppActivity)?.hideKeyboard()
                     var toast = Toast.makeText(activity, "SUCCESSFULLY SIGNED UP.", Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
@@ -83,7 +85,10 @@ class SignUpFragment : BaseFragment() {
     }
 
     private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_black_24)
-        toolbar.setNavigationOnClickListener { router.closeSignUp() }
+        toolbar.setNavigationIcon(R.drawable.icon_arrow_back_24_black)
+        toolbar.setNavigationOnClickListener {
+            (activity as AppActivity)?.hideKeyboard()
+            router.closeSignUp()
+        }
     }
 }
