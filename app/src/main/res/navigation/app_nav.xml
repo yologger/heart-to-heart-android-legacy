@@ -17,7 +17,8 @@
         android:id="@+id/signUpFragment"
         android:name="com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up">
+    </fragment>
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.example.heart_to_heart.presentation.screen.authorization.login.LogInFragment"
@@ -30,5 +31,6 @@
         android:id="@+id/createPostFragment"
         android:name="com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostFragment"
         android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post">
+    </fragment>
 </navigation>

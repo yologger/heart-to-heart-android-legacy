@@ -16,25 +16,39 @@ constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        var accessToken = sessionStorage.getAccessToken()!!
-        var response = chain.proceed(requestWithAccessToken(chain.request(), accessToken))
 
-        if (response.isSuccessful) {
-            return response
+        var accessToken = sessionStorage.getAccessToken()
+        if (accessToken == null) {
+            val jsonString = """{"code":-10,"error_message":"No access token"}"""
+            val responseBody = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), jsonString)
+
+            return Response.Builder()
+                .request(chain.request())
+                .protocol(Protocol.HTTP_1_1)
+                .message("No access token")
+                .code(400)
+                .body(responseBody)
+                .build()
         } else {
-            var refreshToken = sessionStorage.getRefreshToken()!!
-            var refreshTokenResponse = refreshTokens(refreshToken)
-            return if (refreshTokenResponse.isSuccessful) {
-                response?.close()
-                refreshTokenResponse?.close()
-                var newAccessToken = sessionStorage.getAccessToken()!!
-
-                // Retry
-                var retryResponse = chain.proceed(requestWithAccessToken(chain.request(), newAccessToken))
-                retryResponse
+            var response = chain.proceed(requestWithAccessToken(chain.request(), accessToken))
+            if (response.isSuccessful) {
+                return response
             } else {
-                response?.close()
-                refreshTokenResponse
+                var refreshToken = sessionStorage.getRefreshToken()!!
+                var refreshTokenResponse = refreshTokens(refreshToken)
+                return if (refreshTokenResponse.isSuccessful) {
+                    response?.close()
+                    refreshTokenResponse?.close()
+                    var newAccessToken = sessionStorage.getAccessToken()!!
+
+                    // Retry
+                    var retryResponse =
+                        chain.proceed(requestWithAccessToken(chain.request(), newAccessToken))
+                    retryResponse
+                } else {
+                    response?.close()
+                    refreshTokenResponse
+                }
             }
         }
     }
@@ -69,7 +83,7 @@ constructor(
             if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                 // Automatically Log out
                 // Go to response.isSuccessful == false in onResponse()
-                 sessionStorage.removeSession()
+                sessionStorage.removeSession()
             }
         }
         return response

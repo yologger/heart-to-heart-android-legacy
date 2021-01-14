@@ -6,7 +6,9 @@ import com.example.heart_to_heart.infrastructure.network.authoriztion_api.servic
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.LogOutService
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.SignUpService
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.token.TokenService
+import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.token.ValidateSessionService
 import com.example.heart_to_heart.infrastructure.network.interceptor.AuthInterceptor
+import com.example.heart_to_heart.infrastructure.network.post_api.service.PostService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -74,6 +76,23 @@ constructor(
             .build()
 
         var service = retrofit.create(TokenService::class.java)
+        return service
+    }
+
+
+    override fun getValidateSessionService(): ValidateSessionService {
+        val okHttpClient = OkHttpClient.Builder()
+            // .addNetworkInterceptor(authInterceptor)
+            .addInterceptor(authInterceptor)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(com.example.heart_to_heart.infrastructure.network.post_api.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(ValidateSessionService::class.java)
         return service
     }
 }

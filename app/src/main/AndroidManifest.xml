@@ -18,7 +18,7 @@
         android:theme="@style/Custom.Theme.AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".presentation.screen.main.SplashActivity"
+            android:name=".presentation.screen.SplashActivity"
             android:theme="@style/Custom.Theme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

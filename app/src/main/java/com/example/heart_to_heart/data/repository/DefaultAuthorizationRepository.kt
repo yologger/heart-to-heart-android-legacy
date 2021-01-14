@@ -10,6 +10,7 @@ import com.example.heart_to_heart.domain.repository.AuthorizationRepository
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.*
 import com.google.gson.Gson
 import io.reactivex.Observable
+import okhttp3.ResponseBody
 import retrofit2.*
 
 class DefaultAuthorizationRepository
@@ -165,7 +166,44 @@ constructor(
         }
     }
 
-    override fun getSessionState(): Observable<Boolean> = sessionStorage.getSessionState()
+    override fun validateSession(): Observable<ValidateSessionResult> {
+        val currentSession = sessionStorage.getSession() ?: return Observable.create { it.onNext(ValidateSessionResult.FAILURE(ValidateSessionError.EXPIRED_ACCESS_TOKEN)) }
+
+        return Observable.create { emitter ->
+            val validateSessionService = authorizationAPI.getValidateSessionService()
+            validateSessionService.validateAccessToken().enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        val gson = Gson()
+                        val successResponse = gson.fromJson<ValidateSessionSuccessResponse>(
+                            response.body()?.string()!!,
+                            ValidateSessionSuccessResponse::class.java
+                        )
+                        emitter.onNext(ValidateSessionResult.SUCCESS)
+                    } else {
+                        val gson = Gson()
+                        val failureResponse = gson.fromJson<ValidateSessionFailureResponse>(
+                            response?.errorBody()?.string()!!,
+                            ValidateSessionFailureResponse::class.java
+                        )
+                        emitter.onNext(ValidateSessionResult.FAILURE(ValidateSessionError.EXPIRED_REFRESH_TOKEN))
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    emitter.onNext(ValidateSessionResult.FAILURE(ValidateSessionError.NETWORK_ERROR))
+                }
+            })
+        }
+    }
+
+    override fun getSessionState(): Observable<Boolean> {
+        return sessionStorage.getSessionState()
+    }
+
     private fun setSession(session: Session) = sessionStorage.setSession(session)
     override fun removeSession() = sessionStorage.removeSession()
 }

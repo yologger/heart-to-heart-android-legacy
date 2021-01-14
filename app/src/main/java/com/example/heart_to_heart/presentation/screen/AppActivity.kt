@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.Router
 import org.koin.android.ext.android.inject
@@ -21,12 +21,24 @@ class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
+        val isLoggedIn = intent.extras?.getBoolean("isLoggedIn")!!
+        initStartDestination(isLoggedIn)
         initBinding()
+    }
+
+    private fun initStartDestination(isLoggedIn: Boolean) {
+        val navHostFragment = (supportFragmentManager.findFragmentById(R.id.activity_app_nhf)) as NavHostFragment
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(R.navigation.app_nav)
+        var destination = if (isLoggedIn) R.id.mainFragment else R.id.logInFragment
+        graph.startDestination = destination
+        navHostFragment.navController.graph = graph
     }
 
     private fun initBinding() {
         viewModel.routingEvent.observe(this, Observer { event ->
             when (event) {
+                null -> { }
                 AppVMRoutingEvent.SHOW_LOGIN -> {
                     router.showLogIn()
                     viewModel.routingEvent.postValue(null)
@@ -35,7 +47,6 @@ class AppActivity : AppCompatActivity() {
                     router.showMain()
                     viewModel.routingEvent.postValue(null)
                 }
-                else -> { }
             }
         })
     }

@@ -4,7 +4,9 @@ import com.example.heart_to_heart.domain.usecase.*
 import org.koin.dsl.module
 
 var useCaseModule = module {
+    factory { ValidateSessionUseCase(get()) }
     factory { SignUpUseCase(get()) }
+    factory { GetInitialSessionUseCase() }
     factory { GetSessionUseCase(get()) }
     factory { LogInUseCase(get()) }
     factory { LogOutUseCase(get()) }

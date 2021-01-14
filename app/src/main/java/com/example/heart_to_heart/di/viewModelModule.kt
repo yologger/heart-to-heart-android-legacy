@@ -1,6 +1,7 @@
 package com.example.heart_to_heart.di
 
 import com.example.heart_to_heart.presentation.screen.AppViewModel
+import com.example.heart_to_heart.presentation.screen.SplashViewModel
 import com.example.heart_to_heart.presentation.screen.authorization.login.LogInViewModel
 import com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpViewModel
 import com.example.heart_to_heart.presentation.screen.main.MainViewModel
@@ -14,6 +15,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 var viewModelModule = module {
+    viewModel { SplashViewModel(get()) }
     viewModel { AppViewModel(get()) }
     viewModel { LogInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }

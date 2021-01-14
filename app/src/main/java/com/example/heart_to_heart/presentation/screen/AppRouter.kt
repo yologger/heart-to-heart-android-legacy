@@ -1,5 +1,6 @@
 package com.example.heart_to_heart.presentation.screen
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
@@ -14,6 +15,8 @@ constructor(
     private val navController: NavController by lazy { Navigation.findNavController(appActivity, R.id.activity_app_nhf) }
 
     override fun showLogIn() {
+        Log.d("YOLO", "showLogIn() from AppRouter")
+        // Set logInFragment as root of the graph
         val options = NavOptions.Builder()
             .setLaunchSingleTop(true)
             .setPopUpTo(R.id.logInFragment, false)
@@ -30,7 +33,14 @@ constructor(
     }
 
     override fun showMain() {
-        navController.navigate(R.id.mainFragment)
+        Log.d("YOLO", "showMain() from AppRouter")
+        // Set logInFragment as root of the graph
+        val options = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setPopUpTo(R.id.mainFragment, false)
+            .build()
+        navController.navigate(R.id.mainFragment, null, options)
+//        navController.navigate(R.id.mainFragment)
     }
 
     override fun closeMain() {
