@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.Router
 
@@ -33,7 +34,6 @@ constructor(
     }
 
     override fun showMain() {
-        Log.d("YOLO", "showMain() from AppRouter")
         // Set logInFragment as root of the graph
         val options = NavOptions.Builder()
             .setLaunchSingleTop(true)

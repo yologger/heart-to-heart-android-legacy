@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,11 +26,15 @@ import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentHomeBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.model.Post
+import com.example.heart_to_heart.presentation.screen.AppViewModel
+import com.example.heart_to_heart.presentation.screen.main.MainViewModel
+import com.example.heart_to_heart.presentation.screen.main.PostViewModel
 import com.example.heart_to_heart.presentation.screen.main.profile.BASE_URL
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.glide.GlideImageLoaderFactory
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.RuntimeException
 import java.time.LocalDateTime
@@ -39,6 +44,8 @@ import java.time.format.FormatStyle
 class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by viewModel()
+    private val postViewModel: PostViewModel by sharedViewModel()
+
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var toolbar: Toolbar
@@ -63,6 +70,19 @@ class HomeFragment : BaseFragment() {
         initUI()
         initBinding()
         viewModel.getPosts()
+        Log.d("YOLO", "onViewCreated() from HomeFragment")
+        postViewModel.test()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
     private fun initUI() {
@@ -87,6 +107,10 @@ class HomeFragment : BaseFragment() {
 
     private fun initToolbar() {
         toolbar.inflateMenu(R.menu.menu_fragment_home)
+        toolbar.setNavigationIcon(R.drawable.icon_refresh_24_white)
+        toolbar.setNavigationOnClickListener {
+            viewModel.refresh()
+        }
         toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
                 R.id.menu_fragment_home_action_post -> {

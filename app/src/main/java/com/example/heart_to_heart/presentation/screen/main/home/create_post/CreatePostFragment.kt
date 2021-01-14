@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,12 +23,17 @@ import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentCreatePostBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.AppActivity
+import com.example.heart_to_heart.presentation.screen.AppViewModel
+import com.example.heart_to_heart.presentation.screen.main.MainViewModel
+import com.example.heart_to_heart.presentation.screen.main.PostViewModel
 import gun0912.tedimagepicker.builder.TedImagePicker
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreatePostFragment : BaseFragment() {
 
     private val viewModel: CreatePostViewModel by viewModel()
+    private val postViewModel: PostViewModel by sharedViewModel()
 
     private lateinit var binding: FragmentCreatePostBinding
 
@@ -58,6 +64,8 @@ class CreatePostFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.initUI()
         this.initBinding()
+        Log.d("YOLO", "onViewCreated() fromm CreatePostFragment")
+        postViewModel.test()
     }
 
     private fun initUI() {

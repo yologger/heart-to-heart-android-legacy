@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
+import androidx.navigation.fragment.findNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentLogInBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment

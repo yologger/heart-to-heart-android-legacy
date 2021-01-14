@@ -24,6 +24,7 @@ class AppActivity : AppCompatActivity() {
         val isLoggedIn = intent.extras?.getBoolean("isLoggedIn")!!
         initStartDestination(isLoggedIn)
         initBinding()
+        viewModel.addValueAndPrintValue()
     }
 
     private fun initStartDestination(isLoggedIn: Boolean) {

@@ -75,17 +75,18 @@ constructor(
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     val gson = Gson()
                     if(response.isSuccessful) {
-                        val createPostSuccessResponse = gson.fromJson<CreatePostSuccessResponse>(
+                        val successResponse = gson.fromJson<CreatePostSuccessResponse>(
                             response.body()?.string()!!,
                             CreatePostSuccessResponse::class.java
                         )
-                        emitter.onNext(CreatePostResult.SUCCESS)
+                        Log.d("YOLO", successResponse.data.post.toString())
+                        emitter.onNext(CreatePostResult.SUCCESS(CreatePostResultData(successResponse.data.post)))
                     } else {
-                        val createPostFailureResponse = gson.fromJson<CreatePostFailureResponse>(
+                        val failureResponse = gson.fromJson<CreatePostFailureResponse>(
                             response.errorBody()?.string()!!,
                             CreatePostFailureResponse::class.java
                         )
-                        when (createPostFailureResponse.code) {
+                        when (failureResponse.code) {
                             -1 -> {
                                 emitter.onNext(CreatePostResult.FAILURE(CreatePostError.UNKNOWN_ERROR))
                             }

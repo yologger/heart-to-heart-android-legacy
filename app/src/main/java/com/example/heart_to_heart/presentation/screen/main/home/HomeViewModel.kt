@@ -20,7 +20,7 @@ constructor(
 
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val posts: MutableList<Post?> = mutableListOf()
+    var posts: MutableList<Post?> = mutableListOf()
     val postsLiveData: MutableLiveData<MutableList<Post?>> = MutableLiveData(posts)
 
     fun getPosts() {
@@ -40,12 +40,11 @@ constructor(
                         posts.addAll(result.data.posts)
                         postsLiveData.value = posts
                         pageNumber += 1
-
-                        Log.d("YOLO", "POSTS COUNT : ${posts.size}")
                     }
                     is GetAllPostsResult.FAILURE -> {
                         isLoading.value = false
                         when (result.error) {
+
                             GetAllPostsError.UNKNOWN_ERROR -> {
 
                             }
@@ -56,5 +55,12 @@ constructor(
                     }
                 }
             }.apply { disposables.add(this) }
+    }
+
+    fun refresh() {
+        posts = mutableListOf()
+        pageNumber = 0
+        hasMoreItems = true
+        this.getPosts()
     }
 }

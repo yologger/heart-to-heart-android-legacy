@@ -13,11 +13,11 @@ constructor(
 
     val routingEvent: MutableLiveData<AppVMRoutingEvent?> = MutableLiveData(null)
 
+    val value = 0
 
     init {
-        Log.d("YOLO", "init() from AppViewModel")
         getSessionUseCase.execute().subscribe { it ->
-            Log.d("YOLO", "getSessionUseCase(): ${it}")
+
 
             when(it) {
                 true -> {
@@ -27,5 +27,9 @@ constructor(
                     routingEvent.postValue(AppVMRoutingEvent.SHOW_LOGIN)
                 }
             }}.apply { disposables.add(this) }
+    }
+
+    fun addValueAndPrintValue() {
+        Log.d("YOLO", "Value: ${value}")
     }
 }

@@ -1,18 +1,16 @@
 package com.example.heart_to_heart.presentation.screen.main
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.heart_to_heart.presentation.base.BaseViewModel
 
-class MainViewModel
+class PostViewModel
 constructor(
 
 ) : BaseViewModel() {
 
-    var value = 0
-
-    fun plusValueAndPrintValue() {
-        value++
+    var data = 0
+    fun test() {
+        data += 1
+        Log.d("YOLO", "test() from PostViewModel: ${data}")
     }
 }
