@@ -1,7 +1,6 @@
 package com.example.heart_to_heart.presentation.screen.main.follow.following
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentFollowingBinding
+import com.example.heart_to_heart.presentation.screen.main.base.BaseMainFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FollowingFragment : Fragment() {
+class FollowingFragment : BaseMainFragment() {
 
     private val viewModel: FollowingViewModel by viewModel()
     private lateinit var binding: FragmentFollowingBinding

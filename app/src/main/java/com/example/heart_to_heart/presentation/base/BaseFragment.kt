@@ -6,8 +6,8 @@ import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseFragment: Fragment() {
 
-    val router: Router get() = (activity as AppActivity).router
-    val disposables by lazy { CompositeDisposable() }
+    // val router: Router get() = (activity as AppActivity).router
+    private val disposables by lazy { CompositeDisposable() }
 
     override fun onDestroyView() {
         super.onDestroyView()

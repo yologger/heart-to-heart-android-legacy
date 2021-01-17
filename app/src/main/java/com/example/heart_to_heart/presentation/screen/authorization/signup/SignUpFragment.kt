@@ -15,11 +15,13 @@ import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentSignUpBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.AppActivity
+import com.example.heart_to_heart.presentation.screen.authorization.AuthorizationActivity
+import com.example.heart_to_heart.presentation.screen.authorization.base.BaseAuthorizationFragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SignUpFragment : BaseFragment() {
+class SignUpFragment : BaseAuthorizationFragment() {
 
     private val viewModel: SignUpViewModel by viewModel()
     private lateinit var binding: FragmentSignUpBinding
@@ -49,10 +51,10 @@ class SignUpFragment : BaseFragment() {
         viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer { event ->
             when (event) {
                 SignUpVMRoutingEvent.CLOSE -> {
-                    (activity as AppActivity)?.hideKeyboard()
                     var toast = Toast.makeText(activity, "SUCCESSFULLY SIGNED UP.", Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
+                    hideKeyboard()
                     router.closeSignUp()
                     viewModel.routingEvent.setValue(null)
                 }
@@ -87,8 +89,10 @@ class SignUpFragment : BaseFragment() {
     private fun initToolbar() {
         toolbar.setNavigationIcon(R.drawable.icon_arrow_back_24_black)
         toolbar.setNavigationOnClickListener {
-            (activity as AppActivity)?.hideKeyboard()
+            hideKeyboard()
             router.closeSignUp()
         }
     }
+
+    private fun hideKeyboard() = (activity as AuthorizationActivity)?.hideKeyboard()
 }

@@ -61,6 +61,7 @@ constructor(
 
 
     fun signUp() {
+
         routingEvent.value = LogInVMRoutingEvent.SHOW_SIGN_UP
     }
 

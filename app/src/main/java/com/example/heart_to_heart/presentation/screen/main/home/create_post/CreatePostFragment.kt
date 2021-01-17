@@ -3,7 +3,6 @@ package com.example.heart_to_heart.presentation.screen.main.home.create_post
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,25 +11,23 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentCreatePostBinding
-import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.AppActivity
-import com.example.heart_to_heart.presentation.screen.AppViewModel
-import com.example.heart_to_heart.presentation.screen.main.MainViewModel
+import com.example.heart_to_heart.presentation.screen.authorization.AuthorizationActivity
+import com.example.heart_to_heart.presentation.screen.main.MainActivity
+import com.example.heart_to_heart.presentation.screen.main.base.BaseMainFragment
 import com.example.heart_to_heart.presentation.screen.main.PostViewModel
 import gun0912.tedimagepicker.builder.TedImagePicker
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreatePostFragment : BaseFragment() {
+class CreatePostFragment : BaseMainFragment() {
 
     private val viewModel: CreatePostViewModel by viewModel()
     private val postViewModel: PostViewModel by sharedViewModel()
@@ -42,11 +39,6 @@ class CreatePostFragment : BaseFragment() {
     private lateinit var editTextContent: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        postViewModel.printHashCode()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +84,7 @@ class CreatePostFragment : BaseFragment() {
             when(event) {
                 null -> { }
                 CreatePostActivityRoutingEvent.CLOSE -> {
-                    (activity as AppActivity)?.hideKeyboard()
+                    (activity as MainActivity)?.hideKeyboard()
                     postViewModel.createPostActivityRoutingEvent.setValue(null)
                     router.closeCreatePost()
                 }
@@ -110,7 +102,7 @@ class CreatePostFragment : BaseFragment() {
         toolbar.inflateMenu(R.menu.menu_fragment_create_post)
         toolbar.setNavigationIcon(R.drawable.icon_close_24_white)
         toolbar.setNavigationOnClickListener {
-            (activity as AppActivity)?.hideKeyboard()
+            hideKeyboard()
             router.closeCreatePost()
         }
         toolbar.setOnMenuItemClickListener { item ->
@@ -169,6 +161,8 @@ class CreatePostFragment : BaseFragment() {
             notifyDataSetChanged()
         }
     }
+
+    private fun hideKeyboard() = (activity as MainActivity)?.hideKeyboard()
 }
 
 

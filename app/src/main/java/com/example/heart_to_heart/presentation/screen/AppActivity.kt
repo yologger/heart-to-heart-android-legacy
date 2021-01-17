@@ -24,17 +24,16 @@ class AppActivity : AppCompatActivity() {
         val isLoggedIn = intent.extras?.getBoolean("isLoggedIn")!!
         initStartDestination(isLoggedIn)
         initBinding()
-        viewModel.addValueAndPrintValue()
 
     }
 
     private fun initStartDestination(isLoggedIn: Boolean) {
-        val navHostFragment = (supportFragmentManager.findFragmentById(R.id.activity_app_nhf)) as NavHostFragment
-        val inflater = navHostFragment.navController.navInflater
-        val graph = inflater.inflate(R.navigation.app_nav)
-        var destination = if (isLoggedIn) R.id.mainFragment else R.id.logInFragment
-        graph.startDestination = destination
-        navHostFragment.navController.graph = graph
+//        val navHostFragment = (supportFragmentManager.findFragmentById(R.id.activity_app_nhf)) as NavHostFragment
+//        val inflater = navHostFragment.navController.navInflater
+//        val graph = inflater.inflate(R.navigation.app_nav)
+//        var destination = if (isLoggedIn) R.id.mainFragment else R.id.logInFragment
+//        graph.startDestination = destination
+//        navHostFragment.navController.graph = graph
     }
 
     private fun initBinding() {

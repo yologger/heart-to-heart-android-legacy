@@ -7,20 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
-import com.example.heart_to_heart.presentation.screen.AppViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_main.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : BaseFragment() {
 
-    private val viewModel: MainViewModel by viewModel()
-    private val postViewModel: PostViewModel by viewModel()
 
     lateinit var bottomNavigationView: BottomNavigationView
 

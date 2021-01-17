@@ -35,11 +35,11 @@ constructor(
 
     override fun showMain() {
         // Set logInFragment as root of the graph
-        val options = NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setPopUpTo(R.id.mainFragment, false)
-            .build()
-        navController.navigate(R.id.mainFragment, null, options)
+//        val options = NavOptions.Builder()
+//            .setLaunchSingleTop(true)
+//            .setPopUpTo(R.id.mainFragment, false)
+//            .build()
+//        navController.navigate(R.id.mainFragment, null, options)
 //        navController.navigate(R.id.mainFragment)
     }
 
@@ -48,7 +48,7 @@ constructor(
     }
 
     override fun showCreatePost() {
-        navController.navigate(R.id.action_mainFragment_to_createPostFragment)
+//        navController.navigate(R.id.action_mainFragment_to_createPostFragment)
     }
 
     override fun closeCreatePost() {

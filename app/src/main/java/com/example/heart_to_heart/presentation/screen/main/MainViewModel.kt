@@ -9,10 +9,4 @@ class MainViewModel
 constructor(
 
 ) : BaseViewModel() {
-
-    var value = 0
-
-    fun plusValueAndPrintValue() {
-        value++
-    }
 }

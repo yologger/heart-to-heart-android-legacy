@@ -10,14 +10,14 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.heart_to_heart.R
-import com.example.heart_to_heart.presentation.base.BaseFragment
+import com.example.heart_to_heart.presentation.screen.main.base.BaseMainFragment
 import com.example.heart_to_heart.presentation.screen.main.follow.follower.FollowerFragment
 import com.example.heart_to_heart.presentation.screen.main.follow.following.FollowingFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FollowFragment : BaseFragment() {
+class FollowFragment : BaseMainFragment() {
 
     private val viewModel: FollowViewModel by viewModel()
 

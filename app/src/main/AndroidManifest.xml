@@ -26,9 +26,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.screen.AppActivity"
+            android:name=".presentation.screen.main.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
+        <activity
+            android:name=".presentation.screen.authorization.AuthorizationActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".presentation.screen.AppActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

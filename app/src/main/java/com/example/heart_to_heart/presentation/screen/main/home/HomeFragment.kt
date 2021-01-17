@@ -1,22 +1,17 @@
 package com.example.heart_to_heart.presentation.screen.main.home
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,15 +20,12 @@ import com.bumptech.glide.Glide
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.databinding.FragmentHomeBinding
-import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.model.Post
-import com.example.heart_to_heart.presentation.screen.AppViewModel
-import com.example.heart_to_heart.presentation.screen.main.MainViewModel
+import com.example.heart_to_heart.presentation.screen.main.base.BaseMainFragment
 import com.example.heart_to_heart.presentation.screen.main.PostViewModel
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.glide.GlideImageLoaderFactory
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.RuntimeException
@@ -41,7 +33,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseMainFragment() {
 
     private val viewModel: HomeViewModel by viewModel()
     private val postViewModel: PostViewModel by sharedViewModel()
@@ -73,10 +65,11 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // postViewModel.clear()
+        postViewModel.clearFetchedPosts()
+        postViewModel.clearSelectedImages()
         initUI()
         initBinding()
-        // postViewModel.getPosts()
+        postViewModel.getPosts()
     }
 
     override fun onDestroyView() {
@@ -113,12 +106,13 @@ class HomeFragment : BaseFragment() {
         toolbar.inflateMenu(R.menu.menu_fragment_home)
         toolbar.setNavigationIcon(R.drawable.icon_refresh_24_white)
         toolbar.setNavigationOnClickListener {
+            Log.d("YOLO", "refresh()")
             postViewModel.refresh()
         }
         toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
                 R.id.menu_fragment_home_action_post -> {
-                    router.showCreatePost()
+                    router.openCreatePost()
                 }
                 R.id.menu_fragment_create_post_action_post -> {
 

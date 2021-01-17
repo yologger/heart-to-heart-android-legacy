@@ -20,14 +20,6 @@ constructor(
     private val getAllPostsUseCase: GetPostsUseCase
 ) : BaseViewModel() {
 
-    init {
-        Log.d("YOLO", "init{} from PostViewModel")
-    }
-
-    fun printHashCode() {
-        Log.d("YOLO", "${this.hashCode()}")
-    }
-
     val createPostActivityRoutingEvent: MutableLiveData<CreatePostActivityRoutingEvent?> =
         MutableLiveData(null)
 
@@ -46,7 +38,6 @@ constructor(
 
 
     fun getPosts() {
-        Log.d("YOLO", "getPosts()")
         if (!hasMoreItems) {
             return
         }
@@ -86,7 +77,7 @@ constructor(
         imageUrisLiveData.value = imageUris
     }
 
-    fun clear() {
+    fun clearSelectedImages() {
         imageUris.clear()
         imageUrisLiveData.value = imageUris
         contentLiveData.value = ""
@@ -120,10 +111,16 @@ constructor(
     }
 
 
+    fun clearFetchedPosts() {
+        posts = mutableListOf()
+        pageNumber = 0
+        hasMoreItems = true
+    }
+
     fun refresh() {
         posts = mutableListOf()
         pageNumber = 0
         hasMoreItems = true
-        this.getPosts()
+        getPosts()
     }
 }

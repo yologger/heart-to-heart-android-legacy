@@ -2,38 +2,4 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/app_nav"
-    app:startDestination="@id/logInFragment">
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.heart_to_heart.presentation.screen.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_createPostFragment"
-            app:destination="@id/createPostFragment"
-            app:enterAnim="@anim/from_left" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpFragment"
-        android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up">
-    </fragment>
-    <fragment
-        android:id="@+id/logInFragment"
-        android:name="com.example.heart_to_heart.presentation.screen.authorization.login.LogInFragment"
-        android:label="LogInFragment" >
-        <action
-            android:id="@+id/action_logInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/createPostFragment"
-        android:name="com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostFragment"
-        android:label="fragment_create_post"
-        tools:layout="@layout/fragment_create_post">
-    </fragment>
-</navigation>
+    android:id="@+id/app_nav" />

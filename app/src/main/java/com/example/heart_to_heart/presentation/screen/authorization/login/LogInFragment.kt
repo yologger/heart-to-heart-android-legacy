@@ -1,25 +1,24 @@
 package com.example.heart_to_heart.presentation.screen.authorization.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
-import androidx.navigation.fragment.findNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.databinding.FragmentLogInBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.AppActivity
-import com.google.android.material.textfield.TextInputLayout
+import com.example.heart_to_heart.presentation.screen.authorization.AuthorizationActivity
+import com.example.heart_to_heart.presentation.screen.authorization.AuthorizationRouter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LogInFragment : BaseFragment() {
 
+    val router: AuthorizationRouter get() = (activity as AuthorizationActivity).router
     private val viewModel: LogInViewModel by viewModel()
     private lateinit var binding: FragmentLogInBinding
 
@@ -46,9 +45,14 @@ class LogInFragment : BaseFragment() {
             when(event) {
                 null -> { }
                 LogInVMRoutingEvent.SHOW_SIGN_UP -> {
-                    (activity as AppActivity)?.hideKeyboard()
+                    (activity as AuthorizationActivity)?.hideKeyboard()
                     viewModel.routingEvent.setValue(null)
-                    router.showSignUp()
+                    router.openSignUp()
+                }
+                LogInVMRoutingEvent.SHOW_MAIN -> {
+                    (activity as AuthorizationActivity)?.hideKeyboard()
+                    viewModel.routingEvent.setValue(null)
+                    router.openMain()
                 }
                 LogInVMRoutingEvent.SHOW_FIND_PASSWORD -> {
 
@@ -70,11 +74,6 @@ class LogInFragment : BaseFragment() {
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
                     viewModel.routingEvent.setValue(null)
-                }
-                LogInVMRoutingEvent.SHOW_MAIN -> {
-                    (activity as AppActivity)?.hideKeyboard()
-                    viewModel.routingEvent.setValue(null)
-                    router.showMain()
                 }
                 LogInVMRoutingEvent.UNKNOWN_ERROR -> {
                     var toast = Toast.makeText(activity, "UNKNOWN_ERROR", Toast.LENGTH_LONG)
