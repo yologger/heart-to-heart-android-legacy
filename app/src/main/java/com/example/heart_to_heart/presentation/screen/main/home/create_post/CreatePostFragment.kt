@@ -45,6 +45,7 @@ class CreatePostFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postViewModel.printHashCode()
     }
 
     override fun onCreateView(
@@ -64,8 +65,7 @@ class CreatePostFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.initUI()
         this.initBinding()
-        Log.d("YOLO", "onViewCreated() fromm CreatePostFragment")
-        postViewModel.test()
+        viewModel.test()
     }
 
     private fun initUI() {
@@ -75,33 +75,32 @@ class CreatePostFragment : BaseFragment() {
 
     private fun initBinding() {
         binding.lifecycleOwner = this
-        binding.viewModel = this.viewModel
+        binding.viewModel = this.postViewModel
 
-        viewModel.imageUrisLiveData.observe(this.viewLifecycleOwner, Observer { imageUris ->
+        postViewModel.imageUrisLiveData.observe(this.viewLifecycleOwner, Observer { imageUris ->
             recyclerViewAdapter.updateList(imageUris)
         })
 
         galleryButton.setOnClickListener {
             TedImagePicker.with(activity as Context)
                 .startMultiImage { uris ->
-                    viewModel.imageUris.addAll(uris)
-                    viewModel.imageUrisLiveData.value = viewModel.imageUris
+                    postViewModel.setImages(uris)
                 }
         }
 
-        viewModel.routingEvent.observe(this.viewLifecycleOwner, Observer { event ->
+        postViewModel.createPostActivityRoutingEvent.observe(this.viewLifecycleOwner, Observer { event ->
             when(event) {
                 null -> { }
-                CreatePostVMRoutingEvent.CLOSE -> {
+                CreatePostActivityRoutingEvent.CLOSE -> {
                     (activity as AppActivity)?.hideKeyboard()
-                    viewModel.routingEvent.setValue(null)
+                    postViewModel.createPostActivityRoutingEvent.setValue(null)
                     router.closeCreatePost()
                 }
-                CreatePostVMRoutingEvent.UNKNOWN_ERROR -> {
+                CreatePostActivityRoutingEvent.UNKNOWN_ERROR -> {
                     var toast = Toast.makeText(activity, "UNKNOWN ERROR", Toast.LENGTH_LONG)
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
-                    viewModel.routingEvent.setValue(null)
+                    postViewModel.createPostActivityRoutingEvent.setValue(null)
                 }
             }
         })
@@ -124,7 +123,7 @@ class CreatePostFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        recyclerViewAdapter = RecyclerViewAdapter(viewModel.imageUris, this)
+        recyclerViewAdapter = RecyclerViewAdapter(postViewModel.imageUris, this)
         recyclerView.adapter = recyclerViewAdapter
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -132,7 +131,7 @@ class CreatePostFragment : BaseFragment() {
     }
 
     private fun post() {
-        this.viewModel.post()
+        this.postViewModel.createPost()
     }
 
     inner class RecyclerViewAdapter

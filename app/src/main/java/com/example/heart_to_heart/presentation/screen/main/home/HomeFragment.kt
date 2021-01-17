@@ -23,13 +23,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.example.heart_to_heart.R
+import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.databinding.FragmentHomeBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.model.Post
 import com.example.heart_to_heart.presentation.screen.AppViewModel
 import com.example.heart_to_heart.presentation.screen.main.MainViewModel
 import com.example.heart_to_heart.presentation.screen.main.PostViewModel
-import com.example.heart_to_heart.presentation.screen.main.profile.BASE_URL
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.glide.GlideImageLoaderFactory
@@ -53,10 +53,16 @@ class HomeFragment : BaseFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("YOLO", "HomeFragment: onCreate()")
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("YOLO", "HomeFragment: onCreateView()")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val rootView = binding.root
         toolbar = rootView.findViewById<Toolbar>(R.id.fragment_home_tb)
@@ -67,22 +73,20 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // postViewModel.clear()
         initUI()
         initBinding()
-        viewModel.getPosts()
-        Log.d("YOLO", "onViewCreated() from HomeFragment")
-        postViewModel.test()
+        // postViewModel.getPosts()
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
     override fun onDestroyView() {
+        Log.d("YOLO", "HomeFragment: onDestroyView()")
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("YOLO", "HomeFragment: onDestroy()")
+        super.onDestroy()
     }
 
     private fun initUI() {
@@ -92,11 +96,11 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initBinding() {
-        viewModel.postsLiveData.observe(this.viewLifecycleOwner, Observer { posts ->
+        postViewModel.postsLiveData.observe(this.viewLifecycleOwner, Observer { posts ->
             recyclerViewAdapter.updateList(posts)
         })
 
-        viewModel.isLoading.observe(this.viewLifecycleOwner, Observer { isLoading ->
+        postViewModel.isLoading.observe(this.viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
                 recyclerViewAdapter.showLoadingView()
             } else {
@@ -109,7 +113,7 @@ class HomeFragment : BaseFragment() {
         toolbar.inflateMenu(R.menu.menu_fragment_home)
         toolbar.setNavigationIcon(R.drawable.icon_refresh_24_white)
         toolbar.setNavigationOnClickListener {
-            viewModel.refresh()
+            postViewModel.refresh()
         }
         toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
@@ -139,7 +143,7 @@ class HomeFragment : BaseFragment() {
 //    }
 
     private fun initRecyclerView() {
-        recyclerViewAdapter = RecyclerViewAdapter(viewModel.posts, this, context)
+        recyclerViewAdapter = RecyclerViewAdapter(postViewModel.posts, this, context)
         recyclerView.adapter = recyclerViewAdapter
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -286,8 +290,8 @@ class HomeFragment : BaseFragment() {
                 lastVisibleItemPosition = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
             }
 
-            if (!viewModel.isLoading.value!! && totalItemCount <= lastVisibleItemPosition + visibleThreshold) {
-                viewModel.getPosts()
+            if (!postViewModel.isLoading.value!! && totalItemCount <= lastVisibleItemPosition + visibleThreshold) {
+                postViewModel.getPosts()
             }
         }
     }

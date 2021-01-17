@@ -25,6 +25,7 @@ class AppActivity : AppCompatActivity() {
         initStartDestination(isLoggedIn)
         initBinding()
         viewModel.addValueAndPrintValue()
+
     }
 
     private fun initStartDestination(isLoggedIn: Boolean) {

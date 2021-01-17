@@ -1,7 +1,8 @@
 package com.example.heart_to_heart.infrastructure.network.authoriztion_api
 
+import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
-import com.example.heart_to_heart.di.BASE_URL
+
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.LogInService
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.LogOutService
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.SignUpService
@@ -87,7 +88,7 @@ constructor(
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(com.example.heart_to_heart.infrastructure.network.post_api.BASE_URL)
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

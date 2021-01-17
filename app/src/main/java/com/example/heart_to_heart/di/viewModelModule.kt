@@ -21,11 +21,11 @@ var viewModelModule = module {
     viewModel { LogInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { MainViewModel() }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel() }
     viewModel { FollowViewModel(get()) }
     viewModel { ProfileViewModel(get(), get(), get()) }
-    viewModel { CreatePostViewModel(get()) }
+    viewModel { CreatePostViewModel() }
     viewModel { FollowingViewModel() }
     viewModel { FollowerViewModel() }
-    viewModel { PostViewModel() }
+    viewModel { PostViewModel(get(), get()) }
 }

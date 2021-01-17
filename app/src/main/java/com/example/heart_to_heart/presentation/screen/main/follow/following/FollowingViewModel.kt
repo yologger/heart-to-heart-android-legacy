@@ -8,6 +8,5 @@ constructor(
 
 ) : BaseViewModel() {
     fun test() {
-        Log.d("YOLO", "test() from FollowingViewModel")
     }
 }

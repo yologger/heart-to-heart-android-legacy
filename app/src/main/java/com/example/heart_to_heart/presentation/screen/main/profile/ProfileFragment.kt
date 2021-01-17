@@ -16,14 +16,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.heart_to_heart.R
+import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.databinding.FragmentProfileBinding
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.authorization.signup.SignUpViewModel
 import gun0912.tedimagepicker.builder.TedImagePicker
 import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-const val BASE_URL = "http://10.0.2.2:8000"
 
 class ProfileFragment : BaseFragment() {
 
@@ -36,10 +35,17 @@ class ProfileFragment : BaseFragment() {
     private lateinit var logoutItemView: ConstraintLayout
     private lateinit var avatarImageView: ImageView
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("YOLO", "ProfileFragment: onCreate()")
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.d("YOLO", "ProfileFragment: onCreateView()")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         val rootView = binding.root
         // recyclerView = rootView.findViewById(R.id.fragment_profile_rv)
@@ -54,6 +60,16 @@ class ProfileFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         this.initUI()
         this.initBinding()
+    }
+
+    override fun onDestroyView() {
+        Log.d("YOLO", "ProfileFragment: onDestroyView()")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("YOLO", "ProfileFragment: onDestroy()")
+        super.onDestroy()
     }
 
     private fun initUI() {

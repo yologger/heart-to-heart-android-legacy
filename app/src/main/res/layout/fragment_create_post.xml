@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.heart_to_heart.presentation.screen.main.home.create_post.CreatePostViewModel" />
+            type="com.example.heart_to_heart.presentation.screen.main.PostViewModel" />
     </data>
 
     <LinearLayout

@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.heart_to_heart.R
 import com.example.heart_to_heart.presentation.base.BaseFragment
 import com.example.heart_to_heart.presentation.screen.AppViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,15 +22,18 @@ class MainFragment : BaseFragment() {
     private val viewModel: MainViewModel by viewModel()
     private val postViewModel: PostViewModel by viewModel()
 
+    lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_main, container, false)
+        bottomNavigationView = rootView.findViewById(R.id.fragment_main_bnv)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBinding()
         initUI()
-        postViewModel.test()
     }
 
     private fun initBinding() {
@@ -41,7 +45,7 @@ class MainFragment : BaseFragment() {
 
     private fun initBottomNavigationView() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.fragment_main_nvf) as? NavHostFragment
-        var navController = navHostFragment?.navController
+        val navController = navHostFragment?.navController
         fragment_main_bnv.setupWithNavController(navController!!)
     }
 }

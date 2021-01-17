@@ -1,6 +1,7 @@
 package com.example.heart_to_heart.presentation.screen.main.follow
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +24,30 @@ class FollowFragment : BaseFragment() {
     lateinit var viewPager2: ViewPager2
     lateinit var tabLayout: TabLayout
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("YOLO", "FollowFragment: onCreate()")
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("YOLO", "FollowFragment: onCreateView()")
         val rootView = inflater.inflate(R.layout.fragment_follow, container, false)
         viewPager2 = rootView.findViewById(R.id.fragment_follow_vp)
         tabLayout = rootView.findViewById(R.id.fragment_follow_tl)
         return rootView
+    }
+
+    override fun onDestroyView() {
+        Log.d("YOLO", "FollowFragment: onDestroyView()")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("YOLO", "FollowFragment: onDestroy()")
+        super.onDestroy()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
