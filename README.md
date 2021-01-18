@@ -4,10 +4,11 @@
 **Heart to Heart** is a SNS application. This app is similar to Facebook. You can also download [Heart to Heart for iOS](https://github.com/yologger/heart_to_heart_ios). Heart to heart is implementing MVVM with Clean Architecture.
 
 ## Screenshots
-![](/imgs/hth_auth.gif)
-![](/imgs/hth_new_post.gif)
-![](/imgs/hth_follow.gif)
-![](/imgs/hth_log_out.gif)
+<img src="/imgs/hth_auth.gif" width="200">
+<img src="/imgs/hth_new_post.gif" width="200">
+<br />
+<img src="/imgs/hth_follow.gif" width="200">
+<img src="/imgs/hth_log_out.gif" width="200">
 
 ## Prerequisite
 You have to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
