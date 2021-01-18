@@ -21,4 +21,18 @@ interface PostService {
         @Part("content") content: RequestBody,
         @Part("user_id") userId: RequestBody
     ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("/post/{post_id}/like")
+    fun likePost(
+        @Path("post_id") postId: Int,
+        @Field("user_id") userId: Int
+    ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("/post/{post_id}/unlike")
+    fun unlikePost(
+        @Path("post_id") postId: Int,
+        @Query("user_id") userId: Int
+    ): Call<ResponseBody>
 }

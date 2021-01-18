@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.heart_to_heart.domain.usecase.CreatePostUseCase
 import com.example.heart_to_heart.domain.usecase.GetPostsUseCase
+import com.example.heart_to_heart.domain.usecase.LikePostUseCase
+import com.example.heart_to_heart.domain.usecase.UnlikePostUseCase
 import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostError
 import com.example.heart_to_heart.infrastructure.network.post_api.model.CreatePostResult
 import com.example.heart_to_heart.infrastructure.network.post_api.model.GetAllPostsError
@@ -17,7 +19,9 @@ import com.example.heart_to_heart.presentation.screen.main.home.create_post.Crea
 class PostViewModel
 constructor(
     private val createPostUseCase: CreatePostUseCase,
-    private val getAllPostsUseCase: GetPostsUseCase
+    private val getAllPostsUseCase: GetPostsUseCase,
+    private val likePostUseCase: LikePostUseCase,
+    private val unlikePostUseCase: UnlikePostUseCase
 ) : BaseViewModel() {
 
     val createPostActivityRoutingEvent: MutableLiveData<CreatePostActivityRoutingEvent?> =
@@ -122,5 +126,21 @@ constructor(
         pageNumber = 0
         hasMoreItems = true
         getPosts()
+    }
+
+    fun likePost(position: Int) {
+        likePostUseCase
+            .execute()
+            .subscribe({
+            }, {
+            }).apply { disposables.add(this) }
+    }
+
+    fun unlikePost(position: Int) {
+        unlikePostUseCase
+            .execute()
+            .subscribe {
+
+            }.apply { disposables.add(this) }
     }
 }

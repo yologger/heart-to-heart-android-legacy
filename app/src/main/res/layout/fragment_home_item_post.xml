@@ -8,6 +8,21 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:background="@color/color.background.white"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <TextView-->
+<!--            android:id="@+id/fragment_home_item_post_tv_idx"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="wqeqwe"-->
+<!--            android:textSize="30sp"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragment_home_item_post_cl_header"
         android:layout_width="match_parent"
@@ -51,7 +66,7 @@
         </LinearLayout>
 
         <ToggleButton
-            android:id="@+id/fragment_home_item_post_btn_follow"
+            android:id="@+id/fragment_home_item_post_tbtn_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Custom.Style.ToggleButton"
@@ -115,11 +130,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="16dp">
             <ToggleButton
+                android:id="@+id/fragment_home_item_post_tbtn_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin_xs"
                 style="@style/Custom.Style.ToggleButton.Like"/>
             <TextView
+                android:id="@+id/fragment_home_item_post_tv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin_xs"

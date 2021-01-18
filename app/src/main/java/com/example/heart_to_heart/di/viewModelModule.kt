@@ -27,5 +27,5 @@ var viewModelModule = module {
     viewModel { CreatePostViewModel() }
     viewModel { FollowingViewModel() }
     viewModel { FollowerViewModel() }
-    viewModel { PostViewModel(get(), get()) }
+    viewModel { PostViewModel(get(), get(), get(), get()) }
 }

@@ -8,4 +8,6 @@ import io.reactivex.Observable
 interface PostRepository {
     fun getPosts(page: Int, size: Int): Observable<GetAllPostsResult>
     fun createPost(content: String, uris: MutableList<Uri>): Observable<CreatePostResult>
+    fun likePost(): Observable<Boolean>
+    fun unlikePost(): Observable<Boolean>
 }

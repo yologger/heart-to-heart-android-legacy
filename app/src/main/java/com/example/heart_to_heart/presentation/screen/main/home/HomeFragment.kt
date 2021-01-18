@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -45,16 +46,10 @@ class HomeFragment : BaseMainFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("YOLO", "HomeFragment: onCreate()")
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("YOLO", "HomeFragment: onCreateView()")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         val rootView = binding.root
         toolbar = rootView.findViewById<Toolbar>(R.id.fragment_home_tb)
@@ -65,21 +60,9 @@ class HomeFragment : BaseMainFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postViewModel.clearFetchedPosts()
-        postViewModel.clearSelectedImages()
         initUI()
         initBinding()
-        postViewModel.getPosts()
-    }
-
-    override fun onDestroyView() {
-        Log.d("YOLO", "HomeFragment: onDestroyView()")
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        Log.d("YOLO", "HomeFragment: onDestroy()")
-        super.onDestroy()
+        fetchPosts()
     }
 
     private fun initUI() {
@@ -90,7 +73,7 @@ class HomeFragment : BaseMainFragment() {
 
     private fun initBinding() {
         postViewModel.postsLiveData.observe(this.viewLifecycleOwner, Observer { posts ->
-            recyclerViewAdapter.updateList(posts)
+            recyclerViewAdapter.updateList()
         })
 
         postViewModel.isLoading.observe(this.viewLifecycleOwner, Observer { isLoading ->
@@ -102,12 +85,18 @@ class HomeFragment : BaseMainFragment() {
         })
     }
 
+    private fun fetchPosts() {
+        postViewModel.clearFetchedPosts()
+        postViewModel.clearSelectedImages()
+        postViewModel.getPosts()
+    }
+
     private fun initToolbar() {
         toolbar.inflateMenu(R.menu.menu_fragment_home)
         toolbar.setNavigationIcon(R.drawable.icon_refresh_24_white)
         toolbar.setNavigationOnClickListener {
-            Log.d("YOLO", "refresh()")
-            postViewModel.refresh()
+            // postViewModel.refresh()
+            // refreshRecyclerView()
         }
         toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
@@ -137,7 +126,7 @@ class HomeFragment : BaseMainFragment() {
 //    }
 
     private fun initRecyclerView() {
-        recyclerViewAdapter = RecyclerViewAdapter(postViewModel.posts, this, context)
+        recyclerViewAdapter = RecyclerViewAdapter(this, context, postViewModel)
         recyclerView.adapter = recyclerViewAdapter
         val layoutManager = LinearLayoutManager(activity)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -145,12 +134,16 @@ class HomeFragment : BaseMainFragment() {
         recyclerView.addOnScrollListener(InfiniteScrollingListener(layoutManager))
     }
 
+    private fun refreshRecyclerView() {
+        recyclerViewAdapter = RecyclerViewAdapter(this, context, postViewModel)
+        recyclerView.adapter = recyclerViewAdapter
+    }
 
     class RecyclerViewAdapter
     constructor(
-        private var posts: MutableList<Post?>,
         private var fragment: HomeFragment,
-        private var context: Context?
+        private var context: Context?,
+        private var postViewModel: PostViewModel
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         companion object {
@@ -160,13 +153,19 @@ class HomeFragment : BaseMainFragment() {
 
         inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+            // private var textViewIdx: TextView = itemView.findViewById(R.id.fragment_home_item_post_tv_idx)
             private var textViewNickname: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_nickname)
             private var imageViewAvatar: ImageView = itemView.findViewById<ImageView>(R.id.fragment_home_item_post_iv_avatar)
             private var textViewContent: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_content)
             private var textViewCreatedAt: TextView = itemView.findViewById<TextView>(R.id.fragment_home_item_post_tv_created_at)
             private var imageSlider: ImageSlider = itemView.findViewById(R.id.fragment_home_item_post_is)
+            private var followButton: ToggleButton = itemView.findViewById(R.id.fragment_home_item_post_tbtn_follow)
+            private var likeButton: ToggleButton = itemView.findViewById(R.id.fragment_home_item_post_tbtn_like)
+            private var textViewLike: TextView = itemView.findViewById(R.id.fragment_home_item_post_tv_like)
 
-            fun bind(post: Post) {
+            fun bind(post: Post, position: Int) {
+
+                // textViewIdx.text = "${position}"
                 textViewContent.text = post.content
                 textViewNickname.text = post.user.nickname
 
@@ -193,6 +192,23 @@ class HomeFragment : BaseMainFragment() {
                 } else {
                     textViewContent.visibility = View.VISIBLE
                 }
+
+                followButton.setOnClickListener {
+                    if (followButton.isChecked) {
+                    } else {
+                    }
+                }
+
+                likeButton.setOnClickListener {
+                    if (likeButton.isChecked) {
+                        val previousValue = textViewLike.text.toString().toInt()
+                        textViewLike.text = (previousValue+1).toString()
+                        postViewModel.likePost(position)
+
+                    } else {
+                        // postViewModel.unlikePost(position)
+                    }
+                }
             }
         }
 
@@ -217,11 +233,11 @@ class HomeFragment : BaseMainFragment() {
         }
 
         override fun getItemCount(): Int {
-            return posts.size
+            return postViewModel.posts.size
         }
 
         override fun getItemViewType(position: Int): Int {
-            return if (posts[position] == null) {
+            return if (postViewModel.posts[position] == null) {
                 VIEW_TYPE_LOADING
             } else {
                 VIEW_TYPE_ITEM
@@ -230,37 +246,33 @@ class HomeFragment : BaseMainFragment() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             if (holder.itemViewType == VIEW_TYPE_ITEM) {
-                (holder as ItemViewHolder).bind(posts[position]!!)
+                (holder as ItemViewHolder).bind(postViewModel.posts[position]!!, position)
             } else {
                 (holder as LoadingViewHolder).bind()
             }
         }
 
         fun showLoadingView() {
-            posts.add(null)
-            notifyItemInserted(posts.size - 1)
+            postViewModel.posts.add(null)
+            notifyItemInserted(postViewModel.posts.size - 1)
         }
 
         fun hideLoadingView() {
-            if (posts.size != 0) {
-                posts.removeAt(posts.size - 1)
-                notifyItemRemoved(posts.size)
+            if (postViewModel.posts.size != 0) {
+                postViewModel.posts.removeAt(postViewModel.posts.size - 1)
+                notifyItemRemoved(postViewModel.posts.size)
             }
         }
 
-        fun updateList(posts: MutableList<Post?>) {
-            this.posts = posts
+        fun updateList() {
             notifyDataSetChanged()
         }
     }
-
 
     private var totalItemCount: Int = 0
     private var lastVisibleItemPosition: Int = 0
     private var visibleThreshold: Int = 5
     // We set the visibleThreshold to 5, which means the circular progress bar will show up when the user sees the 5th item from the end of our downloaded data.
-
-    // private var isLoading: Boolean = false
 
     inner class InfiniteScrollingListener : RecyclerView.OnScrollListener {
 

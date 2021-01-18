@@ -14,17 +14,17 @@ constructor(
     var routingEvent: MutableLiveData<SignUpVMRoutingEvent?> =
         MutableLiveData<SignUpVMRoutingEvent?>(null)
 
-    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
-    var firstName: MutableLiveData<String> = MutableLiveData("Cristiano")
-    var lastName: MutableLiveData<String> = MutableLiveData("Ronaldo")
-    var nickname: MutableLiveData<String> = MutableLiveData("CR7")
-    val password: MutableLiveData<String> = MutableLiveData("12345")
+//    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
+//    var firstName: MutableLiveData<String> = MutableLiveData("Cristiano")
+//    var lastName: MutableLiveData<String> = MutableLiveData("Ronaldo")
+//    var nickname: MutableLiveData<String> = MutableLiveData("CR7")
+//    val password: MutableLiveData<String> = MutableLiveData("12345")
 
-//    val email: MutableLiveData<String> = MutableLiveData("")
-//    var firstName: MutableLiveData<String> = MutableLiveData("")
-//    var lastName: MutableLiveData<String> = MutableLiveData("")
-//    var nickname: MutableLiveData<String> = MutableLiveData("")
-//    val password: MutableLiveData<String> = MutableLiveData("")
+    val email: MutableLiveData<String> = MutableLiveData("")
+    var firstName: MutableLiveData<String> = MutableLiveData("")
+    var lastName: MutableLiveData<String> = MutableLiveData("")
+    var nickname: MutableLiveData<String> = MutableLiveData("")
+    val password: MutableLiveData<String> = MutableLiveData("")
 
     val emailErrorText: MutableLiveData<String?> = MutableLiveData("")
     var firstNameErrorText: MutableLiveData<String?> = MutableLiveData("")

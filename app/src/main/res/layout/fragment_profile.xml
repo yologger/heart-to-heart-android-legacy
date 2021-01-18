@@ -54,14 +54,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/Custom.Style.TextView.Body1.Bold"
-                            android:text="CR7" />
+                            android:text="MESSI_10" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/Custom.Style.TextView.Body2.Normal"
                             android:textColor="@color/color.text.grey"
-                            android:text="ronaldo@gmail.com" />
+                            android:text="messi@gmail.com" />
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -84,7 +84,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="300"
+                            android:text="29"
                             style="@style/Custom.Style.TextView.Headline.Bold"
                             android:textAlignment="center" />
                         <TextView
@@ -104,7 +104,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="300"
+                            android:text="823"
                             style="@style/Custom.Style.TextView.Headline.Bold"
                             android:textAlignment="center" />
                         <TextView
@@ -125,7 +125,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/Custom.Style.TextView.Headline.Bold"
-                            android:text="300"
+                            android:text="32"
                             android:textAlignment="center" />
                         <TextView
                             android:layout_width="match_parent"

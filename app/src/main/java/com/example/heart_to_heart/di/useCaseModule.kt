@@ -14,4 +14,6 @@ var useCaseModule = module {
     factory { CreatePostUseCase(get()) }
     factory { GetUserInfoUseCase(get()) }
     factory { UploadAvatarImageUseCase(get()) }
+    factory { LikePostUseCase(get()) }
+    factory { UnlikePostUseCase(get()) }
 }

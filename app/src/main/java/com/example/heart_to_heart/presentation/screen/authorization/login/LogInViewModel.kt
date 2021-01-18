@@ -14,10 +14,11 @@ constructor(
 
     val routingEvent: MutableLiveData<LogInVMRoutingEvent?> = MutableLiveData(null)
 
-    val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
+    val email: MutableLiveData<String> = MutableLiveData("")
+    // val email: MutableLiveData<String> = MutableLiveData("ronaldo@gmail.com")
     val emailErrorText: MutableLiveData<String?> = MutableLiveData("")
 
-    val password: MutableLiveData<String> = MutableLiveData("12345")
+    val password: MutableLiveData<String> = MutableLiveData("")
     val passwordErrorText: MutableLiveData<String?> = MutableLiveData("")
 
     fun logIn() {

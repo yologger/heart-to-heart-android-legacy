@@ -103,4 +103,70 @@ constructor(
             })
         }
     }
+
+    override fun likePost(): Observable<Boolean> {
+
+        Log.d("YOLO", "likePost() from DefaultPostRepository")
+
+        if (sessionStorage.getUserId() == null) {
+            return Observable.create {
+                it.onNext(false)
+            }
+        }
+
+        return Observable.create { emitter ->
+            val postService = postAPI.getPostService()
+            postService.likePost(1, 2)
+                .enqueue(object: Callback<ResponseBody> {
+
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        Log.d("YOLO", "onResponse()")
+                        if (response.isSuccessful) {
+                            Log.d("YOLO", "isSuccessful == true")
+                            Log.d("YOLO", response.body()?.string()!!)
+                            emitter.onNext(true)
+                        } else {
+                            Log.d("YOLO", "isSuccessful == false")
+                            Log.d("YOLO", response.errorBody()?.string()!!)
+                            emitter.onNext(false)
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        emitter.onNext(false)
+                    }
+                })
+        }
+    }
+
+    override fun unlikePost(): Observable<Boolean> {
+        if (sessionStorage.getUserId() == null) {
+            return Observable.create {
+                it.onNext(false)
+            }
+        }
+
+        return Observable.create { emitter ->
+            val postService = postAPI.getPostService()
+            postService.unlikePost(1, 2)
+                .enqueue(object: Callback<ResponseBody> {
+
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if (response.isSuccessful) {
+                            emitter.onNext(true)
+                        } else {
+                            emitter.onNext(false)
+                        }
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        emitter.onNext(false)
+                    }
+                })
+        }
+    }
 }
