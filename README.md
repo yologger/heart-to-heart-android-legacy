@@ -5,7 +5,7 @@
 
 ## Screenshots
 ![](https://image.newsis.com/2020/09/16/NISI20200916_0016684159_web.jpg)
-![](https://github.com/smarteist/android-image-slider/blob/master/gif/8.gif)
+![](https://github.com/yologger/heart_to_heart_android/tree/main/imgs/hth_auth.gif)
 
 ## Prerequisite
 You have to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
