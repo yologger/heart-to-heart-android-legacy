@@ -1,6 +1,7 @@
 package com.example.heart_to_heart.presentation.screen.main.follow.follower
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +23,14 @@ class FollowerFragment : BaseMainFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("YOLO", "FollowerFragment: onCreate()")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("YOLO", "FollowerFragment: onCreateView()")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_follower, container, false)
         val rootView = binding.root
         recyclerView = rootView.findViewById(R.id.fragment_follower_rv)
@@ -39,6 +42,16 @@ class FollowerFragment : BaseMainFragment() {
         viewModel.test()
         initUI()
         initBinding()
+    }
+
+    override fun onDestroyView() {
+        Log.d("YOLO", "FollowerFragment: onDestroyView()")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("YOLO", "FollowerFragment: onDestroy()")
+        super.onDestroy()
     }
 
     private fun initUI() {

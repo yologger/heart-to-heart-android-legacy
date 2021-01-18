@@ -60,7 +60,8 @@ class FollowFragment : BaseMainFragment() {
 
 
     private fun initUI() {
-        viewPager2.adapter = ViewPagerAdapter(requireActivity())
+        viewPager2.adapter = ViewPagerAdapter(this)
+        // viewPager2.adapter = ViewPagerAdapter(requireActivity())
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             tab.text = tabTextList[position]
         }.attach()
@@ -73,8 +74,8 @@ class FollowFragment : BaseMainFragment() {
 
     inner class ViewPagerAdapter
     constructor(
-        fragmentActivity: FragmentActivity
-    ) : FragmentStateAdapter(fragmentActivity) {
+        fragment: Fragment
+    ) : FragmentStateAdapter(fragment) {
         override fun getItemCount(): Int = 2
 
         override fun createFragment(position: Int): Fragment {
@@ -83,6 +84,19 @@ class FollowFragment : BaseMainFragment() {
                 else -> FollowerFragment()
             }
         }
-
     }
+
+//    inner class ViewPagerAdapter
+//    constructor(
+//        fragmentActivity: FragmentActivity
+//    ) : FragmentStateAdapter(fragmentActivity) {
+//        override fun getItemCount(): Int = 2
+//
+//        override fun createFragment(position: Int): Fragment {
+//            return when(position) {
+//                0 -> FollowingFragment()
+//                else -> FollowerFragment()
+//            }
+//        }
+//    }
 }

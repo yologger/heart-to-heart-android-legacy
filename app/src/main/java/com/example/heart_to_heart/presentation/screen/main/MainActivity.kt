@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -23,10 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
 
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("YOLO", "onCreate() from MainActivity")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        bottomNavigationView = findViewById(R.id.activity_main_bnv)
         if (savedInstanceState == null) {
             setUpBottomNavigationView()
         }
@@ -38,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpBottomNavigationView() {
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.activity_main_bnv)
         val navGraphIds = listOf(R.navigation.home_graph, R.navigation.follow_graph, R.navigation.profile_graph)
         val controller = bottomNavigationView.setupWithNavController(
             navGraphIds = navGraphIds,
@@ -56,11 +59,6 @@ class MainActivity : AppCompatActivity() {
         return currentNavController?.value?.navigateUp() ?: false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("YOLO", "onDestroy() from MainActivity")
-    }
-
     fun hideKeyboard() {
         val view = currentFocus
         if (view == null) {
@@ -68,6 +66,18 @@ class MainActivity : AppCompatActivity() {
         } else {
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as (InputMethodManager)
             inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
+    }
+
+    fun hideBottomTabView() {
+        if (bottomNavigationView.visibility == View.VISIBLE) {
+            bottomNavigationView.visibility = View.GONE
+        }
+    }
+
+    fun showBottomTabView() {
+        if (bottomNavigationView.visibility == View.GONE) {
+            bottomNavigationView.visibility = View.VISIBLE
         }
     }
 }

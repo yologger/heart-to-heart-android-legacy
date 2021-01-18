@@ -63,6 +63,7 @@ class CreatePostFragment : BaseMainFragment() {
     private fun initUI() {
         initToolbar()
         initRecyclerView()
+        (activity as MainActivity).hideBottomTabView()
     }
 
     private fun initBinding() {
@@ -163,6 +164,11 @@ class CreatePostFragment : BaseMainFragment() {
     }
 
     private fun hideKeyboard() = (activity as MainActivity)?.hideKeyboard()
+
+    override fun onDestroyView() {
+        (activity as MainActivity)?.showBottomTabView()
+        super.onDestroyView()
+    }
 }
 
 
