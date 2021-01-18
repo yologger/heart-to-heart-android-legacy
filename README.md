@@ -9,13 +9,6 @@
 <img src="/imgs/hth_follow.gif" width="200">
 <img src="/imgs/hth_log_out.gif" width="200">
 
-
-![](/imgs/hth_auth.gif){: width="200" height="400"}
-![](/imgs/hth_new_post.gif){: width="200" height="400"}
-![](/imgs/hth_follow.gif){: width="200" height="400"}
-![](/imgs/hth_log_out.gif){: width="200" height="400"}
-
-
 ## Prerequisite
 You have to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
 
