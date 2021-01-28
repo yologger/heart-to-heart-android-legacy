@@ -60,6 +60,7 @@ constructor(
 
         return Observable.create<CreatePostResult> { emitter ->
 
+            // add images
             var bodies = uris.map {
                 val path = it.path!!
                 var file = File(path)
@@ -67,6 +68,7 @@ constructor(
                 MultipartBody.Part.createFormData("field", file.name, requestFile)
             }
 
+            // add body
             val contentBody = RequestBody.create(MediaType.parse("multipart/form-data"), content)
             var userIdBody = RequestBody.create(MediaType.parse("multipart/form-data"), userId)
 

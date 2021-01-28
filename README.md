@@ -1,7 +1,7 @@
 # Heart to Heart for Android
 
 ## Introduction
-**Heart to Heart** is a SNS application. This app is similar to Facebook. You can also download [Heart to Heart for iOS](https://github.com/yologger/heart_to_heart_ios). Heart to heart is implementing MVVM with Clean Architecture.
+**Heart to Heart** is a SNS application. This app is similar to Facebook. You can also download Heart to Heart for iOS [here](https://github.com/yologger/heart_to_heart_ios). Heart to heart is based on **MVVM** with **Clean Architecture**.
 
 ## Screenshots
 <img src="/imgs/hth_auth.gif" width="200">
@@ -37,6 +37,7 @@ Heart to Heart for Android has following dependencies:
 * Upload avatar image
 
 #### `Not Implemented Yet`
+* TextField Validation
 * Search
 * Follow user
 * Like post

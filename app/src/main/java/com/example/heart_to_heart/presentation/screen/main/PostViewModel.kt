@@ -42,9 +42,7 @@ constructor(
 
 
     fun getPosts() {
-        if (!hasMoreItems) {
-            return
-        }
+        if (!hasMoreItems) { return }
         isLoading.value = true
         getAllPostsUseCase.page = pageNumber
         getAllPostsUseCase.size = pageSize
