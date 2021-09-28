@@ -1,5 +1,8 @@
 # Heart to Heart for Android
 
+## Warning
+This project will be deprecated soon. You can check new project based on **Gradle multi module** [here](https://github.com/yologger/simple_memo_android)
+
 ## Introduction
 **Heart to Heart** is a SNS application. This app is similar to Facebook. You can also download Heart to Heart for iOS [here](https://github.com/yologger/heart_to_heart_ios). Heart to heart is based on **MVVM** with **Clean Architecture**.
 
