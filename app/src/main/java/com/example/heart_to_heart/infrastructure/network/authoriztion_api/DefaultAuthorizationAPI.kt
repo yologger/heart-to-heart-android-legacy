@@ -1,5 +1,6 @@
 package com.example.heart_to_heart.infrastructure.network.authoriztion_api
 
+import android.util.Log
 import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.data.repository.dataSource.remote.AuthorizationAPI
 
@@ -9,7 +10,6 @@ import com.example.heart_to_heart.infrastructure.network.authoriztion_api.servic
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.token.TokenService
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.service.token.ValidateSessionService
 import com.example.heart_to_heart.infrastructure.network.interceptor.AuthInterceptor
-import com.example.heart_to_heart.infrastructure.network.post_api.service.PostService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,6 +24,7 @@ constructor(
         var okHttpClient = OkHttpClient.Builder()
             .build()
 
+        Log.d("YOLO", "BASE_URL: ${BASE_URL}")
         var retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
@@ -36,9 +37,9 @@ constructor(
 
     override fun getLogInService(): LogInService {
         var okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
 
         var retrofit = Retrofit.Builder()

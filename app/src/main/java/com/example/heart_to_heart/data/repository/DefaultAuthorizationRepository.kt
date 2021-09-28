@@ -52,6 +52,7 @@ constructor(
                     }
 
                     override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
+                        Log.d("YOLO", "onFailure: ${t.localizedMessage}")
                         emitter.onNext(SignUpResult.FAILURE(SignUpError.NETWORK_CONNECTION_ERROR))
                     }
                 })

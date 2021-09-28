@@ -14,6 +14,7 @@ You have to set up server-side application to run this. You can download [here](
 
 ## Dependencies
 Heart to Heart for Android has following dependencies:
+* Kotlin
 * [Koin](https://github.com/InsertKoinIO/koin) for DI
 * Android Architecture Component - Data Binding, ViewModel, LiveData
 * Android Navigation Component

@@ -15,7 +15,6 @@ class AuthorizationActivity : AppCompatActivity() {
     val router: AuthorizationRouter by inject { parametersOf(this@AuthorizationActivity) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("YOLO", "onCreate() from AuthorizationActivity")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
     }

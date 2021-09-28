@@ -1,7 +1,7 @@
 package com.example.heart_to_heart.infrastructure.network.interceptor
 
 import android.util.Log
-import com.example.heart_to_heart.application.Constants.Companion.AUTHORIZATION_BASE_URL
+import com.example.heart_to_heart.application.Constants.Companion.BASE_URL
 import com.example.heart_to_heart.data.model.Tokens
 import com.example.heart_to_heart.data.repository.dataSource.local.SessionStorage
 import com.example.heart_to_heart.infrastructure.network.authoriztion_api.model.RefreshTokensResponse
@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import okhttp3.*
 import java.net.HttpURLConnection
 
-const val REFRESH_TOKEN_URL = "${AUTHORIZATION_BASE_URL}/auth/token"
+const val REFRESH_TOKEN_URL = "${BASE_URL}/auth/token"
 
 class AuthInterceptor
 constructor(

@@ -100,11 +100,18 @@ class CreatePostFragment : BaseMainFragment() {
     }
 
     private fun initToolbar() {
-        toolbar.inflateMenu(R.menu.menu_fragment_create_post)
         toolbar.setNavigationIcon(R.drawable.icon_close_24_white)
         toolbar.setNavigationOnClickListener {
             hideKeyboard()
             router.closeCreatePost()
+        }
+        toolbar.inflateMenu(R.menu.menu_fragment_create_post)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.menu_fragment_create_post_action_post -> { post() }
+                else -> { }
+            }
+            true
         }
         toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {

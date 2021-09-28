@@ -62,6 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color.background.lightGrey"/>
+
         <EditText
             android:id="@+id/fragment_create_post_ed"
             android:layout_width="match_parent"
