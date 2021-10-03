@@ -17,7 +17,7 @@ This project will be deprecated soon. You can download new project based on `Gra
 * Clean Architecture
 
 ## Prerequisite
-You need to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
+You have to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
 
 ## Dependencies
 Heart to Heart for Android has following dependencies:
