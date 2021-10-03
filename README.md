@@ -1,10 +1,10 @@
 # Heart to Heart for Android
 
 ## Warning
-This project will be deprecated soon. You can check new project based on **Gradle multi module** [here](https://github.com/yologger/heart-to-heart-android).
+This project will be deprecated soon. You can download new project based on `Gradle multiple modules` [here](https://github.com/yologger/heart-to-heart-android).
 
 ## Introduction
-**Heart to Heart** is a SNS application. This app is similar to Facebook. You can also download Heart to Heart for iOS [here](https://github.com/yologger/heart_to_heart_ios). Heart to heart is based on **Clean Architecture** with **MVVM**.
+`Heart to Heart` is a SNS application. This app is similar to Facebook. You can also download Heart to Heart for <u>iOS</u> [here](https://github.com/yologger/heart_to_heart_ios). 
 
 ## Screenshots
 <img src="/imgs/hth_auth.gif" width="200">
@@ -12,8 +12,12 @@ This project will be deprecated soon. You can check new project based on **Gradl
 <img src="/imgs/hth_follow.gif" width="200">
 <img src="/imgs/hth_log_out.gif" width="200">
 
+## Architecture
+* MVVM
+* Clean Architecture
+
 ## Prerequisite
-You have to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
+You need to set up server-side application to run this. You can download [here](https://github.com/yologger/heart_to_heart_server).
 
 ## Dependencies
 Heart to Heart for Android has following dependencies:
