@@ -1,10 +1,7 @@
 # Heart to Heart for Android
 
 ## Warning
-This project will be deprecated soon. You can download new project based on `Gradle multiple modules` [here](https://github.com/yologger/heart-to-heart-android).
-
-## Introduction
-`Heart to Heart` is a SNS application. This app is similar to Facebook. You can also download Heart to Heart for <u>iOS</u> [here](https://github.com/yologger/heart_to_heart_ios). 
+This project has been deprecated. You can download new project based on `Gradle multiple modules` [here](https://github.com/yologger/heart-to-heart-android).
 
 ## Screenshots
 <img src="/imgs/hth_auth.gif" width="200">
@@ -32,23 +29,3 @@ Heart to Heart for Android has following dependencies:
 * [TedImagePicker](https://github.com/ParkSangGwon/TedImagePicker)
 * [Image Sldier](https://github.com/ouattararomuald/android-image-slider)
 * [Floating Action Button Speed Dial](https://github.com/leinardi/FloatingActionButtonSpeedDial)
-
-
-## Features
-#### `Implemented`
-* Sign up
-* Authorization (OAuth 2.0)
-* Create new post
-	- Choose and upload multiple images 
-* Show all posts
-    - Infinite scrolling
-* Upload avatar image
-
-#### `Not Implemented Yet`
-* TextField Validation
-* Search
-* Follow user
-* Like post
-* Find password
-* Change password
-
